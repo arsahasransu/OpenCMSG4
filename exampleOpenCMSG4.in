@@ -1,0 +1,11 @@
+/detector/nonSensitiveMode true
+/detector/trackerMode 111111
+/detector/ecalMode 111
+
+/run/initialize
+
+/generator particle
+/generator/particle/type gamma
+/generator/particle/momentum 10 GeV
+
+/run/beamOn 1

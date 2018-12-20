@@ -1,0 +1,17 @@
+# Macro file for the initialization of example B1
+# when running in interactive mode without visualization
+#
+# Set some default verbose
+/control/verbose 2
+/control/saveHistory
+/run/verbose 2
+#
+# Change the default number of threads (in multi-threaded mode)
+#/run/numberOfThreads 4
+#
+# Initialize kernel
+/detector/nonSensitiveMode true
+/detector/trackerMode 111111
+/detector/ecalMode 111
+
+/run/initialize
