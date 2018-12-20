@@ -1,0 +1,70 @@
+Volume Control				Constants			Run Action
+=========================		=========================	=====================
+
+nonSens					kNoEmColumns(->)kNofEmBarEta	eventAction
+PIB					kNofEmRows(->)kNofEmBarPhi	fEventEdep
+PID					kNofEmCells(->)kNofEmBarCells	fEventAction
+TIB					kNoEmECCells	   		start
+TID					kNofEvents(->) # remove		end
+TOB					kBz				myfile
+TEC					trPhiAng			
+					PIB_num				Event Action
+Action Initialization			PIB_rMin			=====================
+=========================		PIB_thick				
+					PIB_halfz			ecalBarEdep(->)ecalBarEdep
+					PID_num				ecalECEdep_r(->)ecalECEdep_r
+Analysis				PID_posz			ecalECEdep_l(->)ecalECEdep_l
+=========================		PID_r				convX(->)convX
+					PID_halfz			convY(->)convY
+					TIB_num				convZ(->)convZ
+Constants				TIB_rMin			EmBarCrysNum(->)ecalCrysNum
+=========================		TIB_thick			EmECCrysNum_r(->)ecalECCrysNum_r
+					TID_num				EmECCrysNum_l(->)ecalECCrysNum_l
+					TID_posz			vertex
+DetectorConstruction			TOB_num				copyNo
+=========================		TOB_rMin			edep
+					TOB_thick			vol
+fMessenger				TEC_num				fEmCalBarrel
+fMagenticField				TEC_ring			fEmCalHCID_l
+fFieldMgr				TEC_disk			fEmCalHCID_r
+logicWorld				PIBMat_thick			fWorldHCID
+ecalLogical				PIBSup_thick			ftrackerHCID
+cellEcalBarLogical			PIBCables_thick			ftrackerEnvHCID
+ecalECLogical_l				PIDMat_thick			pair_prod_flag
+ecalECLogical_r				TIB_Supp_thick			totalEmHit
+cellEcalECLogical_r			TIBSupp2_thick			totalEmE
+cellEcalECLogical_l			TIBSupp_pos
+fMagneticLogical			TIBEle_thick			HepMCAsciiReader
+trackerLogical				TIDSupp_thick			====================
+PSECenvLogical_r(->)ecalPSLogical_r	TIDECSupp_pos			
+PSECenvLogical_l(->)ecalPSLogical_l	TIDEle_thick			filename
+fVisAttributes				TOBEleCool_dr			verbose
+pixBarMat				rWiring1			messenger
+pixECMat				zWiring1			asciiInput
+TIBMat					rWiring2			hepmcevt
+TOBMat					zWiring2			pos
+TECMat					rSupp				hepmcevt
+PShowerMat				zSupp1				event
+PIB_Logical				zSupp2				name
+PID_Logical				zSupp3				i
+TIB_Logical				zSupp3Pos
+TID_Logical				TECMat_thick			HepMCAsciiReaderMessenger
+TOB_Logical				PShower_thick			(->)HepMCAsciiReaderMessenger
+TEC_Logical								======================
+PShower_Logical_l(->)cellEcalPS_l					
+PShower_Logical_r(->)cellEcalPS_r					gen
+ecalMode								dir
+tracMode								verbose
+									open
+Magnetic Field				ParticleGun
+==============================		==============================
+
+fMessenger				fMessenger
+fBy					fType
+point					fMomentum
+bField					fSigmaMomentum
+val					fEta
+					fSigmaEta
+					fPhi
+					fSigmaPhi
+					fSetGunSide
