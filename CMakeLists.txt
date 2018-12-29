@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------------
 # Setup the project
 cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
-project(OpenCMSG4)
+project(OpenCMSG4ver1)
 
 #----------------------------------------------------------------------------
 # Find Geant4 package, activating all available UI and Vis drivers by default
@@ -50,8 +50,8 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 #----------------------------------------------------------------------------
 # Add the executable, and link it to the Geant4 libraries
 #
-add_executable(executable OpenCMSG4.cc ${sources} ${headers})
-target_link_libraries(executable ${Geant4_LIBRARIES}
+add_executable(OpenCMSG4 OpenCMSG4.cc ${sources} ${headers})
+target_link_libraries(OpenCMSG4 ${Geant4_LIBRARIES}
 						${HEPMC_LIBRARIES} ${HEPMC_FIO_LIBRARIES}
 						${PYTHIA6_LIBRARIES} gfortran)	
 
@@ -70,7 +70,8 @@ set(OpenCMSG4_SCRIPTS
   init_vis.mac 
   vis.mac
   example_MyPythia.dat
-  exampleRun.mac
+  exampleRun_particle.mac
+  exampleRun_hepmc.mac
   )
 
 foreach(_script ${OpenCMSG4_SCRIPTS})
@@ -85,10 +86,10 @@ endforeach()
 # Add program to the project targets
 # (this avoids the need of typing the program name after make)
 #
-add_custom_target(OpenCMSG4 DEPENDS executable)
+add_custom_target(OpenCMSG4ver1 DEPENDS OpenCMSG4)
 
 #----------------------------------------------------------------------------
 # Install the executable to 'bin' directory under CMAKE_INSTALL_PREFIX
 #
-install(TARGETS executable DESTINATION bin)
+install(TARGETS OpenCMSG4 DESTINATION bin)
 

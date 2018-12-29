@@ -1,0 +1,15 @@
+#/vis/ogl/set/displayListLimit 10000000000
+#/vis/viewer/set/viewpointThetaPhi 65 315 deg
+
+/detector/nonSensitiveMode true
+/detector/trackerMode 111111
+/detector/ecalMode 111
+
+/run/initialize
+
+/generator hepmc
+/hepmcAscii/verbose 0
+/hepmcAscii/open example_MyPythia.dat
+/analysis/setFileName OpenCMSG4_hepmc.root
+
+/run/beamOn 2

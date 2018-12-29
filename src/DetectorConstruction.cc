@@ -255,7 +255,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	PIB = true;
 
 	// Tracker Envelope
-	auto trackerSolid = new G4Tubs("TrackerSolid", 40*mm, 1200*mm, 3000*mm, 0*deg, 360*deg);
+	auto trackerSolid = new G4Tubs("TrackerSolid", 40*mm, 1200*mm, 3000*mm, 90*deg, 360*deg);
 	trackerLogical = new G4LogicalVolume(trackerSolid,world_mat,"TrackerLogical");
 	new G4PVPlacement(0, G4ThreeVector(), trackerLogical, "TrackerEnvelope", logicWorld, false, 0);
 
@@ -267,7 +267,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 		new G4PVPlacement(0, G4ThreeVector(), PIBSupp_Logical, "PixelInnerBarrelSupport", trackerLogical, false, i, true);
 
 		auto PIB_Solid 
-			= new G4Tubs("PIB_Solid", PIB_rMin[i]*mm, PIB_rMin[i]*mm+PIB_thick*um, PIB_halfz*mm, 0*deg, trPhiAng*deg);
+			= new G4Tubs("PIB_Solid", PIB_rMin[i]*mm, PIB_rMin[i]*mm+PIB_thick*um, PIB_halfz*mm, 90*deg, trPhiAng*deg);
 		PIB_Logical[i]
     		= new G4LogicalVolume(PIB_Solid,elSi,"PIB_Logical");
 		if(PIB)
@@ -356,13 +356,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
 	for(G4int i=0; i<4; i++)
 	{
-/*		auto PIDMat_Solid = new G4Tubs("PIDSupportSolid", 60*mm-PIDMat_thick[0]*um, 60*mm, 0.5*25*mm, 90*deg, trPhiAng*deg);
-		auto PIDMat_Logical = new G4LogicalVolume(PIDMat_Solid, elAl, "PIDSupportLogical");
-		new G4PVPlacement(0, G4ThreeVector(0,0,PID_posz[i]), PIDMat_Logical, "PixelInnerDiskSupport", trackerLogical, false, 0+4*i, true);
-		PIDMat_Solid = new G4Tubs("PIDSupportSolid", 60*mm-PIDMat_thick[0]*um-PIDMat_thick[1]*um, 60*mm-PIDMat_thick[0]*um, 0.5*25*mm, 90*deg, trPhiAng*deg);
-		PIDMat_Logical = new G4LogicalVolume(PIDMat_Solid, elAl, "PIDSupportLogical");
-		new G4PVPlacement(0, G4ThreeVector(0,0,PID_posz[i]), PIDMat_Logical, "PixelInnerDiskSupport", trackerLogical, false, 2+4*i, true);
-*/		auto PIDMat_Solid = new G4Tubs("PIDSupportSolid", 150*mm, 150*mm+PIDMat_thick[0]*um, 0.5*25*mm, 90*deg, trPhiAng*deg);
+		auto PIDMat_Solid = new G4Tubs("PIDSupportSolid", 150*mm, 150*mm+PIDMat_thick[0]*um, 0.5*25*mm, 90*deg, trPhiAng*deg);
 		auto PIDMat_Logical = new G4LogicalVolume(PIDMat_Solid, elAl, "PIDSupportLogical");
 		if(nonSens && PID)
 		new G4PVPlacement(0, G4ThreeVector(0,0,PID_posz[i]), PIDMat_Logical, "PixelInnerDiskSupport", trackerLogical, false, 2+2*i, true);
@@ -388,7 +382,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	for(G4int i=0; i<TIB_num; i++)
 	{
 		auto TIB_Solid 
-			= new G4Tubs("TIB_Solid", TIB_rMin[i]*mm, TIB_rMin[i]*mm+TIB_thick[i]*um*(4.0/3), 700*mm, 0*deg, trPhiAng*deg);
+			= new G4Tubs("TIB_Solid", TIB_rMin[i]*mm, TIB_rMin[i]*mm+TIB_thick[i]*um*(4.0/3), 700*mm, 90*deg, trPhiAng*deg);
 		TIB_Logical[i]
     		= new G4LogicalVolume(TIB_Solid,elSi,"TIB_Logical");
 		if(TIB)
@@ -481,7 +475,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	for(G4int i=0; i<TOB_num; i++)
 	{
 		auto TOB_Solid 
-			= new G4Tubs("TOB_Solid", TOB_rMin[i]*mm, TOB_rMin[i]*mm+TOB_thick[i]*um*(4.0/3), 1180*mm, 0*deg, trPhiAng*deg);
+			= new G4Tubs("TOB_Solid", TOB_rMin[i]*mm, TOB_rMin[i]*mm+TOB_thick[i]*um*(4.0/3), 1180*mm, 90*deg, trPhiAng*deg);
 		TOB_Logical[i]
     		= new G4LogicalVolume(TOB_Solid,elSi,"TOB_Logical");
 		if(TOB)
@@ -613,12 +607,6 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 		
 		G4int etaNum = (copyNo+(nofEmBarPhi-360)*30)/nofEmBarPhi;
 		G4int phiNum = (copyNo+(nofEmBarPhi-360)*30)%nofEmBarPhi;
-		if(copyNo<360*30)
-		{
-			etaNum = copyNo/360;
-			phiNum = copyNo%360;
-		}
-//std::cout<<copyNo<<std::endl;
 
 		G4double eta_b = -eta_max+etaNum*eta_step;
 		G4double eta_e = -eta_max+(etaNum+1)*eta_step;
@@ -635,7 +623,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 		if(ECalBar)
 		new G4PVPlacement(0, G4ThreeVector(), cellEcalBarLogical[etaNum][phiNum], "ECalCell", ecalLogical, false, copyNo, false);
 	}
-//std::cout<<"Execution complete successfully"<<std::endl;
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////// ECAL ENDCAP PLACEMENT ///////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -645,20 +633,16 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	G4double ecalECenv_r = 1711.0;
 	auto ecalECSolid = new G4Tubs("ECalECSolid", 0, ecalECenv_r*mm, 0.5*ecalECenv_z*mm, 0, 360.0*deg);
 	ecalECLogical_r = new G4LogicalVolume(ecalECSolid, world_mat, "ECalECLogical");
-//	new G4PVPlacement(0, G4ThreeVector(0, 0, (3205+110)*mm), ecalECLogical_r, "ECalECEnvelopeRight", logicWorld, false, 0, true);
+	new G4PVPlacement(0, G4ThreeVector(0, 0, (3205+110)*mm), ecalECLogical_r, "ECalECEnvelopeRight", logicWorld, false, 0, true);
 	ecalECLogical_l = new G4LogicalVolume(ecalECSolid, world_mat, "ECalECLogical");
-//	new G4PVPlacement(0, G4ThreeVector(0, 0, -(3205+110)*mm), ecalECLogical_l, "ECalECEnvelopeLeft", logicWorld, false, 0, true);
-//	new G4PVPlacement(0, G4ThreeVector(0, 0, -3560.0*mm), ecalECLogical, "ECalECEnvelopeRight", logicWorld, false, 0, true);
+	new G4PVPlacement(0, G4ThreeVector(0, 0, -(3205+110)*mm), ecalECLogical_l, "ECalECEnvelopeLeft", logicWorld, false, 0, true);
 
 	// ECal End Cap Parameterised Placement of Crytals
 
 	G4double rmin_EC = 3205*tan(2*atan(exp(-3))), xpos_EC, ypos_EC;
 	G4double rmax_EC = 3205*tan(2*atan(exp(-1.479+0.04)));
-//	G4double y1=24.7, y2=25.9, len=220.0;
 	G4double y1=25.7, y2=26.9, len=220.0;
 	int k = 0;
-//	for(int i=-60; i<60; i++)
-//	for(int j=-60; j<60; j++)
 	for(int i=-70; i<70; i++)
 	for(int j=-70; j<70; j++)
 	if(k<kNofEmECCells)
@@ -695,11 +679,11 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	G4double PSECenv_dz = 16*mm;
 	G4double PSECenv_rMin = 457*mm;
 	G4double PSECenv_rMax = 1230*mm;
-	auto PSECenvSolid = new G4Tubs("PSECenvSolid", PSECenv_rMin, PSECenv_rMax, PSECenv_dz, 0, 270.0*deg);
-	ecalPSLogical_r = new G4LogicalVolume(PSECenvSolid, world_mat, "PSECenvLogical");
-//	new G4PVPlacement(0, G4ThreeVector(0, 0, PSECenv_zpos), ecalPSLogical_r, "PSECEnvelopeRight", logicWorld, false, 0, true);
-	ecalPSLogical_l = new G4LogicalVolume(PSECenvSolid, world_mat, "PSECenvLogical");
-//	new G4PVPlacement(0, G4ThreeVector(0, 0, -PSECenv_zpos), ecalPSLogical_l, "PSECEnvelopeLeft", logicWorld, false, 0, true);
+	auto PSECenvSolid = new G4Tubs("PSECenvSolid", PSECenv_rMin, PSECenv_rMax, PSECenv_dz, 0, 360.0*deg);
+	ecalPSLogical_r = new G4LogicalVolume(PSECenvSolid, world_mat, "PSECenvLogical_r");
+	new G4PVPlacement(0, G4ThreeVector(0, 0, PSECenv_zpos), ecalPSLogical_r, "PSECEnvelopeRight", logicWorld, false, 0, true);
+	ecalPSLogical_l = new G4LogicalVolume(PSECenvSolid, world_mat, "PSECenvLogical_l");
+	new G4PVPlacement(0, G4ThreeVector(0, 0, -PSECenv_zpos), ecalPSLogical_l, "PSECEnvelopeLeft", logicWorld, false, 0, true);
 
 	// PreShower End Cap Parameterised Placement of Crytals
 	G4double PShowPos = -PSECenv_dz;
@@ -708,19 +692,11 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 		PShowPos += 0.5*PShower_thick[cNo];
 		auto PSECSolid = new G4Tubs("PSECSolid", PSECenv_rMin, PSECenv_rMax, 0.5*PShower_thick[cNo], 0, 360.0*deg);
 		cellEcalPS_l.push_back(new G4LogicalVolume(PSECSolid, PShowerMat[cNo], "PSECLogical_l"));
-//		new G4PVPlacement(0, G4ThreeVector(0, 0, PShowPos), cellEcalPS_l[cNo], "PSECLeftPhysical", ecalPSLogical_l, false, 0, true);
+		new G4PVPlacement(0, G4ThreeVector(0, 0, PShowPos), cellEcalPS_l[cNo], "PSECLeftPhysical", ecalPSLogical_l, false, 0, true);
 		cellEcalPS_r.push_back(new G4LogicalVolume(PSECSolid, PShowerMat[cNo], "PSECLogical_r"));
-//		new G4PVPlacement(0, G4ThreeVector(0, 0, PShowPos), cellEcalPS_r[cNo], "PSECRightPhysical", ecalPSLogical_r, false, 0, true);
+		new G4PVPlacement(0, G4ThreeVector(0, 0, PShowPos), cellEcalPS_r[cNo], "PSECRightPhysical", ecalPSLogical_r, false, 0, true);
 		PShowPos += 0.5*PShower_thick[cNo];
 	}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////// BEAM PIPE //////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	auto BPSolid = new G4Tubs("BeamPipeSolid", 0, 20*mm, 0.5*world_sizeZ, 0*deg, 270*deg);
-	auto BPLogical = new G4LogicalVolume(BPSolid, world_mat, "BeamPipeLogical");
-	new G4PVPlacement(0, G4ThreeVector(), BPLogical, "BeamPipe", logicWorld, false, 0, true);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////// VISUALS ///////////////////////////////////////////////

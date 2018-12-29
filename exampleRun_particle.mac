@@ -1,3 +1,6 @@
+#/vis/ogl/set/displayListLimit 10000000000
+#/vis/viewer/set/viewpointThetaPhi 65 315 deg
+
 /detector/nonSensitiveMode true
 /detector/trackerMode 111111
 /detector/ecalMode 111
@@ -7,5 +10,6 @@
 /generator particle
 /generator/particle/type gamma
 /generator/particle/momentum 10 GeV
+/analysis/setFileName OpenCMSG4_particle.root
 
-/run/beamOn 1
+/run/beamOn 100

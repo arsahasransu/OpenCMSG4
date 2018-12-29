@@ -5,15 +5,15 @@
 #include "G4SystemOfUnits.hh"
 
 constexpr G4int nofEmBarEta = 170; 	// Max Value = 170
-constexpr G4int nofEmBarPhi = 270; 		// Max Value = 360
-constexpr G4int nofEmBarCells = nofEmBarEta*nofEmBarPhi + 90*30;
+constexpr G4int nofEmBarPhi = 360; 		// Max Value = 360
+constexpr G4int nofEmBarCells = nofEmBarEta*nofEmBarPhi;
 
 //constexpr G4int kNofEmECCells = 2653*4;	// Max Value = 2691
 constexpr G4int kNofEmECCells = 2708*4;	// Max Value = 2691
 
 constexpr G4double kBz = 4.0*tesla;
 
-constexpr G4double trPhiAng = 270;
+constexpr G4double trPhiAng = 360;
 constexpr G4int PIB_num = 3;
 constexpr G4double PIB_rMin[] = {44,73,102};
 constexpr G4double PIB_thick = 285*(4.0/3);
