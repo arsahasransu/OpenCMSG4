@@ -33,7 +33,7 @@ The following distributions have been tested on. If required, please mail us on 
   * GCC 7.3
   
 # Running the executable
-'''
+```
 git clone <branch_required>
 mkdir build_DIR
 cd build_DIR
@@ -41,7 +41,7 @@ cmake -DGeant4_DIR=$GEANT4 ../OpenCMSG4
 make
 ./OpenCMSG4 (for visual mode)
 ./OpenCMSG4 myrun.txt (for batch mode)
-'''
+```
 
 # Pre-availaible commands
 
