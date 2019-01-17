@@ -45,6 +45,43 @@ make
 
 # Pre-availaible commands
 
+Apart the regular GEANT4 commands, the following general purpose commands have been added to facilitate use of the code with little or in cases no knowledge of the GEANT4 package. 
+
+## Detector level
+The run needs to be initialized everytime after these commands to enlist the changes you make to the detector. 
+```
+/detector/nonSensitiveMode <true/false>
+```
+This command enables or disables the non-Sensitive elements of the tracker. The non-Sensitive elements emulate the material budget of the tracker roughly along its variation through change in pseudo-rapidity.
+```
+/detector/trackerMode 111111
+```
+The tracker has six sections. Each of the six digit represents a section in the order <PIB|PID|TIB|TID|TOB|TEC>. The presence of each section can be controlled individually by using 1(0) to turn the respective section on(off). In conjunction with the above command, the absence of a tracker segment, implies the absence of its non-Senstive elements as well. 
+1. PIB - Pixel Inner Barrel
+2. PID - Pixel Inner Disk
+3. TIB - Tracker Inner Barrel
+4. TID - Tracker Inner Disk
+5. TOB - Tracker Outer Barrel
+6. TEC - Tracker End-Cap
+
+```
+/detector/ecalMode 111
+```
+The elctromagnetic calorimeter has three segments <LeftEndCap|Barrel|RightEndCap>. The presence(absence) of each segment can be controlled by using 1(0) e.g 010 would mean the presence of barrel only.
+
+One has to use the command
+```
+/run/initialize
+```
+every time a change to the detector configuration is made.
+
+## Gun Level
+### Single Particle Gun
+### HepMC Event
+
+## Output Level
+
+
 # Acknowledgement
 
-The authors of this code, A.R.Sahasransu and Dr. Ritesh Singh, acknowledge Prof. Satyaki Bhattacharya and Prof. Sunanda Banerjee for their support and occasional technical guidance and support in the project.
+The authors of this code, A.R.Sahasransu and Dr. Ritesh Singh, acknowledge Prof. Satyaki Bhattacharya and Prof. Sunanda Banerjee for their support and occasional technical guidance in the project.
