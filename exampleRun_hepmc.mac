@@ -12,4 +12,4 @@
 /hepmcAscii/open example_MyPythia.dat
 /analysis/setFileName OpenCMSG4_hepmc.root
 
-/run/beamOn 2
+/run/beamOn 10

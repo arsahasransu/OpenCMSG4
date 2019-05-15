@@ -56,12 +56,6 @@ private:
   std::vector<G4Material*> TOBMat;
   std::vector<G4Material*> TECMat;
   std::vector<G4Material*> PShowerMat;
-  std::vector<G4LogicalVolume*> PIB_Logical;
-  std::vector<G4LogicalVolume*> PID_Logical;
-  std::vector<G4LogicalVolume*> TIB_Logical;
-  std::vector<G4LogicalVolume*> TID_Logical;
-  std::vector<G4LogicalVolume*> TOB_Logical;
-  std::vector<G4LogicalVolume*> TEC_Logical;
   std::vector<G4LogicalVolume*> cellEcalPS_l;
   std::vector<G4LogicalVolume*> cellEcalPS_r;
 
