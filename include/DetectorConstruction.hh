@@ -45,7 +45,8 @@ private:
   G4LogicalVolume* fMagneticLogical;
   G4LogicalVolume* trackerLogical;
   G4LogicalVolume* ecalPSLogical_r;
-    G4LogicalVolume* ecalPSLogical_l;
+  G4LogicalVolume* ecalPSLogical_l;
+  G4LogicalVolume* hcalLogical;
   
   std::vector<G4VisAttributes*> fVisAttributes;
   
