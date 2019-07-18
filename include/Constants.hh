@@ -65,6 +65,10 @@ constexpr G4double TECMat_thick = 8;
 constexpr G4double PShower_thick[] = {1,1,2,9.3,2,2,1,1,1,2,3.7,2,2,1};
 
 // HCal Variables
-constexpr G4int nofHcalBarEta = 0;
+constexpr G4int nofHcalBarEta = 2*17;
+constexpr G4int nofHcalBarPhi = 72;
+constexpr G4int nofHcalBarR = 3;
+constexpr G4int nofHcalBarCells = nofHcalBarEta*nofHcalBarPhi*nofHcalBarR;
+
 
 #endif
