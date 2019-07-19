@@ -329,7 +329,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// HCal Envelope
-	auto hcalSolid = new G4Tubs("HCalSolid", 1800*mm, 2800*mm, 3000*mm, 0*deg, 360*deg);
+	auto hcalSolid = new G4Tubs("HCalSolid", 1800*mm, 2800*mm, 7500*mm, 0*deg, 360*deg);
 	hcalLogical = new G4LogicalVolume(hcalSolid,world_mat,"HCalLogical");
 	new G4PVPlacement(0, G4ThreeVector(), hcalLogical, "HCalEnvelope", logicWorld, false, 0);
 
