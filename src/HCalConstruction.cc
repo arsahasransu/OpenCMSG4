@@ -5,7 +5,8 @@
 #include "G4PVPlacement.hh"
 
 HCalConstruction::HCalConstruction()
-  : cellHcalBarLogical(nofHcalBarEta) {
+  : cellHcalBarAbsLogical(nofHcalBarEta),
+    cellHcalBarScnLogical(nofHcalBarEta) {
 
   for(G4int etaNum=0; etaNum<nofHcalBarEta; etaNum++) {
     std::vector< std::vector<G4LogicalVolume*> > tempR(nofHcalBarR);
@@ -13,7 +14,8 @@ HCalConstruction::HCalConstruction()
       std::vector<G4LogicalVolume*> tempPhi(nofHcalBarPhi);
       tempR[rNum] = tempPhi;
     }
-    cellHcalBarLogical[etaNum] = tempR;
+    cellHcalBarAbsLogical[etaNum] = tempR;
+    cellHcalBarScnLogical[etaNum] = tempR;
   }
   std::cout<<"HCal Initialization complete"<<std::endl;
 
@@ -37,43 +39,65 @@ void HCalConstruction::makeBarrel(G4Material* hcal_absMat,
     G4double maxEta = 1.479;
     G4double diffEta = 2*maxEta/nofHcalBarEta;
     G4double minR = 2000*mm;
-    G4double diffR = 100*mm;
+    G4double diffRAbs = 100*mm;
+    G4double diffRScn = 10*mm;
 
     G4double eta_b = -maxEta+etaNum*diffEta;
     G4double eta_e = -maxEta+(etaNum+1)*diffEta;
     G4double theta_b = 2*atan(exp(-eta_b))*180/M_PI;
     G4double theta_e = 2*atan(exp(-eta_e))*180/M_PI;
 
-    G4double R_b = minR+diffR*rNum;
-    G4double R_e = R_b+diffR;
+    G4double R_bAbs = minR+diffRAbs*rNum+diffRScn*rNum;
+    G4double R_eAbs = R_bAbs+diffRAbs;
+    G4double R_eScn = R_eAbs+diffRScn;
 
-    G4double z_bb = R_b/tan(theta_b*M_PI/180);
-    G4double z_eb = R_e/tan(theta_b*M_PI/180);
+    G4double z_bb = R_bAbs/tan(theta_b*M_PI/180);
+    G4double z_eb = R_eAbs/tan(theta_b*M_PI/180);
     G4double z_bAvg = 0.5*(z_bb+z_eb);
-    G4double z_be = R_b/tan(theta_e*M_PI/180);
-    G4double z_ee = R_e/tan(theta_e*M_PI/180);
+    G4double z_be = R_bAbs/tan(theta_e*M_PI/180);
+    G4double z_ee = R_eAbs/tan(theta_e*M_PI/180);
     G4double z_eAvg = 0.5*(z_be+z_ee);
 
     G4double diffAng = 360*deg/nofHcalBarPhi;
     G4double sAng = diffAng*phiNum;
 
     auto hcalAbsSolid = new G4Tubs("HCalAbsorberSingleCell",
-				   R_b,
-				   R_e,
+				   R_bAbs,
+				   R_eAbs,
 				   0.5*abs(z_eAvg-z_bAvg),
 				   sAng,
 				   diffAng);
 
-    cellHcalBarLogical[etaNum][rNum][phiNum] = new G4LogicalVolume(hcalAbsSolid,
+    auto hcalScnSolid = new G4Tubs("HCalScintillatorSingleCell",
+				   R_eAbs,
+				   R_eScn,
+				   0.5*abs(z_eAvg-z_bAvg),
+				   sAng,
+				   diffAng);
+
+    cellHcalBarAbsLogical[etaNum][rNum][phiNum] = new G4LogicalVolume(hcalAbsSolid,
 								   hcal_absMat,
 								   "cellHCalAbsorberLogical");
+
+    cellHcalBarScnLogical[etaNum][rNum][phiNum] = new G4LogicalVolume(hcalScnSolid,
+								   hcal_scnMat,
+								   "cellHCalScintillatorLogical");
 
     G4double dispCell = 0.5*(z_eAvg+z_bAvg);
 
     new G4PVPlacement(0,
 		      G4ThreeVector(0,0,dispCell),
-		      cellHcalBarLogical[etaNum][rNum][phiNum],
+		      cellHcalBarAbsLogical[etaNum][rNum][phiNum],
 		      "HCalAbsorberCell",
+		      hcalLogical,
+		      false,
+		      copyNo,
+		      false);
+
+    new G4PVPlacement(0,
+		      G4ThreeVector(0,0,dispCell),
+		      cellHcalBarScnLogical[etaNum][rNum][phiNum],
+		      "HCalScintillatorCell",
 		      hcalLogical,
 		      false,
 		      copyNo,

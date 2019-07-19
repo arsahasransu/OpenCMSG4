@@ -17,7 +17,8 @@ public:
   //  void makeEndCap(G4Material*, G4LogicalVolume*, G4LogicalVolume*, bool, bool, std::vector<G4VisAttributes*>);
 
 private:
-  std::vector< std::vector< std::vector<G4LogicalVolume*> > > cellHcalBarLogical;
+  std::vector< std::vector< std::vector<G4LogicalVolume*> > > cellHcalBarAbsLogical;
+  std::vector< std::vector< std::vector<G4LogicalVolume*> > > cellHcalBarScnLogical;
   G4VisAttributes* visAttributes; 
 };
 
