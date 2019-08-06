@@ -21,6 +21,7 @@
 #include "G4Tubs.hh"
 #include "G4Sphere.hh"
 #include "G4Trap.hh"
+#include "G4Cons.hh"
 #include "G4LogicalVolume.hh"
 #include "G4VPhysicalVolume.hh"
 #include "G4PVPlacement.hh"
@@ -79,8 +80,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// World Material
-  G4double world_sizeXY = 4*m;
-  G4double world_sizeZ  = 8*m;
+  G4double world_sizeXY = 8*m;
+  G4double world_sizeZ  = 12*m;
 
 	G4String name, symbol;
 	G4double a, density, fractionmass;
@@ -329,12 +330,39 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// HCal Envelope
-	auto hcalSolid = new G4Tubs("HCalSolid", 1800*mm, 2800*mm, 7500*mm, 0*deg, 360*deg);
+	auto hcalSolid = new G4Tubs("HCalSolid", 1800*mm, 2800*mm, 5000*mm, 0*deg, 360*deg);
 	hcalLogical = new G4LogicalVolume(hcalSolid,world_mat,"HCalLogical");
 	new G4PVPlacement(0, G4ThreeVector(), hcalLogical, "HCalEnvelope", logicWorld, false, 0);
 
 	HCalConstruction* hcal = new HCalConstruction();
-	hcal->makeBarrel(Cu, quartz, hcalLogical, fVisAttributes);
+	//hcal->makeBarrel(Cu, quartz, hcalLogical, fVisAttributes);
+
+	// HCal EndCap Envelope
+	G4double HcalEC17to20ThetaOut = 2*atan(exp(-HcalEC17to20EtaOut));
+	G4double HcalEC17to20ThetaIn = 2*atan(exp(-HcalEC17to20EtaIn));
+	G4double HCalEC17to20ROut1 = HcalECEnvZmin*tan(HcalEC17to20ThetaOut);
+	G4double HCalEC17to20RIn1 = HcalECEnvZmin*tan(HcalEC17to20ThetaIn);
+	G4double HCalEC17to20ROut2 = (HcalECEnvZmin+HcalECEnvDelZ)*tan(HcalEC17to20ThetaOut);
+	G4double HCalEC17to20RIn2 = (HcalECEnvZmin+HcalECEnvDelZ)*tan(HcalEC17to20ThetaIn);
+	auto hcalECSolid = new G4Cons("HCalECSolid",
+				      HCalEC17to20RIn1,
+				      HCalEC17to20ROut1,
+				      HCalEC17to20RIn2,
+				      HCalEC17to20ROut2,
+				      0.5*HcalECEnvDelZ,
+				      0*deg,
+				      360*deg);
+	hcalECLogical_r = new G4LogicalVolume(hcalECSolid,
+					      world_mat,
+					      "HCalECLogical");
+	new G4PVPlacement(0,
+			  G4ThreeVector(0, 0, HcalECEnvZmin+0.5*HcalECEnvDelZ),
+			  hcalECLogical_r,
+			  "HCalECEnvelopeRight",
+			  logicWorld,
+			  false,
+			  0,
+			  true);
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////// PRE-SHOWER PLACEMENT ///////////////////////////////////////////
@@ -374,17 +402,17 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
   auto visAttributes = new G4VisAttributes(G4Colour(1.0,1.0,1.0));
   visAttributes->SetVisibility(false);
-  logicWorld->SetVisAttributes(visAttributes);
+  //logicWorld->SetVisAttributes(visAttributes);
   fVisAttributes.push_back(visAttributes);
 
   visAttributes = new G4VisAttributes(G4Colour(0.8888,0,0));
-  visAttributes->SetVisibility(false);
+  //visAttributes->SetVisibility(false);
 	//visAttributes->SetForceLineSegmentsPerCircle(10);
   ecalLogical->SetVisAttributes(visAttributes);
   fVisAttributes.push_back(visAttributes);
   
   visAttributes = new G4VisAttributes(G4Colour(0,0,0.8888));
-  visAttributes->SetVisibility(false);
+  //visAttributes->SetVisibility(false);
 	//visAttributes->SetForceLineSegmentsPerCircle(10);
   trackerLogical->SetVisAttributes(visAttributes);
   fVisAttributes.push_back(visAttributes);

@@ -70,9 +70,4 @@ constexpr G4int nofHcalBarPhi = 72;    // 72 - default value
 constexpr G4int nofHcalBarR = 3;       // 3 - default value
 constexpr G4int nofHcalBarCells = nofHcalBarEta*nofHcalBarPhi*nofHcalBarR;
 
-// HCal EndCap Envelope Variables
-constexpr G4double HcalEC17to20EtaOut = 0.087*16;
-constexpr G4double HcalEC17to20EtaIn = 0.087*20;
-constexpr G4double HcalECEnvZmin = 4*m;
-constexpr G4double HcalECEnvDelZ = 2*m;
 #endif
