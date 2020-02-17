@@ -81,7 +81,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
 	// World Material
   G4double world_sizeXY = 8*m;
-  G4double world_sizeZ  = 12*m;
+  G4double world_sizeZ  = 20*m;
 
 	G4String name, symbol;
 	G4double a, density, fractionmass;
@@ -330,13 +330,26 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// HCal Envelope
-	auto hcalSolid = new G4Tubs("HCalSolid", 1800*mm, 2800*mm, 5000*mm, 0*deg, 360*deg);
+	//auto hcalSolid = new G4Tubs("HCalSolid", 1800*mm, 3500*mm, 10000*mm, 0*deg, 360*deg);
+	auto hcalSolid = new G4Tubs("HCalSolid", 1770*mm, 3500*mm, 10000*mm, 0*deg, 360*deg);
 	hcalLogical = new G4LogicalVolume(hcalSolid,world_mat,"HCalLogical");
 	new G4PVPlacement(0, G4ThreeVector(), hcalLogical, "HCalEnvelope", logicWorld, false, 0);
 
-	HCalConstruction* hcal = new HCalConstruction();
-	//hcal->makeBarrel(Cu, quartz, hcalLogical, fVisAttributes);
+	auto hcalECOSolid = new G4Tubs("HCalECOSolid", 200*mm, 3500*mm,0.5*nofHcalEndCapR*(diffRAbsEC+diffRScnEC), 0*deg, 360*deg);
+	hcalECOLogical_r = new G4LogicalVolume(hcalECOSolid,world_mat,"HCalECOLogical");
+	hcalECOLogical_l = new G4LogicalVolume(hcalECOSolid,world_mat,"HCalECOLogical");
 
+	G4double hcalECOLogica_z = HcalECEnvZmin + 0.5*nofHcalEndCapR*(diffRAbsEC+diffRScnEC);
+	new G4PVPlacement(0, G4ThreeVector(0,0,hcalECOLogica_z), hcalECOLogical_r, "HCalECEnvelopeRight", logicWorld, false, 0);
+	new G4PVPlacement(0, G4ThreeVector(0,0,-hcalECOLogica_z), hcalECOLogical_l, "HCalECEnvelopeleft", logicWorld, false, 0);
+
+	HCalConstruction* hcal = new HCalConstruction();
+	hcal->makeBarrel(Cu, quartz, hcalLogical, fVisAttributes);
+	hcal->makeEndCapOuter(Cu, Cu, hcalECOLogical_r, hcalECOLogical_l, fVisAttributes);
+	hcal->makeEndCapInner(Cu, Cu, hcalECOLogical_r, hcalECOLogical_l, fVisAttributes);
+
+
+	/*
 	// HCal EndCap Envelope
 	G4double HcalEC17to20ThetaOut = 2*atan(exp(-HcalEC17to20EtaOut));
 	G4double HcalEC17to20ThetaIn = 2*atan(exp(-HcalEC17to20EtaIn));
@@ -344,6 +357,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	G4double HCalEC17to20RIn1 = HcalECEnvZmin*tan(HcalEC17to20ThetaIn);
 	G4double HCalEC17to20ROut2 = (HcalECEnvZmin+HcalECEnvDelZ)*tan(HcalEC17to20ThetaOut);
 	G4double HCalEC17to20RIn2 = (HcalECEnvZmin+HcalECEnvDelZ)*tan(HcalEC17to20ThetaIn);
+
+	
 	auto hcalECSolid = new G4Cons("HCalECSolid",
 				      HCalEC17to20RIn1,
 				      HCalEC17to20ROut1,
@@ -363,7 +378,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 			  false,
 			  0,
 			  true);
-	
+	*/
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////// PRE-SHOWER PLACEMENT ///////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////

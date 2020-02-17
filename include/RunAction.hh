@@ -24,6 +24,7 @@ class RunAction : public G4UserRunAction
     virtual void   EndOfRunAction(const G4Run*);
 
 		std::vector<std::vector<G4double>> fEventEdep;
+  		std::vector<std::vector<G4double>> fEventHCalEdep;
 
   private:
     EventAction* fEventAction;

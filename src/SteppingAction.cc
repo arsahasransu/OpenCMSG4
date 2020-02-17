@@ -52,10 +52,10 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
 		secondaries_track = theStep->GetSecondaryInCurrentStep();
 		preStep = theStep->GetPreStepPoint();
 
-		G4cout<<pos/mm<<" ||";
+		//G4cout<<pos/mm<<" ||";
 
 		fEventAction->SetConvertedVertex(pos/mm);
-
+		/*
 		for(G4int i=0; i<num_secondary; i++)
 		{
 			// Print the daughter tracks
@@ -65,9 +65,9 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
 				<<"\t"<<secondaries_track->at(i)->GetTotalEnergy()/MeV
 				<<" (MeV)\t"<<secondaries_track->at(i)->GetVolume()->GetName()
 				<<"\t"<<prPhVol->GetName()<<"|||";
-		}
+		}*/
 		fEventAction->set_pair_flag();			// increment the converted flag
-		G4cout<<G4endl;
+		//G4cout<<G4endl;
 	}
 
 	// Fill energy deposition to ntuples
@@ -88,6 +88,90 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
 	{
 		fEventAction->AddEneDep(copyNo, edep, "CellEcalEC_l");
 	}
+
+	  
+	/*
+	if(physical->GetName()=="CellEcalEC_r" && edep>0.)
+	{
+		fEventAction->AddEneDep(copyNo, edep, "CellEcalEC_r");
+	}
+	if(physical->GetName()=="CellEcalEC_l" && edep>0.)
+	{
+		fEventAction->AddEneDep(copyNo, edep, "CellEcalEC_l");
+	}
+	*/
+
+	//***************Fill HCal Energy Deposits:****************************
+	
+	if(physical->GetName()=="HCalAbsorberCell" && edep>0.){
+	  fEventAction->AddEneDep(copyNo, edep, "HCalAbsorberCell");
+	}
+	
+	if(physical->GetName()=="HCalScintillatorCell" && edep>0.){
+	  fEventAction->AddEneDep(copyNo, edep, "HCalScintillatorCell");
+	}
+
+	if((physical->GetName()=="HCalAbsorberCell" || physical->GetName()=="HCalScintillatorCell" )&& edep>0.){
+	  fEventAction->AddEneDep(copyNo, edep, "HCalCell");
+	}
+
+
+	
+	if(physical->GetName()=="HcalECAbsCell_r1" && edep>0.){
+	  fEventAction->AddEneDep(copyNo, edep, "HcalECAbsCell_r1");
+	}
+	
+	if(physical->GetName()=="HcalECScnCell_r1" && edep>0.){
+	  fEventAction->AddEneDep(copyNo, edep, "HcalECScnCell_r1");
+	}
+
+	if((physical->GetName()=="HcalECAbsCell_r1" || physical->GetName()=="HcalECScnCell_r1" )&& edep>0.){
+	  fEventAction->AddEneDep(copyNo, edep, "HCalCell_r1");
+	}
+
+
+
+	if(physical->GetName()=="HcalECAbsCell_l1" && edep>0.){
+	  fEventAction->AddEneDep(copyNo, edep, "HcalECAbsCell_l1");
+	}
+	
+	if(physical->GetName()=="HcalECScnCell_l1" && edep>0.){
+	  fEventAction->AddEneDep(copyNo, edep, "HcalECScnCell_l1");
+	}
+
+	if((physical->GetName()=="HcalECAbsCell_l1" || physical->GetName()=="HcalECScnCell_l1" )&& edep>0.){
+	  fEventAction->AddEneDep(copyNo, edep, "HCalCell_l1");
+	}
+
+
+
+	if(physical->GetName()=="HcalECAbsCell_r2" && edep>0.){
+	  fEventAction->AddEneDep(copyNo, edep, "HcalECAbsCell_r2");
+	}
+	
+	if(physical->GetName()=="HcalECScnCell_r2" && edep>0.){
+	  fEventAction->AddEneDep(copyNo, edep, "HcalECScnCell_r2");
+	}
+
+	if((physical->GetName()=="HcalECAbsCell_r2" || physical->GetName()=="HcalECScnCell_r2" )&& edep>0.){
+	  fEventAction->AddEneDep(copyNo, edep, "HCalCell_r2");
+	}
+
+
+	
+	if(physical->GetName()=="HcalECAbsCell_l2" && edep>0.){
+	  fEventAction->AddEneDep(copyNo, edep, "HcalECAbsCell_l2");
+	}
+	
+	if(physical->GetName()=="HcalECScnCell_l2" && edep>0.){
+	  fEventAction->AddEneDep(copyNo, edep, "HcalECScnCell_l2");
+	}
+
+	if((physical->GetName()=="HcalECAbsCell_l2" || physical->GetName()=="HcalECScnCell_l2" )&& edep>0.){
+	  fEventAction->AddEneDep(copyNo, edep, "HCalCell_l2");
+	}
+	
+	//**********************************************************************	
 
 	if((physical->GetName()=="PixelInnerBarrel" ||
 		 physical->GetName()=="PixelInnerDiscs" ||

@@ -34,44 +34,85 @@ RunAction::RunAction(EventAction* eventAction):
 
 	// Creating ntuple
 	//
-	if ( fEventAction ) 
-	{
-		analysisManager->CreateNtuple("Events", "Events");		// tuple ID = 0
-    	analysisManager                                   // column Id = 0
-    		->CreateNtupleDColumn("CrysEdep", fEventAction->GetEmCalEdep()); 
-    	analysisManager                                   // column Id = 1
-    		->CreateNtupleIColumn("CrysNum", fEventAction->GetEmCalCrysNum()); 
-    	analysisManager                                   // column Id = 2
-    		->CreateNtupleDColumn("CrysEdepEC_r", 
-									fEventAction->GetEmCalECEdep_r()); 
-	    analysisManager                                   // column Id = 3
-		    ->CreateNtupleIColumn("CrysNumEC_r", 
-									fEventAction->GetEmCalECCrysNum_r()); 
-	    analysisManager                                   // column Id = 4
-		    ->CreateNtupleDColumn("CrysEdepEC_l", 
-									fEventAction->GetEmCalECEdep_l()); 
-	    analysisManager                                   // column Id = 5
-    		->CreateNtupleIColumn("CrysNumEC_l", 
-									fEventAction->GetEmCalECCrysNum_l()); 
-	    analysisManager                                   // column Id = 6
-		    ->CreateNtupleDColumn("EventEdep"); 
-	    analysisManager                                   // column Id = 7
-    		->CreateNtupleIColumn("HitNum"); 
-	    analysisManager                                   // column Id = 8
-    		->CreateNtupleIColumn("ConvertedFlag"); 
-	    analysisManager                                   // column Id = 9
-		   	->CreateNtupleDColumn("ConvertedX", fEventAction->GetConvertedX()); 
-	    analysisManager                                   // column Id = 10
-		    ->CreateNtupleDColumn("ConvertedY", fEventAction->GetConvertedY()); 
-	    analysisManager                                   // column Id = 11
-		    ->CreateNtupleDColumn("ConvertedZ", fEventAction->GetConvertedZ()); 
-	    analysisManager                                  // column Id = 12
-	      ->CreateNtupleDColumn("TrackerHitPositionX", fEventAction->GetTrackPosX());
-	    analysisManager                                  // column Id = 13
-	      ->CreateNtupleDColumn("TrackerHitPositionY", fEventAction->GetTrackPosY());
-	    analysisManager                                  // column Id = 14
-	      ->CreateNtupleDColumn("TrackerHitPositionZ", fEventAction->GetTrackPosZ());
-	    analysisManager->FinishNtuple();
+	if ( fEventAction ) {
+	  analysisManager->CreateNtuple("Events", "Events");		// tuple ID = 0
+	  analysisManager->CreateNtupleDColumn("CrysEdep", fEventAction->GetEmCalEdep());                   // column Id = 0
+	  analysisManager->CreateNtupleIColumn("CrysNum", fEventAction->GetEmCalCrysNum());                 // column Id = 1
+
+	  analysisManager->CreateNtupleDColumn("CrysEdepEC_r", fEventAction->GetEmCalECEdep_r());           // column Id = 2
+ 	  analysisManager->CreateNtupleIColumn("CrysNumEC_r", fEventAction->GetEmCalECCrysNum_r());         // column Id = 3
+
+	  analysisManager->CreateNtupleDColumn("CrysEdepEC_l", fEventAction->GetEmCalECEdep_l());           // column Id = 4
+	  analysisManager->CreateNtupleIColumn("CrysNumEC_l", fEventAction->GetEmCalECCrysNum_l());         // column Id = 5
+
+	  analysisManager->CreateNtupleDColumn("EventEdep");                                                // column Id = 6
+	  analysisManager->CreateNtupleIColumn("HitNum");                                                   // column Id = 7
+
+	  analysisManager->CreateNtupleIColumn("ConvertedFlag");                                            // column Id = 8
+	  
+	  analysisManager->CreateNtupleDColumn("ConvertedX", fEventAction->GetConvertedX());                // column Id = 9
+	  analysisManager->CreateNtupleDColumn("ConvertedY", fEventAction->GetConvertedY());                // column Id = 10
+	  analysisManager->CreateNtupleDColumn("ConvertedZ", fEventAction->GetConvertedZ());                // column Id = 11
+	  
+	  analysisManager->CreateNtupleDColumn("TrackerHitPositionX", fEventAction->GetTrackPosX());        // column Id = 12
+	  analysisManager->CreateNtupleDColumn("TrackerHitPositionY", fEventAction->GetTrackPosY());        // column Id = 13	      
+	  analysisManager->CreateNtupleDColumn("TrackerHitPositionZ", fEventAction->GetTrackPosZ());        // column Id = 14
+
+	  analysisManager->CreateNtupleDColumn("CrysHCalBarAbsEdep", fEventAction->GetHCalBarAbsEdep());                   // column Id = 15
+	  analysisManager->CreateNtupleIColumn("CrysHCalBarAbsNum", fEventAction->GetHCalBarAbsCrysNum());                 // column Id = 16
+
+	  analysisManager->CreateNtupleDColumn("CrysHCalBarScintillatorEdep", fEventAction->GetHCalBarScintillatorEdep());                   // column Id = 17
+	  analysisManager->CreateNtupleIColumn("CrysHCalBarScintillatorNum", fEventAction->GetHCalBarScintillatorCrysNum());                 // column Id = 18
+
+	  analysisManager->CreateNtupleDColumn("CrysHCalBarEdep", fEventAction->GetHCalBarEdep());                   // column Id = 19
+	  analysisManager->CreateNtupleIColumn("CrysHCalBarNum", fEventAction->GetHCalBarCrysNum());                 // column Id = 20
+
+
+	  analysisManager->CreateNtupleDColumn("CrysHCalECAbs_r1Edep", fEventAction->GetHCalECAbs_r1Edep());                   // column Id = 21
+	  analysisManager->CreateNtupleIColumn("CrysHCalECAbs_r1Num", fEventAction->GetHCalECAbs_r1CrysNum());                 // column Id = 22
+
+	  analysisManager->CreateNtupleDColumn("CrysHCalECScn_r1Edep", fEventAction->GetHCalECScn_r1Edep());                   // column Id = 23
+	  analysisManager->CreateNtupleIColumn("CrysHCalECScn_r1Num", fEventAction->GetHCalECScn_r1CrysNum());                 // column Id = 24
+
+	  analysisManager->CreateNtupleDColumn("CrysHCalEC_r1Edep", fEventAction->GetHCalEC_r1Edep());                   // column Id = 25
+	  analysisManager->CreateNtupleIColumn("CrysHCalEC_r1Num", fEventAction->GetHCalEC_r1CrysNum());                 // column Id = 26
+
+
+	  analysisManager->CreateNtupleDColumn("CrysHCalECAbs_l1Edep", fEventAction->GetHCalECAbs_l1Edep());                   // column Id = 27
+	  analysisManager->CreateNtupleIColumn("CrysHCalECAbs_l1Num", fEventAction->GetHCalECAbs_l1CrysNum());                 // column Id = 28
+
+	  analysisManager->CreateNtupleDColumn("CrysHCalECScn_l1Edep", fEventAction->GetHCalECScn_l1Edep());                   // column Id = 29
+	  analysisManager->CreateNtupleIColumn("CrysHCalECScn_l1Num", fEventAction->GetHCalECScn_l1CrysNum());                 // column Id = 30
+
+	  analysisManager->CreateNtupleDColumn("CrysHCalEC_l1Edep", fEventAction->GetHCalEC_l1Edep());                   // column Id = 31
+	  analysisManager->CreateNtupleIColumn("CrysHCalEC_l1Num", fEventAction->GetHCalEC_l1CrysNum());                 // column Id = 32
+
+
+	  analysisManager->CreateNtupleDColumn("CrysHCalECAbs_r2Edep", fEventAction->GetHCalECAbs_r2Edep());                   // column Id = 33
+	  analysisManager->CreateNtupleIColumn("CrysHCalECAbs_r2Num", fEventAction->GetHCalECAbs_r2CrysNum());                 // column Id = 34
+
+	  analysisManager->CreateNtupleDColumn("CrysHCalECScn_r2Edep", fEventAction->GetHCalECScn_r2Edep());                   // column Id = 35
+	  analysisManager->CreateNtupleIColumn("CrysHCalECScn_r2Num", fEventAction->GetHCalECScn_r2CrysNum());                 // column Id = 236
+
+	  analysisManager->CreateNtupleDColumn("CrysHCalEC_r2Edep", fEventAction->GetHCalEC_r2Edep());                   // column Id = 37
+	  analysisManager->CreateNtupleIColumn("CrysHCalEC_r2Num", fEventAction->GetHCalEC_r2CrysNum());                 // column Id = 38
+
+
+	  analysisManager->CreateNtupleDColumn("CrysHCalECAbs_l2Edep", fEventAction->GetHCalECAbs_l2Edep());                   // column Id = 39
+	  analysisManager->CreateNtupleIColumn("CrysHCalECAbs_l2Num", fEventAction->GetHCalECAbs_l2CrysNum());                 // column Id = 40
+
+	  analysisManager->CreateNtupleDColumn("CrysHCalECScn_l2Edep", fEventAction->GetHCalECScn_l2Edep());                   // column Id = 41
+	  analysisManager->CreateNtupleIColumn("CrysHCalECScn_l2Num", fEventAction->GetHCalECScn_l2CrysNum());                 // column Id = 42
+
+	  analysisManager->CreateNtupleDColumn("CrysHCalEC_l2Edep", fEventAction->GetHCalEC_l2Edep());                   // column Id = 43
+	  analysisManager->CreateNtupleIColumn("CrysHCalEC_l2Num", fEventAction->GetHCalEC_l2CrysNum());                 // column Id = 44
+
+
+	  analysisManager->CreateNtupleDColumn("EventHCalEdep");                                            // column Id = 45
+	  analysisManager->CreateNtupleIColumn("HCalHitNum");                                               // column Id = 46
+	    
+
+	  analysisManager->FinishNtuple();
 	}
 }
 
