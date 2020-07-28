@@ -34,6 +34,9 @@ constexpr G4int TEC_num = 53;
 constexpr G4double TEC_ring[][2] = {{225,325},{320,405},{380,520},{515,640},{620,770},{740,930},{880,1100}};
 constexpr G4double TEC_disk[][2] = {{1240,1280},{1390,1420},{1540,1580},{1660,1700},{1840,1870},{2020,2050},{2220,2250},{2460,2490},{2700,2740}};
 
+constexpr G4int PIB_nZPixel = 100;
+constexpr G4int PIB_nPhiPixel = 40;
+
 constexpr G4double PIBMat_thick[] = {250, 180, 125};
 constexpr G4double PIBSup_thick = 0.6;
 constexpr G4double PIBCables_thick = 250;

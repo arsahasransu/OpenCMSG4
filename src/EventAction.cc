@@ -22,6 +22,7 @@ EventAction::EventAction():
   convX(), convY(), convZ(), 
   EmBarCrysNum(), EmECCrysNum_r(), EmECCrysNum_l(),
   TrackPosX(), TrackPosY(), TrackPosZ(),
+  PIBPixelNum(),
   totalEmHit(0), totalEmE(0.)
 {
 
@@ -46,6 +47,9 @@ void EventAction::BeginOfEventAction(const G4Event*)
   totalEmHit = 0;
   totalEmE = 0.;
 
+  for(unsigned int ctr=0; ctr<sizeof(PIBPixelArray)/sizeof(PIBPixelArray[0]); ctr++) {
+    PIBPixelArray[ctr] = false;
+  }
 }     
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -72,6 +76,12 @@ void EventAction::EndOfEventAction(const G4Event* event)
   G4cout << "EM Calorimeter has " << totalEmHit << " hits. Total Edep is "
     << GetEmEne()/MeV << " (MeV)" << G4endl;
 
+  for(unsigned int ctr=0; ctr<sizeof(PIBPixelArray)/sizeof(PIBPixelArray[0]); ctr++) {
+    if(PIBPixelArray[ctr] == true) {
+      PIBPixelNum.push_back(ctr);
+    }
+  }
+
   analysisManager->FillNtupleDColumn(6,totalEmE/MeV);
   analysisManager->FillNtupleIColumn(7,totalEmHit);
   analysisManager->AddNtupleRow();
@@ -88,6 +98,7 @@ void EventAction::EndOfEventAction(const G4Event* event)
   TrackPosX.erase(TrackPosX.begin(),TrackPosX.begin()+TrackPosX.size());
   TrackPosY.erase(TrackPosY.begin(),TrackPosY.begin()+TrackPosY.size());
   TrackPosZ.erase(TrackPosZ.begin(),TrackPosZ.begin()+TrackPosZ.size());
+  PIBPixelNum.erase(PIBPixelNum.begin(),PIBPixelNum.begin()+PIBPixelNum.size());
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

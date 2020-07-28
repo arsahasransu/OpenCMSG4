@@ -71,6 +71,8 @@ RunAction::RunAction(EventAction* eventAction):
 	      ->CreateNtupleDColumn("TrackerHitPositionY", fEventAction->GetTrackPosY());
 	    analysisManager                                  // column Id = 14
 	      ->CreateNtupleDColumn("TrackerHitPositionZ", fEventAction->GetTrackPosZ());
+	    analysisManager                                  // column Id = 14
+	      ->CreateNtupleIColumn("PIBPixelNum", fEventAction->GetPIBPixelNum());
 	    analysisManager->FinishNtuple();
 	}
 }

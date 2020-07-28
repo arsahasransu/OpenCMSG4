@@ -101,6 +101,18 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
 	  fEventAction->AddTrackPos(pos);
 	  //	  std::cout<<theTrack->GetParticleDefinition()->GetParticleName()<<"\t"<<pos<<"\t"<<edep<<"\t"<<theTrack->GetVolume()->GetName()<<std::endl;
 	}
+
+	if(physical->GetName()=="PixelInnerBarrel" && edep>0)
+	{
+	  double PIBPixelZ = 2*PIB_halfz*mm/PIB_nZPixel;
+	  int ctrZ = floor((pos.getZ()/mm+PIB_halfz*mm/mm)/(PIBPixelZ/mm));
+	  double PIBPixelPhi = 2*M_PI/PIB_nPhiPixel;
+	  double phiHit = pos.getPhi();
+	  phiHit = phiHit>=0?phiHit:2*M_PI+phiHit; // To put phiHit between 0 and 2*pi
+	  int ctrPhi = floor(phiHit/PIBPixelPhi);
+	  int PIBnum = (ctrZ+1)*PIB_nPhiPixel+ctrPhi;
+	  fEventAction->PIBPixelArray[PIBnum] = true;
+	}
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

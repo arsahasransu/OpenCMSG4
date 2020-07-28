@@ -5,6 +5,7 @@
 #include "G4UserEventAction.hh"
 #include "globals.hh"
 #include "G4ThreeVector.hh"
+#include "Constants.hh"
 
 #include <vector>
 
@@ -31,6 +32,7 @@ public:
   std::vector<G4double>& GetTrackPosX() { return TrackPosX; }
   std::vector<G4double>& GetTrackPosY() { return TrackPosY; }
   std::vector<G4double>& GetTrackPosZ() { return TrackPosZ; }
+  std::vector<G4int>& GetPIBPixelNum() { return PIBPixelNum; }
   
   std::vector<G4double> ecalBarEdep;
   std::vector<G4double> ecalECEdep_r;
@@ -44,6 +46,8 @@ public:
   std::vector<G4double> TrackPosX;
   std::vector<G4double> TrackPosY;
   std::vector<G4double> TrackPosZ;
+  std::vector<G4int> PIBPixelNum;
+  bool PIBPixelArray[PIB_nZPixel*PIB_nPhiPixel];
 
   void set_pair_flag()
   { 
