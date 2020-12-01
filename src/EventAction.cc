@@ -23,29 +23,44 @@ EventAction::EventAction():
   EmBarCrysNum(), EmECCrysNum_r(), EmECCrysNum_l(),
   TrackPosX(), TrackPosY(), TrackPosZ(),
   PIBPixelNum(),
-  totalEmHit(0), totalEmE(0.)
-{
+  totalEmHit(0), totalEmE(0.){
 
   pair_prod_flag = 0;
-
+  
   // set printing per each event
   G4RunManager::GetRunManager()->SetPrintProgress(1);
-
+  
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-EventAction::~EventAction()
-{}
+EventAction::~EventAction(){
+}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void EventAction::BeginOfEventAction(const G4Event*)
-{
-
+void EventAction::BeginOfEventAction(const G4Event*){
+  
   pair_prod_flag = 0;
   totalEmHit = 0;
   totalEmE = 0.;
+
+  eventTree->Branch("CrysEdep", &ecalBarEdep);
+  eventTree->Branch("CrysNum", &EmBarCrysNum);
+  eventTree->Branch("CrysEdepEC_r", &ecalECEdep_r);
+  eventTree->Branch("CrysNumEC_r", &EmECCrysNum_r);
+  eventTree->Branch("CrysEdepEC_l", &ecalECEdep_l);
+  eventTree->Branch("CrysNumEC_l", &EmECCrysNum_l);
+  eventTree->Branch("EventEdep", &totalEmE);
+  eventTree->Branch("HitNum", &totalEmHit);
+  eventTree->Branch("ConvertedFlag", &pair_prod_flag);
+  eventTree->Branch("ConvertedX", &convX);
+  eventTree->Branch("ConvertedY", &convY);
+  eventTree->Branch("ConvertedZ", &convZ);
+  eventTree->Branch("TrackerHitPositionX", &TrackPosX);
+  eventTree->Branch("TrackerHitPositionY", &TrackPosY);
+  eventTree->Branch("TrackerHitPositionZ", &TrackPosZ);
+  eventTree->Branch("PIBPixelNum", &PIBPixelNum);
 
   for(unsigned int ctr=0; ctr<sizeof(PIBPixelArray)/sizeof(PIBPixelArray[0]); ctr++) {
     PIBPixelArray[ctr] = false;
@@ -56,11 +71,8 @@ void EventAction::BeginOfEventAction(const G4Event*)
 
 void EventAction::EndOfEventAction(const G4Event* event)
 {
-  // Get analysis manager
-  auto analysisManager = G4AnalysisManager::Instance();
 
   G4cout<<"Flag for pair production: "<<pair_prod_flag<<G4endl;
-  analysisManager->FillNtupleIColumn(8,pair_prod_flag);
   
   auto printModulo = G4RunManager::GetRunManager()->GetPrintProgress();
   if ( printModulo==0 || event->GetEventID() % printModulo != 0) return;
@@ -82,10 +94,8 @@ void EventAction::EndOfEventAction(const G4Event* event)
     }
   }
 
-  analysisManager->FillNtupleDColumn(6,totalEmE/MeV);
-  analysisManager->FillNtupleIColumn(7,totalEmHit);
-  analysisManager->AddNtupleRow();
-
+  eventTree->Fill();
+  
   ecalBarEdep.erase(ecalBarEdep.begin(),ecalBarEdep.begin()+ecalBarEdep.size());
   ecalECEdep_r.erase(ecalECEdep_r.begin(),ecalECEdep_r.begin()+ecalECEdep_r.size());
   ecalECEdep_l.erase(ecalECEdep_l.begin(),ecalECEdep_l.begin()+ecalECEdep_l.size());

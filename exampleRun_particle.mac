@@ -10,6 +10,6 @@
 /generator particle
 /generator/particle/type gamma
 /generator/particle/momentum 10 GeV
-/analysis/setFileName OpenCMSG4_particle.root
+#/analysis/setFileName OpenCMSG4_particle.root
 
-/run/beamOn 100
+/run/beamOn 10
