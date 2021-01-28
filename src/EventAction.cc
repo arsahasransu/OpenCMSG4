@@ -1,6 +1,7 @@
 #include <fstream>
 #include <string>
 #include <cmath>
+#include <vector>
 
 #include "EventAction.hh"
 #include "Constants.hh"
@@ -18,12 +19,13 @@
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 EventAction::EventAction():
   G4UserEventAction(),
+  totalEmHit(0), totalEmE(0.),
   ecalBarEdep(), ecalECEdep_r(), ecalECEdep_l(),
   convX(), convY(), convZ(), 
   EmBarCrysNum(), EmECCrysNum_r(), EmECCrysNum_l(),
   TrackPosX(), TrackPosY(), TrackPosZ(),
-  PIBPixelNum(),
-  totalEmHit(0), totalEmE(0.){
+  trackerHits(),trackerEdep(),
+  trackHitCollector(){
 
   pair_prod_flag = 0;
   
@@ -60,11 +62,9 @@ void EventAction::BeginOfEventAction(const G4Event*){
   eventTree->Branch("TrackerHitPositionX", &TrackPosX);
   eventTree->Branch("TrackerHitPositionY", &TrackPosY);
   eventTree->Branch("TrackerHitPositionZ", &TrackPosZ);
-  eventTree->Branch("PIBPixelNum", &PIBPixelNum);
+  eventTree->Branch("trackerHits", &trackerHits);
+  eventTree->Branch("trackerEdep", &trackerEdep);
 
-  for(unsigned int ctr=0; ctr<sizeof(PIBPixelArray)/sizeof(PIBPixelArray[0]); ctr++) {
-    PIBPixelArray[ctr] = false;
-  }
 }     
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -88,12 +88,7 @@ void EventAction::EndOfEventAction(const G4Event* event)
   G4cout << "EM Calorimeter has " << totalEmHit << " hits. Total Edep is "
     << GetEmEne()/MeV << " (MeV)" << G4endl;
 
-  for(unsigned int ctr=0; ctr<sizeof(PIBPixelArray)/sizeof(PIBPixelArray[0]); ctr++) {
-    if(PIBPixelArray[ctr] == true) {
-      PIBPixelNum.push_back(ctr);
-    }
-  }
-
+  sortAndSaveTrackHit();
   eventTree->Fill();
   
   ecalBarEdep.erase(ecalBarEdep.begin(),ecalBarEdep.begin()+ecalBarEdep.size());
@@ -108,7 +103,9 @@ void EventAction::EndOfEventAction(const G4Event* event)
   TrackPosX.erase(TrackPosX.begin(),TrackPosX.begin()+TrackPosX.size());
   TrackPosY.erase(TrackPosY.begin(),TrackPosY.begin()+TrackPosY.size());
   TrackPosZ.erase(TrackPosZ.begin(),TrackPosZ.begin()+TrackPosZ.size());
-  PIBPixelNum.erase(PIBPixelNum.begin(),PIBPixelNum.begin()+PIBPixelNum.size());
+  trackerHits.erase(trackerHits.begin(),trackerHits.begin()+trackerHits.size());
+  trackerEdep.erase(trackerEdep.begin(),trackerEdep.begin()+trackerEdep.size());
+  trackHitCollector.erase(trackHitCollector.begin(),trackHitCollector.begin()+trackHitCollector.size());
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -172,3 +169,169 @@ void EventAction::AddEneDep(G4int copyNo, G4double edep, G4String vol)
 	}
 }
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void EventAction::fillTrackHit(long eta, long phi, long rho, long hitfactor, double edep) {
+
+  std::vector<
+    std::pair< long,std::vector<
+      std::pair< long,std::vector<
+	std::pair< long,std::pair<long,double> >
+			> >
+		      > >
+    >::iterator epr_it;
+  
+  G4bool found_pos = false;
+  
+  for(epr_it=trackHitCollector.begin(); epr_it<trackHitCollector.end(); ++epr_it) {
+
+    if(found_pos == true) break; // Ensure no infinite loop
+
+    // Sort along eta
+    if(eta>((*epr_it).first)) continue;
+    
+    else if(eta==((*epr_it).first)) {  // equal then sort along phi
+
+      std::vector<
+	std::pair< long,std::vector<
+	  std::pair< long,std::pair<long,double> >
+			  > >
+	>::iterator pr_it;
+      for(pr_it=((*epr_it).second).begin(); pr_it<((*epr_it).second).end(); ++pr_it) {
+
+	if(found_pos == true) break; // Ensure no infinite loop
+
+	// Sort along phi
+	if(phi>((*pr_it).first)) continue;
+    
+	else if(phi==((*pr_it).first)) {  // equal then sort along rho
+
+	  std::vector<
+	    std::pair< long,std::pair<long,double> >
+	    >::iterator r_it;
+
+	  for(r_it=((*pr_it).second).begin(); r_it<((*pr_it).second).end(); ++r_it) {
+	    
+	    if(found_pos == true) break; // Ensure no infinite loop
+
+	    // Sort along rho
+	    if(rho>((*r_it).first)) continue;
+	    else if(rho==((*r_it).first)) {  // equal then add energy
+	      ((*r_it).second).second += edep;
+	      found_pos = true;
+	      break;
+	    }
+	    else { // less then create another branch
+	      ((*pr_it).second).insert(r_it,std::make_pair(rho,std::make_pair(hitfactor,edep)));
+	      found_pos = true;
+	      break;
+	    }
+	  }
+	  if(found_pos==false) {
+	    ((*pr_it).second).push_back(std::make_pair(rho,std::make_pair(hitfactor,edep)));
+	    found_pos = true;
+	    break;
+	  }
+	  
+	}
+
+	else { // less then create another branch
+
+	  std::vector<
+	    std::pair< long,std::pair<long,double> >
+	    > firstVec;
+	  firstVec.push_back(std::make_pair(rho,std::make_pair(hitfactor,edep)));
+    
+	  ((*epr_it).second).insert(pr_it,std::make_pair(phi,firstVec));
+	  
+	  found_pos = true;
+	  break;
+	  
+	}
+	
+      }
+      if(found_pos==false) {
+	std::vector<
+	  std::pair< long,std::pair<long,double> >
+	  > firstVec;
+	firstVec.push_back(std::make_pair(rho,std::make_pair(hitfactor,edep)));
+	((*epr_it).second).push_back(std::make_pair(phi,firstVec));
+	found_pos = true;
+	break;
+      }
+      
+    }
+    
+    else { // less then create another branch
+	
+    std::vector<
+      std::pair< long,std::pair<long,double> >
+      > firstVec;
+    firstVec.push_back(std::make_pair(rho,std::make_pair(hitfactor,edep)));
+    std::vector<
+      std::pair< long,std::vector<
+	std::pair< long,std::pair<long,double> >
+			> >
+      > secondVec;
+    secondVec.push_back(std::make_pair(phi,firstVec));
+    
+    trackHitCollector.insert(epr_it,std::make_pair(eta,secondVec));
+
+    found_pos = true;
+    break;
+
+    }
+    
+  }
+    
+  if(found_pos == false) {
+
+    std::vector<
+      std::pair< long,std::pair<long,double> >
+      > firstVec;
+    firstVec.push_back(std::make_pair(rho,std::make_pair(hitfactor,edep)));
+    std::vector<
+      std::pair< long,std::vector<
+	std::pair< long,std::pair<long,double> >
+			> >
+      > secondVec;
+    secondVec.push_back(std::make_pair(phi,firstVec));
+
+    trackHitCollector.push_back(std::make_pair(eta,secondVec));
+  }
+  
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void EventAction::sortAndSaveTrackHit() {
+
+  std::vector<
+    std::pair< long,std::vector<
+      std::pair< long,std::vector<
+	std::pair< long,std::pair<long,double> >
+			> >
+		      > >
+    >::iterator epr_it;
+  
+  for(epr_it=trackHitCollector.begin(); epr_it<trackHitCollector.end(); ++epr_it) {
+
+        std::vector<
+	std::pair< long,std::vector<
+	  std::pair< long,std::pair<long,double> >
+			  > >
+	>::iterator pr_it;
+      for(pr_it=((*epr_it).second).begin(); pr_it<((*epr_it).second).end(); ++pr_it) {
+	
+	  std::vector<
+	    std::pair< long,std::pair<long,double> >
+	    >::iterator r_it;
+	  for(r_it=((*pr_it).second).begin(); r_it<((*pr_it).second).end(); ++r_it) {
+	    std::pair<long,double> storeVal = (*r_it).second;
+	    trackerHits.push_back(storeVal.first);
+	    trackerEdep.push_back(storeVal.second);
+	    std::cout<<(*epr_it).first<<"\t"<<(*pr_it).first<<"\t"<<(*r_it).first<<"\t"<<storeVal.first<<"\t"<<storeVal.second<<std::endl;
+	  }
+      }
+  }
+}

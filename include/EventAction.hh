@@ -22,8 +22,6 @@ public:
   virtual void BeginOfEventAction(const G4Event*);
   virtual void EndOfEventAction(const G4Event*);
   
-  bool PIBPixelArray[PIB_nZPixel*PIB_nPhiPixel];
-
   void set_pair_flag(){ 
     pair_prod_flag++;
   }
@@ -50,6 +48,8 @@ public:
 
   }
 
+  void fillTrackHit(long, long, long, long, double);
+
 private:
   G4int fEmCalBarrel;
   G4int fEmCalHCID_l;
@@ -73,9 +73,19 @@ private:
   std::vector<G4double> TrackPosX;
   std::vector<G4double> TrackPosY;
   std::vector<G4double> TrackPosZ;
-  std::vector<G4int> PIBPixelNum;
+  std::vector<long> trackerHits;
+  std::vector<long> trackerEdep;
+
+  std::vector<
+    std::pair< long,std::vector<
+		      std::pair< long,std::vector<
+					std::pair< long,std::pair<long,double> >
+					> >
+		      > >
+    > trackHitCollector;
 
   TTree* eventTree;
+  void sortAndSaveTrackHit();
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

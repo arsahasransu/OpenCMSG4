@@ -12,6 +12,7 @@
 
 #include <vector>
 #include <cmath>
+#include <bitset>
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -74,7 +75,7 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
 	auto touchable = theStep->GetPreStepPoint()->GetTouchable();
 	auto physical = touchable->GetVolume();
 	auto copyNo = physical->GetCopyNo();
-	auto edep = theStep->GetTotalEnergyDeposit();
+	double edep = theStep->GetTotalEnergyDeposit();
 
 	if(physical->GetName()=="ECalCell" && edep>0.)
 	{
@@ -102,16 +103,59 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
 	  //	  std::cout<<theTrack->GetParticleDefinition()->GetParticleName()<<"\t"<<pos<<"\t"<<edep<<"\t"<<theTrack->GetVolume()->GetName()<<std::endl;
 	}
 
-	if(physical->GetName()=="PixelInnerBarrel" && edep>0)
-	{
-	  double PIBPixelZ = 2*PIB_halfz*mm/PIB_nZPixel;
-	  int ctrZ = floor((pos.getZ()/mm+PIB_halfz*mm/mm)/(PIBPixelZ/mm));
-	  double PIBPixelPhi = 2*M_PI/PIB_nPhiPixel;
-	  double phiHit = pos.getPhi();
-	  phiHit = phiHit>=0?phiHit:2*M_PI+phiHit; // To put phiHit between 0 and 2*pi
-	  int ctrPhi = floor(phiHit/PIBPixelPhi);
-	  int PIBnum = (ctrZ+1)*PIB_nPhiPixel+ctrPhi;
-	  fEventAction->PIBPixelArray[PIBnum] = true;
+	if( physical->GetName()=="PixelInnerBarrel" || physical->GetName()=="TrackerStripInnerBarrel" || physical->GetName()=="TrackerStripOuterBarrel") {
+	  double rhohit = physical->GetLogicalVolume()->GetSolid()->DistanceToIn(G4ThreeVector(0,0,0),G4ThreeVector(1,0,0))/mm;
+	  int zquant = (int) (pos.getZ()/lPix);
+	  double phiPix = wPix/rhohit;
+	  int phiquant = (int) (pos.getPhi()/phiPix);
+	  double zhit = (zquant+0.5)*lPix;
+	  double phihit = phiquant*phiPix;
+	  G4ThreeVector quantPos(0,0,0);
+	  quantPos.setRhoPhiZ(rhohit,phihit,zhit);
+	  //	  std::bitset<22> etProc(quantPos.getEta()/eta);
+	  double rhProc = quantPos.getRho();
+	  double phProc = quantPos.getPhi()+phishift;
+	  double etProc = quantPos.getEta()+etashift;
+
+	  long rhfactor = floor(rhProc/rhbitres);
+	  long phfactor = floor(phProc/phbitres);
+	  long etfactor = floor(etProc/etbitres);
+	  long factor = rhfactor+phfactor*rhbit+etfactor*phbit*rhbit;
+
+	  fEventAction->fillTrackHit(etfactor,phfactor,rhfactor,factor,edep/eV);
+	  //std::cout<<rhohit<<"\t"<<phihit<<"\t"<<zhit<<std::endl;
+	  std::cout<<rhfactor<<"\t"<<phfactor<<"\t"<<etfactor<<"\t"<<factor<<"\t"<<edep/eV<<std::endl;
+	}
+
+	if( physical->GetName()=="PixelInnerDisks" || physical->GetName()=="TrackerStripInnerDisks" || physical->GetName()=="TrackerEndCap" && edep>100*eV) {
+	  double zhit = physical->GetObjectTranslation().getZ()/mm;
+	  //std::cout<<pos<<"\t"<<zhit<<"\t";
+
+	  G4ThreeVector pMin(0,0,0);
+	  G4ThreeVector pMax(0,0,0);
+	  physical->GetLogicalVolume()->GetSolid()->BoundingLimits(pMin, pMax);
+	  double rmax = pMax.getX()/mm;
+	  //std::cout<<pMax<<"\t"<<pMin<<"\t";
+	  int xquant = floor((pos.getX()+0.5*rmax)/lPix);
+	  int yquant = floor((pos.getY()+0.5*rmax)/wPix);
+	  double xhit = xquant*lPix-0.5*rmax;
+	  double yhit = yquant*wPix-0.5*rmax;
+	  G4ThreeVector quantPos(xhit,yhit,zhit);
+	  //std::cout<<std::endl;
+	  
+	  double rhProc = quantPos.getRho();
+	  double phProc = quantPos.getPhi()+phishift;
+	  double etProc = quantPos.getEta()+etashift;
+
+	  long rhfactor = floor(rhProc/rhbitres);
+	  long phfactor = floor(phProc/phbitres);
+	  long etfactor = floor(etProc/etbitres);
+	  long factor = rhfactor+phfactor*rhbit+etfactor*phbit*rhbit;
+	  
+	  //fEventAction->fillTrackHit(rhfactor,phfactor,etfactor,factor,edep/eV);
+	  //std::cout<<pos.getRho()<<"\t"<<pos.getPhi()<<"\t"<<pos.getEta()<<std::endl;
+	  //std::cout<<rhfactor<<"\t"<<phfactor<<"\t"<<etfactor<<"\t"<<factor<<std::endl;
+
 	}
 }
 

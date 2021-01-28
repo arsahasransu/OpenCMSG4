@@ -89,6 +89,7 @@ set(OpenCMSG4_SCRIPTS
   example_MyPythia.dat
   exampleRun_particle.mac
   exampleRun_hepmc.mac
+  readTrackerPixel.cc
   )
 
 foreach(_script ${OpenCMSG4_SCRIPTS})

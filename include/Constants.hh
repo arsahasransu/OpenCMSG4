@@ -67,4 +67,15 @@ constexpr G4double TECMat_thick = 8;
 
 constexpr G4double PShower_thick[] = {1,1,2,9.3,2,2,1,1,1,2,3.7,2,2,1};
 
+constexpr G4double lPix = 50*um;
+constexpr G4double wPix = 50*um;
+constexpr G4double etashift = 4;
+constexpr G4double phishift = 1.571;
+constexpr long rhbit = 0b1000000000000000000;
+constexpr long phbit = 0b1000000000000000000000;
+constexpr long etbit = 0b10000000000000000000000;
+constexpr double rhbitres = 10*um;
+constexpr double phbitres = 4*pow(10,-6);
+constexpr double etbitres = pow(10,-6);
+
 #endif
