@@ -6,6 +6,7 @@
 #include "G4Run.hh"
 #include "G4UnitsTable.hh"
 #include "G4SystemOfUnits.hh"
+#include "G4GenericMessenger.hh"
 
 #include "TFile.h"
 #include "TTree.h"
@@ -17,16 +18,14 @@
 
 RunAction::RunAction(EventAction* eventAction):
 	G4UserRunAction(),
-	fEventAction(eventAction)
+	runMessenger(nullptr),
+	fEventAction(eventAction),
+	outRootName("OpenCMSG4_root.root")
 {
 
-  // Create a ROOT Tree to write the output
-  if ( fEventAction ) {
-    outRootFile = TFile::Open("OpenCMSG4_root.root","RECREATE");
-    std::cout<<"Root file created"<<std::endl;
-  }
+  // Define Commands for this class
+  DefineCommands();
 
-  
   // Book histograms, ntuple
   //
   
@@ -41,6 +40,8 @@ RunAction::~RunAction(){
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void RunAction::BeginOfRunAction(const G4Run*){ 
+
+  outRootFile = TFile::Open(outRootName,"RECREATE");
 
   // Book histogram for ROOT Tree
   auto tree = new TTree("Events", "Events");
@@ -66,10 +67,24 @@ void RunAction::EndOfRunAction(const G4Run*){
 	<<std::endl;
   myfile.close();
   
-  std::cout<<"Root file closing"<<std::endl;
   outRootFile->Write();
   outRootFile->Close();
-  std::cout<<"Root file closed!!!"<<std::endl;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void RunAction::DefineCommands() {
+
+  runMessenger = new G4GenericMessenger(this,
+				      "/root/",
+				      "Analysis Settings");
+
+  // Control for the output file name
+  auto& outRootNameCmd = runMessenger->DeclareProperty("setFileName", outRootName, "Name of the output ROOT file");
+  outRootNameCmd.SetParameterName("setFileName", true);
+  outRootNameCmd.SetDefaultValue("OpenCMSG4_root.root");
+  
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
