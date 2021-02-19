@@ -34,6 +34,9 @@ constexpr G4int TEC_num = 53;
 constexpr G4double TEC_ring[][2] = {{225,325},{320,405},{380,520},{515,640},{620,770},{740,930},{880,1100}};
 constexpr G4double TEC_disk[][2] = {{1240,1280},{1390,1420},{1540,1580},{1660,1700},{1840,1870},{2020,2050},{2220,2250},{2460,2490},{2700,2740}};
 
+constexpr G4int PIB_nZPixel = 100;
+constexpr G4int PIB_nPhiPixel = 40;
+
 constexpr G4double PIBMat_thick[] = {250, 180, 125};
 constexpr G4double PIBSup_thick = 0.6;
 constexpr G4double PIBCables_thick = 250;
@@ -64,6 +67,18 @@ constexpr G4double TECMat_thick = 8;
 
 constexpr G4double PShower_thick[] = {1,1,2,9.3,2,2,1,1,1,2,3.7,2,2,1};
 
+// Tracker Pixelation Variables
+constexpr G4double lPix = 50*um;
+constexpr G4double wPix = 50*um;
+constexpr G4double etashift = 4;
+constexpr G4double phishift = 1.571;
+constexpr long rhbit = 0b1000000000000000000;
+constexpr long phbit = 0b1000000000000000000000;
+constexpr long etbit = 0b10000000000000000000000;
+constexpr double rhbitres = 10*um;
+constexpr double phbitres = 4*pow(10,-6);
+constexpr double etbitres = pow(10,-6);
+
 // HCal Barrel Variables
 constexpr G4int nofHcalBarEta = 2*15;  // 2*17 - default value
 constexpr G4int nofHcalBarPhi = 72;    // 72 - default value
@@ -85,4 +100,5 @@ constexpr G4double HcalECEnvZmin = 3.88*m;
 constexpr G4double HcalECEnvDelZ = 2*m;
 
 constexpr G4double EtaArray[] = {1.740,1.830,1.930,2.043,2.172,2.322,2.5,2.65,3.0};
+
 #endif
