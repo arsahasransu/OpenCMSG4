@@ -67,6 +67,7 @@ constexpr G4double TECMat_thick = 8;
 
 constexpr G4double PShower_thick[] = {1,1,2,9.3,2,2,1,1,1,2,3.7,2,2,1};
 
+// Tracker Pixelation Variables
 constexpr G4double lPix = 50*um;
 constexpr G4double wPix = 50*um;
 constexpr G4double etashift = 4;
@@ -77,5 +78,27 @@ constexpr long etbit = 0b10000000000000000000000;
 constexpr double rhbitres = 10*um;
 constexpr double phbitres = 4*pow(10,-6);
 constexpr double etbitres = pow(10,-6);
+
+// HCal Barrel Variables
+constexpr G4int nofHcalBarEta = 2*15;  // 2*17 - default value
+constexpr G4int nofHcalBarPhi = 72;    // 72 - default value
+constexpr G4int nofHcalBarR = 18;       // 18 - default value
+constexpr G4int nofHcalBarCells = nofHcalBarEta*nofHcalBarPhi*nofHcalBarR;
+constexpr G4double diffRAbsBar = 55*mm;
+constexpr G4double diffRScnBar = 8*mm;
+
+// HCal EndCap Envelope Variables
+constexpr G4int nofHcalECOPhi = 72;    // 72 - default value
+constexpr G4int nofHcalECIPhi = 36;    // 36 - default value
+constexpr G4double HcalEC17to20EtaOut = 0.087*16;
+constexpr G4double HcalEC17to20EtaIn = 0.087*20;
+constexpr G4int nofHcalEndCapR= 18;       // 18 - defaultvalue
+constexpr G4double diffRAbsEC = 55*mm;
+constexpr G4double diffRScnEC = 8*mm;
+
+constexpr G4double HcalECEnvZmin = 3.88*m;
+constexpr G4double HcalECEnvDelZ = 2*m;
+
+constexpr G4double EtaArray[] = {1.740,1.830,1.930,2.043,2.172,2.322,2.5,2.65,3.0};
 
 #endif

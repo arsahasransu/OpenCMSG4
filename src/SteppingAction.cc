@@ -12,7 +12,6 @@
 
 #include <vector>
 #include <cmath>
-#include <bitset>
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 

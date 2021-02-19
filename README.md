@@ -2,7 +2,8 @@
 
 We have used GEANT4 in this project to create a simplified version of the CMS calorimeters for the following purposes.
 1. Fast generation of calorimetric data compared to the actual CMS build.
-2. Availaible to all compared to the actual simulation code which is for those inside the collaboration only.
+2. Basic tracker pixelation of data post processed.
+3. Availaible to all compared to the actual simulation code which is for those inside the collaboration only.
 
 The first version of this code contains the ECal only but very soon we will follow up with the HCal as well.
 
@@ -77,6 +78,13 @@ every time a change to the detector configuration is made.
 
 ## Gun Level
 ### Single Particle Gun
+
+Change to the name of ROOT file can be made using the command
+
+```
+/root/setFileName exampleROOTfilename.root
+```
+
 ### HepMC Event
 
 ## Output Level
