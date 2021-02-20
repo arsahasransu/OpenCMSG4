@@ -20,15 +20,10 @@ RunAction::RunAction(EventAction* eventAction):
   G4UserRunAction(),
   runMessenger(nullptr),
   fEventAction(eventAction),
-  outRootName("OpenCMSG4_root.root")
-{ 
+  outRootName("OpenCMSG4_root.root"){ 
   
   // Define Commands for this class
   DefineCommands();
-  
-  // Book histograms, ntuple
-  //
-  
   
 }
 
@@ -40,13 +35,13 @@ RunAction::~RunAction(){
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void RunAction::BeginOfRunAction(const G4Run*){ 
-
+  
   outRootFile = TFile::Open(outRootName,"RECREATE");
-
+  
   // Book histogram for ROOT Tree
   auto tree = new TTree("Events", "Events");
   fEventAction->EventTree(tree);
-
+  
   // Remember the start time to store the duration of a run.
   start = time(NULL);
   myfile.open("time_keeper.txt",std::ios::app);
@@ -56,7 +51,7 @@ void RunAction::BeginOfRunAction(const G4Run*){
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void RunAction::EndOfRunAction(const G4Run*){
-
+  
   // Append the run time to a file
   end = time(NULL);
   std::cout<<"The time of the run was "<<difftime(end,start)
@@ -66,7 +61,7 @@ void RunAction::EndOfRunAction(const G4Run*){
   myfile<<"-------------------------------------------------------------"
 	<<std::endl;
   myfile.close();
-
+  
   outRootFile->Write();
   outRootFile->Close();
 }
@@ -74,11 +69,11 @@ void RunAction::EndOfRunAction(const G4Run*){
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void RunAction::DefineCommands() {
-
+  
   runMessenger = new G4GenericMessenger(this,
-				      "/root/",
-				      "Analysis Settings");
-
+					"/root/",
+					"Analysis Settings");
+  
   // Control for the output file name
   auto& outRootNameCmd = runMessenger->DeclareProperty("setFileName", outRootName, "Name of the output ROOT file");
   outRootNameCmd.SetParameterName("setFileName", true);
