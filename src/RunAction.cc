@@ -44,17 +44,16 @@ RunAction::~RunAction()
 void RunAction::BeginOfRunAction(const G4Run*)
 { 
 
-	// Remember the start time to store the duration of a run.
-	start = time(NULL);
-	myfile.open("time_keeper.txt",std::ios::app);
-  
-	// Get analysis manager
-	auto analysisManager = G4AnalysisManager::Instance();
+  outRootFile = TFile::Open(outRootName,"RECREATE");
 
-	// Open an output file 
-	// The default file name is set in RunAction::RunAction(),
-	// it can be overwritten in a macro
-	analysisManager->OpenFile();
+  // Book histogram for ROOT Tree
+  auto tree = new TTree("Events", "Events");
+  fEventAction->EventTree(tree);
+
+  // Remember the start time to store the duration of a run.
+  start = time(NULL);
+  myfile.open("time_keeper.txt",std::ios::app);
+  
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -62,22 +61,33 @@ void RunAction::BeginOfRunAction(const G4Run*)
 void RunAction::EndOfRunAction(const G4Run*)
 {
 
-	// save histograms & ntuple
-	//
-	auto analysisManager = G4AnalysisManager::Instance();
-	analysisManager->Write();
-	analysisManager->CloseFile();
+  // Append the run time to a file
+  end = time(NULL);
+  std::cout<<"The time of the run was "<<difftime(end,start)
+	   <<" seconds."<<std::endl;
+  myfile<<"The time of the run was "<<difftime(end,start)
+	<<" seconds."<<std::endl;
+  myfile<<"-------------------------------------------------------------"
+	<<std::endl;
+  myfile.close();
 
-	// Append the run time to a file
-	end = time(NULL);
-	std::cout<<"The time of the run was "<<difftime(end,start)
-				<<" seconds."<<std::endl;
-	myfile<<"The time of the run was "<<difftime(end,start)
-				<<" seconds."<<std::endl;
-	myfile<<"-------------------------------------------------------------"
-				<<std::endl;
-	myfile.close();
+  outRootFile->Write();
+  outRootFile->Close();
+}
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void RunAction::DefineCommands() {
+
+  runMessenger = new G4GenericMessenger(this,
+				      "/root/",
+				      "Analysis Settings");
+
+  // Control for the output file name
+  auto& outRootNameCmd = runMessenger->DeclareProperty("setFileName", outRootName, "Name of the output ROOT file");
+  outRootNameCmd.SetParameterName("setFileName", true);
+  outRootNameCmd.SetDefaultValue("OpenCMSG4_root.root");
+  
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
