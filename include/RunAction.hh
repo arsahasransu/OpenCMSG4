@@ -28,12 +28,13 @@ public:
   virtual void   EndOfRunAction(const G4Run*);
   
   std::vector<std::vector<G4double>> fEventEdep;
+  std::vector<std::vector<G4double>> fEventHCalEdep;
   
 private:
 
   G4GenericMessenger* runMessenger;
   void DefineCommands();
-  
+
   EventAction* fEventAction;
   time_t start, end;
   std::fstream myfile;
