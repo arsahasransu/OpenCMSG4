@@ -33,7 +33,7 @@ private:
 
   G4GenericMessenger* runMessenger;
   void DefineCommands();
-
+   
   EventAction* fEventAction;
   time_t start, end;
   std::fstream myfile;
