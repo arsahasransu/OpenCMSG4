@@ -34,8 +34,7 @@ RunAction::RunAction(EventAction* eventAction):
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-RunAction::~RunAction()
-{
+RunAction::~RunAction(){
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -56,8 +55,7 @@ void RunAction::BeginOfRunAction(const G4Run*){
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void RunAction::EndOfRunAction(const G4Run*)
-{
+void RunAction::EndOfRunAction(const G4Run*){
 
   // Append the run time to a file
   end = time(NULL);
