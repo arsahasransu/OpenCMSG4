@@ -20,7 +20,7 @@ RunAction::RunAction(EventAction* eventAction):
   G4UserRunAction(),
   runMessenger(nullptr),
   fEventAction(eventAction),
-  outRootName("OpenCMSG4_root.root"){ 
+  outRootName("OpenCMSG4_root.root"){
   
   // Define Commands for this class
   DefineCommands();
