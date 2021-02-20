@@ -22,27 +22,25 @@ RunAction::RunAction(EventAction* eventAction):
   fEventAction(eventAction),
   outRootName("OpenCMSG4_root.root")
 { 
-
+  
   // Define Commands for this class
   DefineCommands();
-
+  
   // Book histograms, ntuple
   //
   
-
+  
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 RunAction::~RunAction()
 {
-	delete G4AnalysisManager::Instance();  
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void RunAction::BeginOfRunAction(const G4Run*)
-{ 
+void RunAction::BeginOfRunAction(const G4Run*){ 
 
   outRootFile = TFile::Open(outRootName,"RECREATE");
 
