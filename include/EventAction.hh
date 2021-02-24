@@ -13,25 +13,25 @@
 
 /// Event action
 
-class EventAction : public G4UserEventAction
-{
+class EventAction : public G4UserEventAction{
+  
 public:
   EventAction();
   virtual ~EventAction();
-    
+  
   virtual void BeginOfEventAction(const G4Event*);
   virtual void EndOfEventAction(const G4Event*);
   
   void set_pair_flag(){ 
     pair_prod_flag++;
   }
-
+  
   void SetConvertedVertex(G4ThreeVector vertex){
     convX.push_back(vertex.x());
     convY.push_back(vertex.y());
     convZ.push_back(vertex.z());
   }
-	
+  
   void AddEneDep(G4int copyNo, G4double edep, G4String vol);
   void AddTrackPos(G4ThreeVector pos){
     TrackPosX.push_back(pos.x());

@@ -8,8 +8,9 @@
 /run/initialize
 
 /generator particle
-/generator/particle/type gamma
+/generator/particle/type mu+
 /generator/particle/momentum 10 GeV
-/analysis/setFileName OpenCMSG4_particle.root
+/generator/particle/eta 0.1
+/root/setFileName OpenCMSG4_particle.root
 
-/run/beamOn 100
+/run/beamOn 1

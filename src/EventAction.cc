@@ -39,22 +39,21 @@ EventAction::EventAction():
   trackHitCollector(){
 
   pair_prod_flag = 0;
-
+  
   // set printing per each event
   G4RunManager::GetRunManager()->SetPrintProgress(1);
-
+  
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-EventAction::~EventAction()
-{}
+EventAction::~EventAction(){
+}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void EventAction::BeginOfEventAction(const G4Event*)
-{
-
+void EventAction::BeginOfEventAction(const G4Event*){
+  
   pair_prod_flag = 0;
   totalEmHit = 0;
   totalEmE = 0.;
@@ -113,7 +112,7 @@ void EventAction::BeginOfEventAction(const G4Event*)
   
   eventTree->Branch("EventHCalEdep");
   eventTree->Branch("HCalHitNum");                                             
-  
+
 }     
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -142,7 +141,7 @@ void EventAction::EndOfEventAction(const G4Event* event)
 
   sortAndSaveTrackHit();
   eventTree->Fill();
- 
+
   ecalBarEdep.erase(ecalBarEdep.begin(),ecalBarEdep.begin()+ecalBarEdep.size());
   ecalECEdep_r.erase(ecalECEdep_r.begin(),ecalECEdep_r.begin()+ecalECEdep_r.size());
   ecalECEdep_l.erase(ecalECEdep_l.begin(),ecalECEdep_l.begin()+ecalECEdep_l.size());

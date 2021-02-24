@@ -295,7 +295,7 @@ void TrackerConstruction::makePID(G4Material* elAl, G4Material* elSi, G4Material
     new G4PVPlacement(0,
 		      G4ThreeVector(0.,0.,PID_posz[i]*mm),
 		      PID_Logical[i],
-		      "PixelInnerDiscs",
+		      "PixelInnerDisks",
 		      trackerLogical,
 		      false,
 		      i,
