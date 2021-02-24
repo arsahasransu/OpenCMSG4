@@ -61,21 +61,67 @@ private:
   G4int totalEmHit;
   G4double totalEmE;
 
+  G4int totalHCalHit;
+  G4double totalHCalE;
+
   std::vector<G4double> ecalBarEdep;
   std::vector<G4double> ecalECEdep_r;
   std::vector<G4double> ecalECEdep_l;
+  
+  std::vector<G4double> HCalBarAbsEdep;
+  std::vector<G4double> HCalBarScintillatorEdep;
+  std::vector<G4double> HCalBarEdep;
+  
+  std::vector<G4double> HCalECAbs_r1Edep;
+  std::vector<G4double> HCalECScn_r1Edep;
+  std::vector<G4double> HCalEC_r1Edep;
+
+  std::vector<G4double> HCalECAbs_l1Edep;
+  std::vector<G4double> HCalECScn_l1Edep;
+  std::vector<G4double> HCalEC_l1Edep;
+
+  std::vector<G4double> HCalECAbs_r2Edep;
+  std::vector<G4double> HCalECScn_r2Edep;
+  std::vector<G4double> HCalEC_r2Edep;
+
+  std::vector<G4double> HCalECAbs_l2Edep;
+  std::vector<G4double> HCalECScn_l2Edep;
+  std::vector<G4double> HCalEC_l2Edep;
+  
   std::vector<G4double> convX;
   std::vector<G4double> convY;
   std::vector<G4double> convZ;
+
   std::vector<G4int> EmBarCrysNum;
   std::vector<G4int> EmECCrysNum_r;
   std::vector<G4int> EmECCrysNum_l;
+  
+  std::vector<G4int> HCalBarAbsCrysNum;
+  std::vector<G4int> HCalBarScintillatorCrysNum;
+  std::vector<G4int> HCalBarCrysNum;
+  
+  std::vector<G4int> HCalECAbs_r1CrysNum;
+  std::vector<G4int> HCalECScn_r1CrysNum;
+  std::vector<G4int> HCalEC_r1CrysNum;
+
+  std::vector<G4int> HCalECAbs_l1CrysNum;
+  std::vector<G4int> HCalECScn_l1CrysNum;
+  std::vector<G4int> HCalEC_l1CrysNum;
+
+  std::vector<G4int> HCalECAbs_r2CrysNum;
+  std::vector<G4int> HCalECScn_r2CrysNum;
+  std::vector<G4int> HCalEC_r2CrysNum;
+
+  std::vector<G4int> HCalECAbs_l2CrysNum;
+  std::vector<G4int> HCalECScn_l2CrysNum;
+  std::vector<G4int> HCalEC_l2CrysNum;
+  
   std::vector<G4double> TrackPosX;
   std::vector<G4double> TrackPosY;
   std::vector<G4double> TrackPosZ;
+
   std::vector<long> trackerHits;
   std::vector<long> trackerEdep;
-
   std::vector<
     std::pair< long,std::vector<
 		      std::pair< long,std::vector<
