@@ -8,7 +8,7 @@
 /run/initialize
 
 /generator particle
-/generator/particle/type mu+
+/generator/particle/type tau+
 /generator/particle/momentum 10 GeV
 /generator/particle/eta 0.1
 /root/setFileName OpenCMSG4_particle.root

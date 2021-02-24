@@ -93,21 +93,21 @@ void EventAction::BeginOfEventAction(const G4Event*){
   eventTree->Branch("CrysHCalEC_r1Num", &HCalEC_r1CrysNum);
   eventTree->Branch("CrysHCalECAbs_l1Edep", &HCalECAbs_l1Edep);
   eventTree->Branch("CrysHCalECAbs_l1Num", &HCalECAbs_l1CrysNum);
-  eventTree->Branch("CrysHCalECScn_l1Edep", HCalECScn_l1Edep);
+  eventTree->Branch("CrysHCalECScn_l1Edep", &HCalECScn_l1Edep);
   eventTree->Branch("CrysHCalECScn_l1Num", &HCalECScn_l1CrysNum);
   eventTree->Branch("CrysHCalEC_l1Edep", &HCalEC_l1Edep);
   eventTree->Branch("CrysHCalEC_l1Num", &HCalEC_l1CrysNum);
   eventTree->Branch("CrysHCalECAbs_r2Edep", &HCalECAbs_r2Edep);
   eventTree->Branch("CrysHCalECAbs_r2Num", &HCalECAbs_r2CrysNum);
-  eventTree->Branch("CrysHCalECScn_r2Edep", HCalECScn_r2Edep);
+  eventTree->Branch("CrysHCalECScn_r2Edep", &HCalECScn_r2Edep);
   eventTree->Branch("CrysHCalECScn_r2Num", &HCalECScn_r2CrysNum);
   eventTree->Branch("CrysHCalEC_r2Edep", &HCalEC_r2Edep);
   eventTree->Branch("CrysHCalEC_r2Num", &HCalEC_r2CrysNum);
   eventTree->Branch("CrysHCalECAbs_l2Edep", &HCalECAbs_l2Edep);
   eventTree->Branch("CrysHCalECAbs_l2Num", &HCalECAbs_l2CrysNum);
-  eventTree->Branch("CrysHCalECScn_l2Edep", HCalECScn_l2Edep);
+  eventTree->Branch("CrysHCalECScn_l2Edep", &HCalECScn_l2Edep);
   eventTree->Branch("CrysHCalECScn_l2Num", &HCalECScn_l2CrysNum);
-  eventTree->Branch("CrysHCalEC_l2Edep", &HCalEC_l2dep);
+  eventTree->Branch("CrysHCalEC_l2Edep", &HCalEC_l2Edep);
   eventTree->Branch("CrysHCalEC_l2Num", &HCalEC_l2CrysNum);
   
   eventTree->Branch("EventHCalEdep", &totalHCalE);
