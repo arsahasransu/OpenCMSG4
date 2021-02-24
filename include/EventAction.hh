@@ -21,47 +21,6 @@ public:
     
   virtual void BeginOfEventAction(const G4Event*);
   virtual void EndOfEventAction(const G4Event*);
-  /*
-  std::vector<G4double>& GetHCalBarAbsEdep() { return HCalBarAbsEdep; }
-  std::vector<G4double>& GetHCalBarScintillatorEdep() { return HCalBarScintillatorEdep; }
-  std::vector<G4double>& GetHCalBarEdep() { return HCalBarEdep; }
-
-  std::vector<G4double>& GetHCalECAbs_r1Edep() { return HCalECAbs_r1Edep; }
-  std::vector<G4double>& GetHCalECScn_r1Edep() { return HCalECScn_r1Edep; }
-  std::vector<G4double>& GetHCalEC_r1Edep() { return HCalEC_r1Edep; }
-
-  std::vector<G4double>& GetHCalECAbs_l1Edep() { return HCalECAbs_l1Edep; }
-  std::vector<G4double>& GetHCalECScn_l1Edep() { return HCalECScn_l1Edep; }
-  std::vector<G4double>& GetHCalEC_l1Edep() { return HCalEC_l1Edep; }
-  
-  std::vector<G4double>& GetHCalECAbs_r2Edep() { return HCalECAbs_r2Edep; }
-  std::vector<G4double>& GetHCalECScn_r2Edep() { return HCalECScn_r2Edep; }
-  std::vector<G4double>& GetHCalEC_r2Edep() { return HCalEC_r2Edep; }
-
-  std::vector<G4double>& GetHCalECAbs_l2Edep() { return HCalECAbs_l2Edep; }
-  std::vector<G4double>& GetHCalECScn_l2Edep() { return HCalECScn_l2Edep; }
-  std::vector<G4double>& GetHCalEC_l2Edep() { return HCalEC_l2Edep; }
-  
-  std::vector<G4int>& GetHCalBarAbsCrysNum() { return HCalBarAbsCrysNum; }
-  std::vector<G4int>& GetHCalBarScintillatorCrysNum() { return HCalBarScintillatorCrysNum; }
-  std::vector<G4int>& GetHCalBarCrysNum() { return HCalBarCrysNum; }
-
-  std::vector<G4int>& GetHCalECAbs_r1CrysNum() { return HCalECAbs_r1CrysNum; }
-  std::vector<G4int>& GetHCalECScn_r1CrysNum() { return HCalECScn_r1CrysNum; }
-  std::vector<G4int>& GetHCalEC_r1CrysNum() { return HCalEC_r1CrysNum; }
-
-  std::vector<G4int>& GetHCalECAbs_l1CrysNum() { return HCalECAbs_l1CrysNum; }
-  std::vector<G4int>& GetHCalECScn_l1CrysNum() { return HCalECScn_l1CrysNum; }
-  std::vector<G4int>& GetHCalEC_l1CrysNum() { return HCalEC_l1CrysNum; }
-
-  std::vector<G4int>& GetHCalECAbs_r2CrysNum() { return HCalECAbs_r2CrysNum; }
-  std::vector<G4int>& GetHCalECScn_r2CrysNum() { return HCalECScn_r2CrysNum; }
-  std::vector<G4int>& GetHCalEC_r2CrysNum() { return HCalEC_r2CrysNum; }
-
-  std::vector<G4int>& GetHCalECAbs_l2CrysNum() { return HCalECAbs_l2CrysNum; }
-  std::vector<G4int>& GetHCalECScn_l2CrysNum() { return HCalECScn_l2CrysNum; }
-  std::vector<G4int>& GetHCalEC_l2CrysNum() { return HCalEC_l2CrysNum; }
-  */
   
   void set_pair_flag(){ 
     pair_prod_flag++;
@@ -87,6 +46,13 @@ public:
   G4double GetHCalEne(){
     return totalHCalE;
   }
+
+  void EventTree(TTree* tree){
+    eventTree = tree;
+
+  }
+
+  void fillTrackHit(long, long, long, long, double);
 
 private:
   G4int fEmCalBarrel;
@@ -150,6 +116,7 @@ private:
   std::vector<G4double> convX;
   std::vector<G4double> convY;
   std::vector<G4double> convZ;
+
   std::vector<G4int> EmBarCrysNum;
   std::vector<G4int> EmECCrysNum_r;
   std::vector<G4int> EmECCrysNum_l;
@@ -177,9 +144,9 @@ private:
   std::vector<G4double> TrackPosX;
   std::vector<G4double> TrackPosY;
   std::vector<G4double> TrackPosZ;
+
   std::vector<long> trackerHits;
   std::vector<long> trackerEdep;
-
   std::vector<
     std::pair< long,std::vector<
 		      std::pair< long,std::vector<
