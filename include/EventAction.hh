@@ -43,6 +43,10 @@ public:
     return totalEmE;
   }
 
+  G4double GetHCalEne(){
+    return totalHCalE;
+  }
+
   void EventTree(TTree* tree){
     eventTree = tree;
 
