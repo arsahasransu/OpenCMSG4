@@ -24,6 +24,7 @@ EventAction::EventAction():
   convX(), convY(), convZ(), 
   EmBarCrysNum(), EmECCrysNum_r(), EmECCrysNum_l(),
   TrackPosX(), TrackPosY(), TrackPosZ(),
+  totalHCalHit(0), totalHCalE(0.),
   trackerHits(),trackerEdep(),
   trackHitCollector(){
 
@@ -55,6 +56,7 @@ void EventAction::BeginOfEventAction(const G4Event*){
   eventTree->Branch("CrysNumEC_l", &EmECCrysNum_l);
   eventTree->Branch("EventEdep", &totalEmE);
   eventTree->Branch("HitNum", &totalEmHit);
+
   eventTree->Branch("ConvertedFlag", &pair_prod_flag);
   eventTree->Branch("ConvertedX", &convX);
   eventTree->Branch("ConvertedY", &convY);
@@ -65,6 +67,40 @@ void EventAction::BeginOfEventAction(const G4Event*){
   eventTree->Branch("trackerHits", &trackerHits);
   eventTree->Branch("trackerEdep", &trackerEdep);
 
+  eventTree->Branch("CrysHCalBarAbsEdep", fEventAction->GetHCalBarAbsEdep());
+  eventTree->Branch("CrysHCalBarAbsNum", fEventAction->GetHCalBarAbsCrysNum());                 
+  eventTree->Branch("CrysHCalBarScintillatorEdep", fEventAction->GetHCalBarScintillatorEdep());
+  eventTree->Branch("CrysHCalBarScintillatorNum", fEventAction->GetHCalBarScintillatorCrysNum());   
+  eventTree->Branch("CrysHCalBarEdep", fEventAction->GetHCalBarEdep());
+  eventTree->Branch("CrysHCalBarNum", fEventAction->GetHCalBarCrysNum());  
+  eventTree->Branch("CrysHCalECAbs_r1Edep", fEventAction->GetHCalECAbs_r1Edep());
+  eventTree->Branch("CrysHCalECAbs_r1Num", fEventAction->GetHCalECAbs_r1CrysNum());             
+  eventTree->Branch("CrysHCalECScn_r1Edep", fEventAction->GetHCalECScn_r1Edep());
+  eventTree->Branch("CrysHCalECScn_r1Num", fEventAction->GetHCalECScn_r1CrysNum());             
+  eventTree->Branch("CrysHCalEC_r1Edep", fEventAction->GetHCalEC_r1Edep());
+  eventTree->Branch("CrysHCalEC_r1Num", fEventAction->GetHCalEC_r1CrysNum());
+  eventTree->Branch("CrysHCalECAbs_l1Edep", fEventAction->GetHCalECAbs_l1Edep());
+  eventTree->Branch("CrysHCalECAbs_l1Num", fEventAction->GetHCalECAbs_l1CrysNum());           
+  eventTree->Branch("CrysHCalECScn_l1Edep", fEventAction->GetHCalECScn_l1Edep());       
+  eventTree->Branch("CrysHCalECScn_l1Num", fEventAction->GetHCalECScn_l1CrysNum());    
+  eventTree->Branch("CrysHCalEC_l1Edep", fEventAction->GetHCalEC_l1Edep());                 
+  eventTree->Branch("CrysHCalEC_l1Num", fEventAction->GetHCalEC_l1CrysNum());   
+  eventTree->Branch("CrysHCalECAbs_r2Edep", fEventAction->GetHCalECAbs_r2Edep());      
+  eventTree->Branch("CrysHCalECAbs_r2Num", fEventAction->GetHCalECAbs_r2CrysNum());     
+  eventTree->Branch("CrysHCalECScn_r2Edep", fEventAction->GetHCalECScn_r2Edep());  
+  eventTree->Branch("CrysHCalECScn_r2Num", fEventAction->GetHCalECScn_r2CrysNum()); 
+  eventTree->Branch("CrysHCalEC_r2Edep", fEventAction->GetHCalEC_r2Edep());        
+  eventTree->Branch("CrysHCalEC_r2Num", fEventAction->GetHCalEC_r2CrysNum());    
+  eventTree->Branch("CrysHCalECAbs_l2Edep", fEventAction->GetHCalECAbs_l2Edep());  
+  eventTree->Branch("CrysHCalECAbs_l2Num", fEventAction->GetHCalECAbs_l2CrysNum()); 
+  eventTree->Branch("CrysHCalECScn_l2Edep", fEventAction->GetHCalECScn_l2Edep());       
+  eventTree->Branch("CrysHCalECScn_l2Num", fEventAction->GetHCalECScn_l2CrysNum());      
+  eventTree->Branch("CrysHCalEC_l2Edep", fEventAction->GetHCalEC_l2Edep());           
+  eventTree->Branch("CrysHCalEC_l2Num", fEventAction->GetHCalEC_l2CrysNum());
+  
+  eventTree->Branch("EventHCalEdep");
+  eventTree->Branch("HCalHitNum");                                             
+    
 }     
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -87,6 +123,9 @@ void EventAction::EndOfEventAction(const G4Event* event)
   // EM calorimeter
   G4cout << "EM Calorimeter has " << totalEmHit << " hits. Total Edep is "
     << GetEmEne()/MeV << " (MeV)" << G4endl;
+
+  G4cout << "Hadron Calorimeter has " << totalHCalHit << " hits. Total Edep is "
+    << GetHCalEne()/MeV << " (MeV)" << G4endl;
 
   sortAndSaveTrackHit();
   eventTree->Fill();
