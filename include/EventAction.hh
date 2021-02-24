@@ -58,6 +58,27 @@ private:
   G4int fEmCalBarrel;
   G4int fEmCalHCID_l;
   G4int fEmCalHCID_r;
+
+  G4int fHCalBarAbs;
+  G4int fHCalBarScintillator;
+  G4int HCalBar;
+
+  G4int HCalECAbs_r1;
+  G4int HCalECScn_r1;
+  G4int HCalEC_r1;
+
+  G4int HCalECAbs_l1;
+  G4int HCalECScn_l1;
+  G4int HCalEC_l1;
+
+  G4int HCalECAbs_r2;
+  G4int HCalECScn_r2;
+  G4int HCalEC_r2;
+
+  G4int HCalECAbs_l2;
+  G4int HCalECScn_l2;
+  G4int HCalEC_l2;
+
   G4int fWorldHCID;
   G4int ftrackerHCID;
   G4int ftrackerEnvHCID;
