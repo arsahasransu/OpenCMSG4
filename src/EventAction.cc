@@ -79,41 +79,41 @@ void EventAction::BeginOfEventAction(const G4Event*){
   eventTree->Branch("trackerHits", &trackerHits);
   eventTree->Branch("trackerEdep", &trackerEdep);
 
-  eventTree->Branch("CrysHCalBarAbsEdep", fEventAction->GetHCalBarAbsEdep());
-  eventTree->Branch("CrysHCalBarAbsNum", fEventAction->GetHCalBarAbsCrysNum());                 
-  eventTree->Branch("CrysHCalBarScintillatorEdep", fEventAction->GetHCalBarScintillatorEdep());
-  eventTree->Branch("CrysHCalBarScintillatorNum", fEventAction->GetHCalBarScintillatorCrysNum());   
-  eventTree->Branch("CrysHCalBarEdep", fEventAction->GetHCalBarEdep());
-  eventTree->Branch("CrysHCalBarNum", fEventAction->GetHCalBarCrysNum());  
-  eventTree->Branch("CrysHCalECAbs_r1Edep", fEventAction->GetHCalECAbs_r1Edep());
-  eventTree->Branch("CrysHCalECAbs_r1Num", fEventAction->GetHCalECAbs_r1CrysNum());             
-  eventTree->Branch("CrysHCalECScn_r1Edep", fEventAction->GetHCalECScn_r1Edep());
-  eventTree->Branch("CrysHCalECScn_r1Num", fEventAction->GetHCalECScn_r1CrysNum());             
-  eventTree->Branch("CrysHCalEC_r1Edep", fEventAction->GetHCalEC_r1Edep());
-  eventTree->Branch("CrysHCalEC_r1Num", fEventAction->GetHCalEC_r1CrysNum());
-  eventTree->Branch("CrysHCalECAbs_l1Edep", fEventAction->GetHCalECAbs_l1Edep());
-  eventTree->Branch("CrysHCalECAbs_l1Num", fEventAction->GetHCalECAbs_l1CrysNum());           
-  eventTree->Branch("CrysHCalECScn_l1Edep", fEventAction->GetHCalECScn_l1Edep());       
-  eventTree->Branch("CrysHCalECScn_l1Num", fEventAction->GetHCalECScn_l1CrysNum());    
-  eventTree->Branch("CrysHCalEC_l1Edep", fEventAction->GetHCalEC_l1Edep());                 
-  eventTree->Branch("CrysHCalEC_l1Num", fEventAction->GetHCalEC_l1CrysNum());   
-  eventTree->Branch("CrysHCalECAbs_r2Edep", fEventAction->GetHCalECAbs_r2Edep());      
-  eventTree->Branch("CrysHCalECAbs_r2Num", fEventAction->GetHCalECAbs_r2CrysNum());     
-  eventTree->Branch("CrysHCalECScn_r2Edep", fEventAction->GetHCalECScn_r2Edep());  
-  eventTree->Branch("CrysHCalECScn_r2Num", fEventAction->GetHCalECScn_r2CrysNum()); 
-  eventTree->Branch("CrysHCalEC_r2Edep", fEventAction->GetHCalEC_r2Edep());        
-  eventTree->Branch("CrysHCalEC_r2Num", fEventAction->GetHCalEC_r2CrysNum());    
-  eventTree->Branch("CrysHCalECAbs_l2Edep", fEventAction->GetHCalECAbs_l2Edep());  
-  eventTree->Branch("CrysHCalECAbs_l2Num", fEventAction->GetHCalECAbs_l2CrysNum()); 
-  eventTree->Branch("CrysHCalECScn_l2Edep", fEventAction->GetHCalECScn_l2Edep());       
-  eventTree->Branch("CrysHCalECScn_l2Num", fEventAction->GetHCalECScn_l2CrysNum());      
-  eventTree->Branch("CrysHCalEC_l2Edep", fEventAction->GetHCalEC_l2Edep());           
-  eventTree->Branch("CrysHCalEC_l2Num", fEventAction->GetHCalEC_l2CrysNum());
+  eventTree->Branch("CrysHCalBarAbsEdep", &HCalBarAbsEdep);
+  eventTree->Branch("CrysHCalBarAbsNum", &HCalBarAbsCrysNum);
+  eventTree->Branch("CrysHCalBarScintillatorEdep", &HCalBarScintillatorEdep);
+  eventTree->Branch("CrysHCalBarScintillatorNum", &HCalBarScintillatorCrysNum);
+  eventTree->Branch("CrysHCalBarEdep", &HCalBarEdep);
+  eventTree->Branch("CrysHCalBarNum", &HCalBarCrysNum);
+  eventTree->Branch("CrysHCalECAbs_r1Edep", &HCalECAbs_r1Edep);
+  eventTree->Branch("CrysHCalECAbs_r1Num", &HCalECAbs_r1CrysNum);
+  eventTree->Branch("CrysHCalECScn_r1Edep", &HCalECScn_r1Edep);
+  eventTree->Branch("CrysHCalECScn_r1Num", &HCalECScn_r1CrysNum);
+  eventTree->Branch("CrysHCalEC_r1Edep", &HCalEC_r1Edep);
+  eventTree->Branch("CrysHCalEC_r1Num", &HCalEC_r1CrysNum);
+  eventTree->Branch("CrysHCalECAbs_l1Edep", &HCalECAbs_l1Edep);
+  eventTree->Branch("CrysHCalECAbs_l1Num", &HCalECAbs_l1CrysNum);
+  eventTree->Branch("CrysHCalECScn_l1Edep", HCalECScn_l1Edep);
+  eventTree->Branch("CrysHCalECScn_l1Num", &HCalECScn_l1CrysNum);
+  eventTree->Branch("CrysHCalEC_l1Edep", &HCalEC_l1Edep);
+  eventTree->Branch("CrysHCalEC_l1Num", &HCalEC_l1CrysNum);
+  eventTree->Branch("CrysHCalECAbs_r2Edep", &HCalECAbs_r2Edep);
+  eventTree->Branch("CrysHCalECAbs_r2Num", &HCalECAbs_r2CrysNum);
+  eventTree->Branch("CrysHCalECScn_r2Edep", HCalECScn_r2Edep);
+  eventTree->Branch("CrysHCalECScn_r2Num", &HCalECScn_r2CrysNum);
+  eventTree->Branch("CrysHCalEC_r2Edep", &HCalEC_r2Edep);
+  eventTree->Branch("CrysHCalEC_r2Num", &HCalEC_r2CrysNum);
+  eventTree->Branch("CrysHCalECAbs_l2Edep", &HCalECAbs_l2Edep);
+  eventTree->Branch("CrysHCalECAbs_l2Num", &HCalECAbs_l2CrysNum);
+  eventTree->Branch("CrysHCalECScn_l2Edep", HCalECScn_l2Edep);
+  eventTree->Branch("CrysHCalECScn_l2Num", &HCalECScn_l2CrysNum);
+  eventTree->Branch("CrysHCalEC_l2Edep", &HCalEC_l2dep);
+  eventTree->Branch("CrysHCalEC_l2Num", &HCalEC_l2CrysNum);
   
-  eventTree->Branch("EventHCalEdep");
-  eventTree->Branch("HCalHitNum");                                             
+  eventTree->Branch("EventHCalEdep", &totalHCalE);
+  eventTree->Branch("HCalHitNum", &totalHCalHit);
 
-}     
+}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
