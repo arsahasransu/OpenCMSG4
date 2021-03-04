@@ -51,6 +51,9 @@ endif()
 #----------------------------------------------------------------------------
 # GCC COMPILER FLAGS
 #
+SET(CMAKE_CXX_STANDARD 14)
+SET(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 SET(GCC_COMPILE_FLAGS "-Wshadow")
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GCC_COMPILE_FLAGS}")
 
