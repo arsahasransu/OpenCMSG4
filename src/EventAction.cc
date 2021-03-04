@@ -20,6 +20,7 @@
 EventAction::EventAction():
   G4UserEventAction(),
   totalEmHit(0), totalEmE(0.),
+  totalHCalHit(0), totalHCalE(0.),
   ecalBarEdep(), ecalECEdep_r(), ecalECEdep_l(),
   HCalBarAbsEdep(), HCalBarScintillatorEdep(), HCalBarEdep(),
   HCalECAbs_r1Edep(), HCalECScn_r1Edep(), HCalEC_r1Edep(),
@@ -34,7 +35,6 @@ EventAction::EventAction():
   HCalECAbs_r2CrysNum(), HCalECScn_r2CrysNum(), HCalEC_r2CrysNum(),
   HCalECAbs_l2CrysNum(), HCalECScn_l2CrysNum(), HCalEC_l2CrysNum(),
   TrackPosX(), TrackPosY(), TrackPosZ(),
-  totalHCalHit(0), totalHCalE(0.),
   trackerHits(),trackerEdep(),
   trackHitCollector(){
 
