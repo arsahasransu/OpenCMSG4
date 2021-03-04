@@ -9,6 +9,7 @@
 #include "G4ParticleDefinition.hh"
 #include "G4ParticleTypes.hh"
 #include "G4SystemOfUnits.hh"
+#include "Constants.hh"
 
 #include <vector>
 #include <cmath>

@@ -3,10 +3,10 @@
 #include <cmath>
 #include <vector>
 
+//#include "Analysis.hh"
+#include "SteppingAction.hh"
 #include "EventAction.hh"
 #include "Constants.hh"
-#include "Analysis.hh"
-#include "SteppingAction.hh"
 
 #include "G4Event.hh"
 #include "G4RunManager.hh"

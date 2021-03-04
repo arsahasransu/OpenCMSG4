@@ -342,12 +342,13 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	G4double hcalECOLogica_z = HcalECEnvZmin + 0.5*nofHcalEndCapR*(diffRAbsEC+diffRScnEC);
 	new G4PVPlacement(0, G4ThreeVector(0,0,hcalECOLogica_z), hcalECOLogical_r, "HCalECEnvelopeRight", logicWorld, false, 0);
 	new G4PVPlacement(0, G4ThreeVector(0,0,-hcalECOLogica_z), hcalECOLogical_l, "HCalECEnvelopeleft", logicWorld, false, 0);
-
+	
 	HCalConstruction* hcal = new HCalConstruction();
 	hcal->makeBarrel(Cu, quartz, hcalLogical, fVisAttributes);
+	/*
 	hcal->makeEndCapOuter(Cu, Cu, hcalECOLogical_r, hcalECOLogical_l, fVisAttributes);
 	hcal->makeEndCapInner(Cu, Cu, hcalECOLogical_r, hcalECOLogical_l, fVisAttributes);
-
+	*/
 
 	/*
 	// HCal EndCap Envelope

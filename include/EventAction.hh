@@ -5,7 +5,6 @@
 #include "G4UserEventAction.hh"
 #include "globals.hh"
 #include "G4ThreeVector.hh"
-#include "Constants.hh"
 
 #include "TTree.h"
 
