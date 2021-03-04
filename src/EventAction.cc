@@ -202,346 +202,317 @@ void EventAction::EndOfEventAction(const G4Event* event)
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void EventAction::AddEneDep(G4int copyNo, G4double edep, G4String vol)
-{
-	totalEmE += edep;
-	if(vol=="ECalCell")
-	{
-		G4bool isNew = true;
-		for(unsigned int i=0; i<EmBarCrysNum.size(); i++)
-		{
-			if(copyNo==EmBarCrysNum.at(i))
-			{
-				ecalBarEdep[i] += edep;
-				isNew = false;
-				break;
-			}
-		}
-		if(isNew)
-		{
-			ecalBarEdep.push_back(edep);
-			EmBarCrysNum.push_back(copyNo);
-		}
-	}
-	if(vol=="CellEcalEC_r")
-	{
-		G4bool isNew = true;
-		for(unsigned int i=0; i<EmECCrysNum_r.size(); i++)
-		{
-			if(copyNo==EmECCrysNum_r.at(i))
-			{
-				ecalECEdep_r[i] += edep;
-				isNew = false;
-				break;
-			}
-		}
-		if(isNew)
-		{
-			ecalECEdep_r.push_back(edep);
-			EmECCrysNum_r.push_back(copyNo);
-		}
-	}
-	if(vol=="CellEcalEC_l")
-	{
-		G4bool isNew = true;
-		for(unsigned int i=0; i<EmECCrysNum_l.size(); i++)
-		{
-			if(copyNo==EmECCrysNum_l.at(i))
-			{
-				ecalECEdep_l[i] += edep;
-				isNew = false;
-				break;
-			}
-		}
-		if(isNew)
-		{
-			ecalECEdep_l.push_back(edep);
-			EmECCrysNum_l.push_back(copyNo);
-		}
-	}
+void EventAction::AddEneDep(G4int copyNo, G4double edep, G4String vol) {
 
-	//************************Starting of HCal*****************************
-	if(vol=="HCalAbsorberCell"){
-	  G4bool isNew = true;
-	  for(unsigned int i=0; i<HCalBarAbsCrysNum.size(); i++)
-	    {
-	      if(copyNo==HCalBarAbsCrysNum.at(i))
-		{
-		  HCalBarAbsEdep[i] += edep;
-		  isNew = false;
-		  break;
-		}
-	    }
-	  if(isNew)
-	    {
-	      HCalBarAbsEdep.push_back(edep);
-	      HCalBarAbsCrysNum.push_back(copyNo);
-	    }
-	}
-	
-	
-	if(vol=="HCalScintillatorCell"){
-	  G4bool isNew = true;
-	  for(unsigned int i=0; i<HCalBarScintillatorCrysNum.size(); i++)
-	    {
-	      if(copyNo==HCalBarScintillatorCrysNum.at(i))
-		{
-		  HCalBarScintillatorEdep[i] += edep;
-		  isNew = false;
-		  break;
-		}
-	    }
-	  if(isNew)
-	    {
-	      HCalBarScintillatorEdep.push_back(edep);
-	      HCalBarScintillatorCrysNum.push_back(copyNo);
-	    }
-	}
-	
-	if(vol=="HCalCell"){
-	  G4bool isNew = true;
-	  for(unsigned int i=0; i<HCalBarCrysNum.size(); i++)
-	    {
-	      if(copyNo==HCalBarCrysNum.at(i))
-		{
-		  HCalBarEdep[i] += edep;
-		  isNew = false;
-		  break;
-		}
-	    }
-	  if(isNew)
-	    {
-	      HCalBarEdep.push_back(edep);
-	      HCalBarCrysNum.push_back(copyNo);
-	    }
-	}
+  if(vol=="ECalCell") {
+    totalEmE += edep;
+    totalEmHit += 1;
+    G4bool isNew = true;
+    for(unsigned int i=0; i<EmBarCrysNum.size(); i++) {
+      if(copyNo==EmBarCrysNum.at(i)) {
+	ecalBarEdep[i] += edep;
+	isNew = false;
+	break;
+      }
+    }
+    if(isNew) {
+      ecalBarEdep.push_back(edep);
+      EmBarCrysNum.push_back(copyNo);
+    }
+  }
+  if(vol=="CellEcalEC_r") {
+    totalEmE += edep;
+    totalEmHit += 1;
+    G4bool isNew = true;
+    for(unsigned int i=0; i<EmECCrysNum_r.size(); i++) {
+      if(copyNo==EmECCrysNum_r.at(i)) {
+	ecalECEdep_r[i] += edep;
+	isNew = false;
+	break;
+      }
+    }
+    if(isNew) {
+      ecalECEdep_r.push_back(edep);
+      EmECCrysNum_r.push_back(copyNo);
+    }
+  }
+  if(vol=="CellEcalEC_l") {
+    totalEmE += edep;
+    totalEmHit += 1;
+    G4bool isNew = true;
+    for(unsigned int i=0; i<EmECCrysNum_l.size(); i++) {
+      if(copyNo==EmECCrysNum_l.at(i)) {
+	ecalECEdep_l[i] += edep;
+	isNew = false;
+	break;
+      }
+    }
+    if(isNew) {
+      ecalECEdep_l.push_back(edep);
+      EmECCrysNum_l.push_back(copyNo);
+    }
+  }
 
-	//*****************************End of Barrel*******************************
+  //************************Starting of HCal*****************************
 
+  if(vol=="HCalAbsorberCell") {
+    totalHCalE	+= edep;
+    totalHCalHit += 1;
+    G4bool isNew = true;
+    for(unsigned int i=0; i<HCalBarAbsCrysNum.size(); i++) {
+      if(copyNo==HCalBarAbsCrysNum.at(i)) {
+	HCalBarAbsEdep[i] += edep;
+	isNew = false;
+	break;
+      }
+    }
+    if(isNew) {
+      HCalBarAbsEdep.push_back(edep);
+      HCalBarAbsCrysNum.push_back(copyNo);
+    }
+  }
+	
+	
+  if(vol=="HCalScintillatorCell") {
+    totalHCalE	+= edep;
+    totalHCalHit += 1;
+    G4bool isNew = true;
+    for(unsigned int i=0; i<HCalBarScintillatorCrysNum.size(); i++) {
+      if(copyNo==HCalBarScintillatorCrysNum.at(i)) {
+	HCalBarScintillatorEdep[i] += edep;
+	isNew = false;
+	break;
+      }
+    }
+    if(isNew) {
+      HCalBarScintillatorEdep.push_back(edep);
+      HCalBarScintillatorCrysNum.push_back(copyNo);
+    }
+  }
+	
+  if(vol=="HCalCell") {
+    G4bool isNew = true;
+    for(unsigned int i=0; i<HCalBarCrysNum.size(); i++) {
+      if(copyNo==HCalBarCrysNum.at(i)) {
+	HCalBarEdep[i] += edep;
+	isNew = false;
+	break;
+      }
+    }
+    if(isNew) {
+      HCalBarEdep.push_back(edep);
+      HCalBarCrysNum.push_back(copyNo);
+    }
+  }
+  
+  //*****************************End of Barrel*******************************
+  
+  
+  if(vol=="HcalECAbsCell_r1") {
+    totalHCalE	+= edep;
+    totalHCalHit += 1;
+    G4bool isNew = true;
+    for(unsigned int i=0; i<HCalECAbs_r1CrysNum.size(); i++) {
+      if(copyNo==HCalECAbs_r1CrysNum.at(i)) {
+	HCalECAbs_r1Edep[i] += edep;
+	isNew = false;
+	break;
+      }
+    }
+    if(isNew) {
+      HCalECAbs_r1Edep.push_back(edep);
+      HCalECAbs_r1CrysNum.push_back(copyNo);
+    }
+  }
+	
+	
+  if(vol=="HcalECScnCell_r1") {
+    totalHCalE	+= edep;
+    totalHCalHit += 1;
+    G4bool isNew = true;
+    for(unsigned int i=0; i<HCalECScn_r1CrysNum.size(); i++) {
+      if(copyNo==HCalECScn_r1CrysNum.at(i)) {
+	HCalECScn_r1Edep[i] += edep;
+	isNew = false;
+	break;
+      }
+    }
+    if(isNew) {
+      HCalECScn_r1Edep.push_back(edep);
+      HCalECScn_r1CrysNum.push_back(copyNo);
+    }
+  }
+	
+  if(vol=="HCalCell_r1"){
+    G4bool isNew = true;
+    for(unsigned int i=0; i<HCalEC_r1CrysNum.size(); i++) {
+      if(copyNo==HCalEC_r1CrysNum.at(i)) {
+	HCalEC_r1Edep[i] += edep;
+	isNew = false;
+	break;
+      }
+    }
+    if(isNew) {
+      HCalEC_r1Edep.push_back(edep);
+      HCalEC_r1CrysNum.push_back(copyNo);
+    }
+  }
 
-	if(vol=="HcalECAbsCell_r1"){
-	  G4bool isNew = true;
-	  for(unsigned int i=0; i<HCalECAbs_r1CrysNum.size(); i++)
-	    {
-	      if(copyNo==HCalECAbs_r1CrysNum.at(i))
-		{
-		  HCalECAbs_r1Edep[i] += edep;
-		  isNew = false;
-		  break;
-		}
-	    }
-	  if(isNew)
-	    {
-	      HCalECAbs_r1Edep.push_back(edep);
-	      HCalECAbs_r1CrysNum.push_back(copyNo);
-	    }
-	}
-	
-	
-	if(vol=="HcalECScnCell_r1"){
-	  G4bool isNew = true;
-	  for(unsigned int i=0; i<HCalECScn_r1CrysNum.size(); i++)
-	    {
-	      if(copyNo==HCalECScn_r1CrysNum.at(i))
-		{
-		  HCalECScn_r1Edep[i] += edep;
-		  isNew = false;
-		  break;
-		}
-	    }
-	  if(isNew)
-	    {
-	      HCalECScn_r1Edep.push_back(edep);
-	      HCalECScn_r1CrysNum.push_back(copyNo);
-	    }
-	}
-	
-	if(vol=="HCalCell_r1"){
-	  G4bool isNew = true;
-	  for(unsigned int i=0; i<HCalEC_r1CrysNum.size(); i++)
-	    {
-	      if(copyNo==HCalEC_r1CrysNum.at(i))
-		{
-		  HCalEC_r1Edep[i] += edep;
-		  isNew = false;
-		  break;
-		}
-	    }
-	  if(isNew)
-	    {
-	      HCalEC_r1Edep.push_back(edep);
-	      HCalEC_r1CrysNum.push_back(copyNo);
-	    }
-	}
-	//************************End of EndCap_r1*******************************
+  //************************End of EndCap_r1*******************************
 
-	if(vol=="HcalECAbsCell_l1"){
-	  G4bool isNew = true;
-	  for(unsigned int i=0; i<HCalECAbs_l1CrysNum.size(); i++)
-	    {
-	      if(copyNo==HCalECAbs_l1CrysNum.at(i))
-		{
-		  HCalECAbs_l1Edep[i] += edep;
-		  isNew = false;
-		  break;
-		}
-	    }
-	  if(isNew)
-	    {
-	      HCalECAbs_l1Edep.push_back(edep);
-	      HCalECAbs_l1CrysNum.push_back(copyNo);
-	    }
-	}
+  if(vol=="HcalECAbsCell_l1") {
+    totalHCalE	+= edep;
+    totalHCalHit += 1;
+    G4bool isNew = true;
+    for(unsigned int i=0; i<HCalECAbs_l1CrysNum.size(); i++) {
+      if(copyNo==HCalECAbs_l1CrysNum.at(i)) {
+	HCalECAbs_l1Edep[i] += edep;
+	isNew = false;
+	break;
+      }
+    }
+    if(isNew) {
+      HCalECAbs_l1Edep.push_back(edep);
+      HCalECAbs_l1CrysNum.push_back(copyNo);
+    }
+  }
 	
 	
-	if(vol=="HcalECScnCell_l1"){
-	  G4bool isNew = true;
-	  for(unsigned int i=0; i<HCalECScn_l1CrysNum.size(); i++)
-	    {
-	      if(copyNo==HCalECScn_l1CrysNum.at(i))
-		{
-		  HCalECScn_l1Edep[i] += edep;
-		  isNew = false;
-		  break;
-		}
-	    }
-	  if(isNew)
-	    {
-	      HCalECScn_l1Edep.push_back(edep);
-	      HCalECScn_l1CrysNum.push_back(copyNo);
-	    }
-	}
+  if(vol=="HcalECScnCell_l1"){
+    totalHCalE	+= edep;
+    totalHCalHit += 1;
+    G4bool isNew = true;
+    for(unsigned int i=0; i<HCalECScn_l1CrysNum.size(); i++) {
+      if(copyNo==HCalECScn_l1CrysNum.at(i)) {
+	HCalECScn_l1Edep[i] += edep;
+	isNew = false;
+	break;
+      }
+    }
+    if(isNew) {
+      HCalECScn_l1Edep.push_back(edep);
+      HCalECScn_l1CrysNum.push_back(copyNo);
+    }
+  }
 	
-	if(vol=="HCalCell_l1"){
-	  G4bool isNew = true;
-	  for(unsigned int i=0; i<HCalEC_l1CrysNum.size(); i++)
-	    {
-	      if(copyNo==HCalEC_l1CrysNum.at(i))
-		{
-		  HCalEC_l1Edep[i] += edep;
-		  isNew = false;
-		  break;
-		}
-	    }
-	  if(isNew)
-	    {
-	      HCalEC_l1Edep.push_back(edep);
-	      HCalEC_l1CrysNum.push_back(copyNo);
-	    }
-	}
-	//************************End of EndCap_l1*******************************
+  if(vol=="HCalCell_l1") {
+    G4bool isNew = true;
+    for(unsigned int i=0; i<HCalEC_l1CrysNum.size(); i++) {
+      if(copyNo==HCalEC_l1CrysNum.at(i)) {
+	HCalEC_l1Edep[i] += edep;
+	isNew = false;
+	break;
+      }
+    }
+    if(isNew) {
+      HCalEC_l1Edep.push_back(edep);
+      HCalEC_l1CrysNum.push_back(copyNo);
+    }
+  }
 
-	if(vol=="HcalECAbsCell_r2"){
-	  G4bool isNew = true;
-	  for(unsigned int i=0; i<HCalECAbs_r2CrysNum.size(); i++)
-	    {
-	      if(copyNo==HCalECAbs_r2CrysNum.at(i))
-		{
-		  HCalECAbs_r2Edep[i] += edep;
-		  isNew = false;
-		  break;
-		}
-	    }
-	  if(isNew)
-	    {
-	      HCalECAbs_r2Edep.push_back(edep);
-	      HCalECAbs_r2CrysNum.push_back(copyNo);
-	    }
-	}
-	
-	
-	if(vol=="HcalECScnCell_r2"){
-	  G4bool isNew = true;
-	  for(unsigned int i=0; i<HCalECScn_r2CrysNum.size(); i++)
-	    {
-	      if(copyNo==HCalECScn_r2CrysNum.at(i))
-		{
-		  HCalECScn_r2Edep[i] += edep;
-		  isNew = false;
-		  break;
-		}
-	    }
-	  if(isNew)
-	    {
-	      HCalECScn_r2Edep.push_back(edep);
-	      HCalECScn_r2CrysNum.push_back(copyNo);
-	    }
-	}
-	
-	if(vol=="HCalCell_r2"){
-	  G4bool isNew = true;
-	  for(unsigned int i=0; i<HCalEC_r2CrysNum.size(); i++)
-	    {
-	      if(copyNo==HCalEC_r2CrysNum.at(i))
-		{
-		  HCalEC_r2Edep[i] += edep;
-		  isNew = false;
-		  break;
-		}
-	    }
-	  if(isNew)
-	    {
-	      HCalEC_r2Edep.push_back(edep);
-	      HCalEC_r2CrysNum.push_back(copyNo);
-	    }
-	}
-	//************************End of EndCap_r2*******************************
+  //************************End of EndCap_l1*******************************
 
-	if(vol=="HcalECAbsCell_l2"){
-	  G4bool isNew = true;
-	  for(unsigned int i=0; i<HCalECAbs_l2CrysNum.size(); i++)
-	    {
-	      if(copyNo==HCalECAbs_l2CrysNum.at(i))
-		{
-		  HCalECAbs_l2Edep[i] += edep;
-		  isNew = false;
-		  break;
-		}
-	    }
-	  if(isNew)
-	    {
-	      HCalECAbs_l2Edep.push_back(edep);
-	      HCalECAbs_l2CrysNum.push_back(copyNo);
-	    }
-	}
+  if(vol=="HcalECAbsCell_r2"){
+    totalHCalE	+= edep;
+    totalHCalHit += 1;
+    G4bool isNew = true;
+    for(unsigned int i=0; i<HCalECAbs_r2CrysNum.size(); i++) {
+      if(copyNo==HCalECAbs_r2CrysNum.at(i)) {
+	HCalECAbs_r2Edep[i] += edep;
+	isNew = false;
+	break;
+      }
+    }
+    if(isNew) {
+      HCalECAbs_r2Edep.push_back(edep);
+      HCalECAbs_r2CrysNum.push_back(copyNo);
+    }
+  }
 	
 	
-	if(vol=="HcalECScnCell_l2"){
-	  G4bool isNew = true;
-	  for(unsigned int i=0; i<HCalECScn_l2CrysNum.size(); i++)
-	    {
-	      if(copyNo==HCalECScn_l2CrysNum.at(i))
-		{
-		  HCalECScn_l2Edep[i] += edep;
-		  isNew = false;
-		  break;
-		}
-	    }
-	  if(isNew)
-	    {
-	      HCalECScn_l2Edep.push_back(edep);
-	      HCalECScn_l2CrysNum.push_back(copyNo);
-	    }
-	}
+  if(vol=="HcalECScnCell_r2"){
+    totalHCalE	+= edep;
+    totalHCalHit += 1;
+    G4bool isNew = true;
+    for(unsigned int i=0; i<HCalECScn_r2CrysNum.size(); i++) {
+      if(copyNo==HCalECScn_r2CrysNum.at(i)) {
+	HCalECScn_r2Edep[i] += edep;
+	isNew = false;
+	break;
+      }
+    }
+    if(isNew) {
+      HCalECScn_r2Edep.push_back(edep);
+      HCalECScn_r2CrysNum.push_back(copyNo);
+    }
+  }
 	
-	if(vol=="HCalCell_l2"){
-	  G4bool isNew = true;
-	  for(unsigned int i=0; i<HCalEC_l2CrysNum.size(); i++)
-	    {
-	      if(copyNo==HCalEC_l2CrysNum.at(i))
-		{
-		  HCalEC_l2Edep[i] += edep;
-		  isNew = false;
-		  break;
-		}
-	    }
-	  if(isNew)
-	    {
-	      HCalEC_l2Edep.push_back(edep);
-	      HCalEC_l2CrysNum.push_back(copyNo);
-	    }
-	}
-	//************************End of EndCap_l2*******************************	
+  if(vol=="HCalCell_r2"){
+    G4bool isNew = true;
+    for(unsigned int i=0; i<HCalEC_r2CrysNum.size(); i++) {
+      if(copyNo==HCalEC_r2CrysNum.at(i)) {
+	HCalEC_r2Edep[i] += edep;
+	isNew = false;
+	break;
+      }
+    }
+    if(isNew) {
+      HCalEC_r2Edep.push_back(edep);
+      HCalEC_r2CrysNum.push_back(copyNo);
+    }
+  }
+  //************************End of EndCap_r2*******************************
+
+  if(vol=="HcalECAbsCell_l2"){
+    totalHCalE	+= edep;
+    totalHCalHit += 1;
+    G4bool isNew = true;
+    for(unsigned int i=0; i<HCalECAbs_l2CrysNum.size(); i++) {
+      if(copyNo==HCalECAbs_l2CrysNum.at(i)) {
+	HCalECAbs_l2Edep[i] += edep;
+	isNew = false;
+	break;
+      }
+    }
+    if(isNew) {
+      HCalECAbs_l2Edep.push_back(edep);
+      HCalECAbs_l2CrysNum.push_back(copyNo);
+    }
+  }
+	
+	
+  if(vol=="HcalECScnCell_l2"){
+    totalHCalE	+= edep;
+    totalHCalHit += 1;
+    G4bool isNew = true;
+    for(unsigned int i=0; i<HCalECScn_l2CrysNum.size(); i++) {
+      if(copyNo==HCalECScn_l2CrysNum.at(i)) {
+	HCalECScn_l2Edep[i] += edep;
+	isNew = false;
+	break;
+      }
+    }
+    if(isNew) {
+      HCalECScn_l2Edep.push_back(edep);
+      HCalECScn_l2CrysNum.push_back(copyNo);
+    }
+  }
+	
+  if(vol=="HCalCell_l2"){
+    G4bool isNew = true;
+    for(unsigned int i=0; i<HCalEC_l2CrysNum.size(); i++) {
+      if(copyNo==HCalEC_l2CrysNum.at(i)) {
+	HCalEC_l2Edep[i] += edep;
+	isNew = false;
+	break;
+      }
+    }
+    if(isNew) {
+      HCalEC_l2Edep.push_back(edep);
+      HCalEC_l2CrysNum.push_back(copyNo);
+    }
+  }
+  //************************End of EndCap_l2*******************************	
 
 }
 

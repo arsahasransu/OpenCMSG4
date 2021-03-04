@@ -72,7 +72,8 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep) {
   auto physical = touchable->GetVolume();
   auto copyNo = physical->GetCopyNo();
   double edep = theStep->GetTotalEnergyDeposit();
-
+  if(edep>1 && physical->GetName()=="HCalAbsorberCell") std::cout<<physical->GetName()<<"\t"<<copyNo<<"\t"<<edep<<std::endl;
+    
   if(physical->GetName()=="ECalCell" && edep>0.) {
     fEventAction->AddEneDep(copyNo, edep, "ECalCell");
   }
@@ -145,7 +146,7 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep) {
     fEventAction->AddEneDep(copyNo, edep, "HCalCell_l2");
   }
   
-  //********************** End of methods to fill HCal energy deposit ************************************************
+  //************** End of methods to fill HCal energy deposit ************
 
   if((physical->GetName()=="PixelInnerBarrel" ||
       physical->GetName()=="PixelInnerDiscs" ||
