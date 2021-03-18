@@ -140,9 +140,11 @@ void HCalConstruction::makeBarrel(G4Material* hcal_absMat,
 			false);
       
       visAttributes = new G4VisAttributes(G4Colour(0.00,0.00,0.50));
+      visAttributes->SetVisibility(false);
       cellHcalBarAbsLogical[etaNum][rNum][phiNum]->SetVisAttributes(visAttributes);
       fVisAttributes.push_back(visAttributes);
       visAttributes = new G4VisAttributes(G4Colour(0.00,0.50,0.00));
+      visAttributes->SetVisibility(false);
       cellHcalBarScnLogical[etaNum][rNum][phiNum]->SetVisAttributes(visAttributes);
       fVisAttributes.push_back(visAttributes);
     }

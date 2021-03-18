@@ -1,10 +1,12 @@
 #include "DetectorConstruction.hh"
 #include "MagneticField.hh"
+#include "MagneticField2.hh"
 #include "Constants.hh"
 #include "VolumeControl.hh"
 #include "ECalConstruction.hh"
 #include "HCalConstruction.hh"
 #include "TrackerConstruction.hh"
+#include "MuonConstruction.hh"
 
 #include "G4FieldManager.hh"
 #include "G4TransportationManager.hh"
@@ -43,6 +45,12 @@
 
 G4ThreadLocal MagneticField* DetectorConstruction::fMagneticField = 0;
 G4ThreadLocal G4FieldManager* DetectorConstruction::fFieldMgr = 0;
+G4ThreadLocal MagneticField* DetectorConstruction::fMagneticField2 = 0;
+G4ThreadLocal G4FieldManager* DetectorConstruction::fFieldMgr2 = 0;
+G4ThreadLocal MagneticField* DetectorConstruction::fMagneticField3 = 0;
+G4ThreadLocal G4FieldManager* DetectorConstruction::fFieldMgr3 = 0;
+G4ThreadLocal MagneticField2* DetectorConstruction::fMagneticField4 = 0;
+G4ThreadLocal G4FieldManager* DetectorConstruction::fFieldMgr4 = 0;
     
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -50,6 +58,9 @@ DetectorConstruction::DetectorConstruction()
 : G4VUserDetectorConstruction(), 
   fMessenger(nullptr),
   fMagneticLogical(nullptr),
+  fMagneticLogical2(nullptr),
+  fMagneticLogical3(nullptr),
+  fMagneticLogical4(nullptr),
   fVisAttributes(), 
   ecalMode(111), tracMode(111111)
 {
@@ -80,7 +91,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// World Material
-  G4double world_sizeXY = 8*m;
+  G4double world_sizeXY = 20*m;
   G4double world_sizeZ  = 20*m;
 
 	G4String name, symbol;
@@ -408,6 +419,27 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 		PShowPos += 0.5*PShower_thick[cNo];
 	}
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////// SOLENOID CYLINDER ////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	// Solenoid
+	auto solenoidSolid = new G4Tubs("SolenoidSolid", 4000*mm, 4600*mm, 10000*mm, 0*deg, 360*deg);
+	solenoidLogical = new G4LogicalVolume(solenoidSolid,CuNi,"SolenoidLogical");
+	new G4PVPlacement(0, G4ThreeVector(), solenoidLogical, "Solenoid", logicWorld, false, 0);
+	
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////// MUON CHAMBER //////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	// Muon Chamber Logical
+	auto muBrChSolid = new G4Tubs("MuonBarrelChamberSolid", 4600*mm, 7000*mm, 10000*mm, 0*deg, 360*deg);
+	muBrChLogical = new G4LogicalVolume(muBrChSolid,world_mat,"Muon Barrel Chamber Logical");
+	new G4PVPlacement(0, G4ThreeVector(), muBrChLogical, "Muon Barrel", logicWorld, false, 0);
+
+	MuonConstruction* muon = new MuonConstruction();
+	muon->makeBarrel(CuNi, muBrChLogical, fVisAttributes);
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////// VISUALS ///////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -417,8 +449,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	//
 
   auto visAttributes = new G4VisAttributes(G4Colour(1.0,1.0,1.0));
-  visAttributes->SetVisibility(false);
-  //logicWorld->SetVisAttributes(visAttributes);
+  //visAttributes->SetVisibility(false);
+  logicWorld->SetVisAttributes(visAttributes);
   fVisAttributes.push_back(visAttributes);
 
   visAttributes = new G4VisAttributes(G4Colour(0.8888,0,0));
@@ -433,7 +465,19 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   trackerLogical->SetVisAttributes(visAttributes);
   fVisAttributes.push_back(visAttributes);
 
-/*  visAttributes = new G4VisAttributes(G4Colour(0.8888,0.8888,0));
+  visAttributes = new G4VisAttributes(G4Colour(0.56,0,1));
+  //visAttributes->SetVisibility(false);
+	//visAttributes->SetForceLineSegmentsPerCircle(10);
+  solenoidLogical->SetVisAttributes(visAttributes);
+  fVisAttributes.push_back(visAttributes);
+
+  visAttributes = new G4VisAttributes(G4Colour(0.56,0.3,1));
+  //visAttributes->SetVisibility(false);
+	//visAttributes->SetForceLineSegmentsPerCircle(10);
+  muBrChLogical->SetVisAttributes(visAttributes);
+  fVisAttributes.push_back(visAttributes);
+
+  /*  visAttributes = new G4VisAttributes(G4Colour(0.8888,0.8888,0));
   //visAttributes->SetVisibility(false);
 	//visAttributes->SetForceLineSegmentsPerCircle(10);
   singleTrackerLogical->SetVisAttributes(visAttributes);
@@ -441,7 +485,11 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 */
   // return the world physical volume ----------------------------------------
   
-	fMagneticLogical = logicWorld;
+  //fMagneticLogical = logicWorld;
+  fMagneticLogical = ecalLogical;
+  fMagneticLogical2 = trackerLogical;
+  fMagneticLogical3 = hcalLogical;
+  fMagneticLogical4 = muBrChLogical;
 
   return physWorld;
 }
@@ -458,9 +506,33 @@ void DetectorConstruction::ConstructSDandField()
   G4bool forceToAllDaughters = true;
   fMagneticLogical->SetFieldManager(fFieldMgr, forceToAllDaughters);
 
+  fMagneticField2 = new MagneticField();
+  fFieldMgr2 = new G4FieldManager();
+  fFieldMgr2->SetDetectorField(fMagneticField2);
+  fFieldMgr2->CreateChordFinder(fMagneticField2);
+  fMagneticLogical2->SetFieldManager(fFieldMgr2, forceToAllDaughters);
+
+  fMagneticField3 = new MagneticField();
+  fFieldMgr3 = new G4FieldManager();
+  fFieldMgr3->SetDetectorField(fMagneticField3);
+  fFieldMgr3->CreateChordFinder(fMagneticField3);
+  fMagneticLogical3->SetFieldManager(fFieldMgr3, forceToAllDaughters);
+
+  fMagneticField4 = new MagneticField2();
+  fFieldMgr4 = new G4FieldManager();
+  fFieldMgr4->SetDetectorField(fMagneticField4);
+  fFieldMgr4->CreateChordFinder(fMagneticField4);
+  fMagneticLogical4->SetFieldManager(fFieldMgr4, forceToAllDaughters);
+
   // Register the field and its manager for deleting
   G4AutoDelete::Register(fMagneticField);
   G4AutoDelete::Register(fFieldMgr);
+  G4AutoDelete::Register(fMagneticField2);
+  G4AutoDelete::Register(fFieldMgr2);
+  G4AutoDelete::Register(fMagneticField3);
+  G4AutoDelete::Register(fFieldMgr3);
+  G4AutoDelete::Register(fMagneticField4);
+  G4AutoDelete::Register(fFieldMgr4);
 }    
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

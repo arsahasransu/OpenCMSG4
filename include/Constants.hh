@@ -101,4 +101,13 @@ constexpr G4double HcalECEnvDelZ = 2*m;
 
 constexpr G4double EtaArray[] = {1.740,1.830,1.930,2.043,2.172,2.322,2.5,2.65,3.0};
 
+// Variables for muon chambers
+constexpr G4int NMuBarZSeg = 5; // Default = 5
+constexpr G4int NMuBarPhiSeg = 12; // Default = 12
+constexpr G4int NMuBarRSeg = 4; // Default = 4
+constexpr G4int NMuBarCh = NMuBarZSeg*NMuBarPhiSeg*NMuBarRSeg;
+
+constexpr G4double muBarR[] = {4700*mm, 5000*mm, 5300*mm, 5700*mm}; // Dimension equal to NMuBarRSeg
+constexpr G4double muBardR[] = {100*mm, 150*mm, 200*mm, 300*mm}; // Dimension equal to NMuBarRSeg
+constexpr G4double muBarZLen = 10000*mm;
 #endif
