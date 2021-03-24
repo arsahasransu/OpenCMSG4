@@ -12,7 +12,7 @@
 
 /generator particle
 /generator/particle/type mu+
-/generator/particle/momentum 10 GeV
+/generator/particle/momentum 5 GeV
 /generator/particle/eta 0
 /generator/particle/sigmaEta 0
 /root/setFileName OpenCMSG4_particle.root

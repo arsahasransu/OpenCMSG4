@@ -101,6 +101,11 @@ constexpr G4double HcalECEnvDelZ = 2*m;
 
 constexpr G4double EtaArray[] = {1.740,1.830,1.930,2.043,2.172,2.322,2.5,2.65,3.0};
 
+// Variables for the solenoid cylinder
+constexpr G4double solenoidInnerR = 4000*mm;
+constexpr G4double solenoidOuterR = 4600*mm;
+constexpr G4double solenoidHalfZ = 10000*mm;
+
 // Variables for muon chambers
 constexpr G4int NMuBarZSeg = 5; // Default = 5
 constexpr G4int NMuBarPhiSeg = 12; // Default = 12

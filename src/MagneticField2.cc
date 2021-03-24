@@ -22,11 +22,16 @@ MagneticField2::~MagneticField2()
   delete fMessenger; 
 }
 
-void MagneticField2::GetFieldValue(const G4double [4],double *bField) const
+void MagneticField2::GetFieldValue(const G4double point[4],double *bField) const
 {
+  // To get a linearly dropping field strength with radius
+  double radius = std::sqrt(point[0]*point[0]+point[1]*point[1]);
+  double rfact = radius/solenoidOuterR;
+  //std::cout<<radius/mm<<"\t"<<radius/cm<<"\t"<<rfact<<std::endl;
+  
   bField[0] = 0.;
   bField[1] = 0.;
-  bField[2] = fBy;
+  bField[2] = fBy/rfact;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

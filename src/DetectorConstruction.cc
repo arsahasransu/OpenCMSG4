@@ -424,7 +424,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// Solenoid
-	auto solenoidSolid = new G4Tubs("SolenoidSolid", 4000*mm, 4600*mm, 10000*mm, 0*deg, 360*deg);
+	auto solenoidSolid = new G4Tubs("SolenoidSolid", solenoidInnerR, solenoidOuterR, solenoidHalfZ, 0*deg, 360*deg);
 	solenoidLogical = new G4LogicalVolume(solenoidSolid,CuNi,"SolenoidLogical");
 	new G4PVPlacement(0, G4ThreeVector(), solenoidLogical, "Solenoid", logicWorld, false, 0);
 	
