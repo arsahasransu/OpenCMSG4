@@ -72,7 +72,7 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep) {
   auto physical = touchable->GetVolume();
   auto copyNo = physical->GetCopyNo();
   double edep = theStep->GetTotalEnergyDeposit();
-  if(edep>1 && physical->GetName()=="HCalAbsorberCell") std::cout<<physical->GetName()<<"\t"<<copyNo<<"\t"<<edep<<std::endl;
+  //if(edep>1 && physical->GetName()=="HCalAbsorberCell") std::cout<<physical->GetName()<<"\t"<<copyNo<<"\t"<<edep<<std::endl;
     
   if(physical->GetName()=="ECalCell" && edep>0.) {
     fEventAction->AddEneDep(copyNo, edep, "ECalCell");
@@ -204,6 +204,13 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep) {
     long factor = rhfactor+phfactor*rhbit+etfactor*phbit*rhbit;
     
     fEventAction->fillTrackHit(rhfactor,phfactor,etfactor,factor,edep/eV);
+    
+  }
+
+  if( physical->GetName()=="muonBarrelChamber" && edep>0) {
+    //std::cout<<pos<<"\t"<<edep/GeV<<std::endl;
+
+    fEventAction->fillMuonHit("muonBarrelChamber", pos, edep);
     
   }
 }

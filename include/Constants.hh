@@ -114,5 +114,6 @@ constexpr G4int NMuBarCh = NMuBarZSeg*NMuBarPhiSeg*NMuBarRSeg;
 
 constexpr G4double muBarR[] = {4700*mm, 5000*mm, 5300*mm, 5700*mm}; // Dimension equal to NMuBarRSeg
 constexpr G4double muBardR[] = {100*mm, 150*mm, 200*mm, 300*mm}; // Dimension equal to NMuBarRSeg
-constexpr G4double muBarZLen = 10000*mm;
+constexpr G4double muBarZLen[] = {10000*mm, 10500*mm, 11000*mm, 11500*mm}; // Dimension equal to NMuBarRSeg
+
 #endif

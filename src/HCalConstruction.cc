@@ -175,10 +175,10 @@ void HCalConstruction::makeEndCapOuter(G4Material* hcal_absMat,
 
       G4double eta_b = maxEta+etaNum*diffEta;
       G4double eta_e = maxEta+(etaNum+1)*diffEta;
-      if(copyNo==nofHcalEndCapR*nofHcalECOPhi*4 -1)std::cout<<"eta ->" <<eta_b<<"  "<<eta_e<<std::endl;
+      //if(copyNo==nofHcalEndCapR*nofHcalECOPhi*4 -1)std::cout<<"eta ->" <<eta_b<<"  "<<eta_e<<std::endl;
       G4double theta_b = 2*atan(exp(-eta_b))*180/M_PI;
       G4double theta_e = 2*atan(exp(-eta_e))*180/M_PI;
-      if(copyNo==nofHcalEndCapR*nofHcalECOPhi*4 -1)std::cout<<"theta ->" <<theta_b<<"  "<<theta_e<<std::endl;
+      //if(copyNo==nofHcalEndCapR*nofHcalECOPhi*4 -1)std::cout<<"theta ->" <<theta_b<<"  "<<theta_e<<std::endl;
 	    
       G4double zminA = HcalECEnvZmin + rNum*(diffRAbsEC+diffRScnEC);
       //G4double zminA = rNum*(diffRAbsEC+diffRScnEC);
@@ -188,8 +188,8 @@ void HCalConstruction::makeEndCapOuter(G4Material* hcal_absMat,
       
       G4double RAbs_e = zminA*tan(theta_b*M_PI/180);
       G4double RAbs_b = zminA*tan(theta_e*M_PI/180);
-      if(copyNo==nofHcalEndCapR*nofHcalECOPhi*4 -1)std::cout<<"RAbs ->" <<RAbs_b<<"  "<<RAbs_e<<std::endl;
-      if(copyNo==nofHcalEndCapR*nofHcalECOPhi*4 -1)std::cout<<""<<std::endl;
+      //if(copyNo==nofHcalEndCapR*nofHcalECOPhi*4 -1)std::cout<<"RAbs ->" <<RAbs_b<<"  "<<RAbs_e<<std::endl;
+      //if(copyNo==nofHcalEndCapR*nofHcalECOPhi*4 -1)std::cout<<""<<std::endl;
       //G4double R_bAvg = 0.5*(RAbs_b+RAbs_e);
       
       G4double RSc_e = zmaxA*tan(theta_b*M_PI/180);
@@ -319,10 +319,10 @@ void HCalConstruction::makeEndCapInner(G4Material* hcal_absMat,
       G4double eta_b = EtaArray[etaNum];
       G4double eta_e = EtaArray[etaNum+1];
 
-      if(copyNo==0)std::cout<<"eta ->" <<eta_b<<"  "<<eta_e<<std::endl;
+      //if(copyNo==0)std::cout<<"eta ->" <<eta_b<<"  "<<eta_e<<std::endl;
       G4double theta_b = 2*atan(exp(-eta_b))*180/M_PI;
       G4double theta_e = 2*atan(exp(-eta_e))*180/M_PI;
-      if(copyNo==0)std::cout<<"theta ->" <<theta_b<<"  "<<theta_e<<std::endl;
+      //if(copyNo==0)std::cout<<"theta ->" <<theta_b<<"  "<<theta_e<<std::endl;
 	    
       G4double zminA = HcalECEnvZmin + rNum*(diffRAbsEC+diffRScnEC);
       G4double zmaxA = zminA + diffRAbsEC;
@@ -331,8 +331,8 @@ void HCalConstruction::makeEndCapInner(G4Material* hcal_absMat,
       
       G4double RAbs_e = zminA*tan(theta_b*M_PI/180);
       G4double RAbs_b = zminA*tan(theta_e*M_PI/180);
-      if(copyNo==0)std::cout<<"RAbs ->" <<RAbs_b<<"  "<<RAbs_e<<std::endl;
-      if(copyNo==0)std::cout<<""<<std::endl;
+      //if(copyNo==0)std::cout<<"RAbs ->" <<RAbs_b<<"  "<<RAbs_e<<std::endl;
+      //if(copyNo==0)std::cout<<""<<std::endl;
       //G4double R_bAvg = 0.5*(RAbs_b+RAbs_e);
       
       G4double RSc_e = zmaxA*tan(theta_b*M_PI/180);

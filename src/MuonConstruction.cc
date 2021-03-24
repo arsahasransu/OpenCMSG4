@@ -24,7 +24,7 @@ void MuonConstruction::makeBarrel(G4Material* muMat, G4LogicalVolume* muLogical,
 
     G4double dPhi = 2.0*acos(-1)/NMuBarPhiSeg;
     
-    G4double pDz = 0.5*muBarZLen/NMuBarZSeg;
+    G4double pDz = 0.5*muBarZLen[rSegNum]/NMuBarZSeg;
     G4double pTheta = 0.0;
     G4double pPhi = 0.0;
     G4double pDy1 = 0.5*muBardR[rSegNum];
@@ -39,7 +39,7 @@ void MuonConstruction::makeBarrel(G4Material* muMat, G4LogicalVolume* muLogical,
     //std::cout<<pDz<<"\t"<<pTheta<<"\t"<<pPhi<<"\t"<<pDy1<<"\t"<<pDy2<<"\t"<<pDx1<<"\t"<<pDx2<<"\t"<<pDx3<<"\t"<<pDx4<<"\t"<<pAlp1<<"\t"<<pAlp2<<std::endl;
     G4double xpos = (muBarR[rSegNum]+0.5*muBardR[rSegNum])*sin((phiSegNum)*dPhi);
     G4double ypos = (muBarR[rSegNum]+0.5*muBardR[rSegNum])*cos((phiSegNum)*dPhi);
-    G4double zpos = -0.5*muBarZLen+(zSegNum+0.5)*muBarZLen/NMuBarZSeg;
+    G4double zpos = -0.5*muBarZLen[rSegNum]+(zSegNum+0.5)*muBarZLen[rSegNum]/NMuBarZSeg;
     
     auto muBarSolid = new G4Trap("muBarSolid", pDz, pTheta, pPhi, pDy1, pDx1, pDx2, pAlp1, pDy2, pDx3, pDx4, pAlp2);
 

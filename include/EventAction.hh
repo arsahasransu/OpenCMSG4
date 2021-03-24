@@ -52,6 +52,7 @@ public:
   }
 
   void fillTrackHit(long, long, long, long, double);
+  void fillMuonHit(G4String, G4ThreeVector, G4double);
 
 private:
   G4int fEmCalBarrel;
@@ -153,6 +154,11 @@ private:
 					> >
 		      > >
     > trackHitCollector;
+
+  std::vector<G4double> muonHitX;
+  std::vector<G4double> muonHitY;
+  std::vector<G4double> muonHitZ;
+  std::vector<G4double> muonEdep;
 
   TTree* eventTree;
   void sortAndSaveTrackHit();

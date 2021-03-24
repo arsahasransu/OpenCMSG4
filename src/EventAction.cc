@@ -35,8 +35,9 @@ EventAction::EventAction():
   HCalECAbs_r2CrysNum(), HCalECScn_r2CrysNum(), HCalEC_r2CrysNum(),
   HCalECAbs_l2CrysNum(), HCalECScn_l2CrysNum(), HCalEC_l2CrysNum(),
   TrackPosX(), TrackPosY(), TrackPosZ(),
-  trackerHits(),trackerEdep(),
-  trackHitCollector(){
+  trackerHits(), trackerEdep(),
+  trackHitCollector(),
+  muonHitX(), muonHitY(), muonHitZ(), muonEdep(){
 
   pair_prod_flag = 0;
   
@@ -113,6 +114,10 @@ void EventAction::BeginOfEventAction(const G4Event*){
   eventTree->Branch("EventHCalEdep", &totalHCalE);
   eventTree->Branch("HCalHitNum", &totalHCalHit);
 
+  eventTree->Branch("MuonHitX", &muonHitX);
+  eventTree->Branch("MuonHitY", &muonHitY);
+  eventTree->Branch("MuonHitZ", &muonHitZ);
+  eventTree->Branch("MuonEdep", &muonEdep);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -198,6 +203,11 @@ void EventAction::EndOfEventAction(const G4Event* event)
   trackerHits.erase(trackerHits.begin(),trackerHits.begin()+trackerHits.size());
   trackerEdep.erase(trackerEdep.begin(),trackerEdep.begin()+trackerEdep.size());
   trackHitCollector.erase(trackHitCollector.begin(),trackHitCollector.begin()+trackHitCollector.size());
+
+  muonHitX.erase(muonHitX.begin(),muonHitX.begin()+muonHitX.size());
+  muonHitY.erase(muonHitY.begin(),muonHitY.begin()+muonHitY.size());
+  muonHitZ.erase(muonHitZ.begin(),muonHitZ.begin()+muonHitZ.size());
+  muonEdep.erase(muonEdep.begin(),muonEdep.begin()+muonEdep.size());
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -677,8 +687,19 @@ void EventAction::sortAndSaveTrackHit() {
 	    std::pair<long,double> storeVal = (*r_it).second;
 	    trackerHits.push_back(storeVal.first);
 	    trackerEdep.push_back(storeVal.second);
-	    std::cout<<(*epr_it).first<<"\t"<<(*pr_it).first<<"\t"<<(*r_it).first<<"\t"<<storeVal.first<<"\t"<<storeVal.second<<std::endl;
+	    //std::cout<<(*epr_it).first<<"\t"<<(*pr_it).first<<"\t"<<(*r_it).first<<"\t"<<storeVal.first<<"\t"<<storeVal.second<<std::endl;
 	  }
       }
   }
+}
+
+void EventAction::fillMuonHit(G4String physName, G4ThreeVector pos, G4double edep) {
+
+  if(physName=="muonBarrelChamber") {
+    muonHitX.push_back(pos.getX());
+    muonHitY.push_back(pos.getY());
+    muonHitZ.push_back(pos.getZ());
+    muonEdep.push_back(edep);
+  }
+  
 }
