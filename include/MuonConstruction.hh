@@ -14,7 +14,8 @@ public:
   virtual ~MuonConstruction();
 
   void makeBarrel(G4Material*, G4LogicalVolume*, std::vector<G4VisAttributes*>);
-  void makeEndCap(G4Material*, G4LogicalVolume*, G4LogicalVolume*, bool, bool, std::vector<G4VisAttributes*>);
+  void makeEndCap_negz(G4Material*, G4LogicalVolume*, bool, std::vector<G4VisAttributes*>);
+  void makeEndCap_posz(G4Material*, G4LogicalVolume*, bool, std::vector<G4VisAttributes*>);
 
 private:
   std::vector<G4LogicalVolume*> chamberMuonBarLogical;

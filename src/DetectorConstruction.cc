@@ -439,6 +439,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
 	MuonConstruction* muon = new MuonConstruction();
 	muon->makeBarrel(CuNi, muBrChLogical, fVisAttributes);
+	muon->makeEndCap_posz(CuNi, muBrChLogical, false, fVisAttributes);
+	muon->makeEndCap_negz(CuNi, muBrChLogical, false, fVisAttributes);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////// VISUALS ///////////////////////////////////////////////

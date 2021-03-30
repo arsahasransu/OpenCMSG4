@@ -37,7 +37,7 @@ EventAction::EventAction():
   TrackPosX(), TrackPosY(), TrackPosZ(),
   trackerHits(), trackerEdep(),
   trackHitCollector(),
-  muonHitX(), muonHitY(), muonHitZ(), muonEdep(){
+  muonHitX(), muonHitY(), muonHitZ(), /*muonHits(),*/ muonEdep(){
 
   pair_prod_flag = 0;
   
@@ -117,6 +117,7 @@ void EventAction::BeginOfEventAction(const G4Event*){
   eventTree->Branch("MuonHitX", &muonHitX);
   eventTree->Branch("MuonHitY", &muonHitY);
   eventTree->Branch("MuonHitZ", &muonHitZ);
+  //eventTree->Branch("MuonHits", &muonHits);
   eventTree->Branch("MuonEdep", &muonEdep);
 }
 
@@ -207,6 +208,7 @@ void EventAction::EndOfEventAction(const G4Event* event)
   muonHitX.erase(muonHitX.begin(),muonHitX.begin()+muonHitX.size());
   muonHitY.erase(muonHitY.begin(),muonHitY.begin()+muonHitY.size());
   muonHitZ.erase(muonHitZ.begin(),muonHitZ.begin()+muonHitZ.size());
+  //muonHits.erase(muonHits.begin(),muonHits.begin()+muonHits.size());
   muonEdep.erase(muonEdep.begin(),muonEdep.begin()+muonEdep.size());
 }
 
@@ -699,6 +701,8 @@ void EventAction::fillMuonHit(G4String physName, G4ThreeVector pos, G4double ede
     muonHitX.push_back(pos.getX());
     muonHitY.push_back(pos.getY());
     muonHitZ.push_back(pos.getZ());
+    //TVector3* vec3 = new TVector3(pos.getX(), pos.getY(), pos.getZ());
+    //muonHits.push_back(vec3);
     muonEdep.push_back(edep);
   }
   

@@ -18,12 +18,7 @@ ECalConstruction::ECalConstruction()
 }
 
 ECalConstruction::~ECalConstruction()
-{
-  for(G4int num=0; num<nofEmBarEta; num++) {
-    std::vector<G4LogicalVolume*> temp(nofEmBarPhi);
-    cellEcalBarLogical[num] = temp;
-  }  
-}
+{}
 
 void ECalConstruction::makeBarrel(G4Material* ecalMat, G4LogicalVolume* ecalLogical, std::vector<G4VisAttributes*> fVisAttributes)
 {

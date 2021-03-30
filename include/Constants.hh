@@ -104,7 +104,7 @@ constexpr G4double EtaArray[] = {1.740,1.830,1.930,2.043,2.172,2.322,2.5,2.65,3.
 // Variables for the solenoid cylinder
 constexpr G4double solenoidInnerR = 4000*mm;
 constexpr G4double solenoidOuterR = 4600*mm;
-constexpr G4double solenoidHalfZ = 10000*mm;
+constexpr G4double solenoidHalfZ = 625*cm;
 
 // Variables for muon chambers
 constexpr G4int NMuBarZSeg = 5; // Default = 5
@@ -114,6 +114,14 @@ constexpr G4int NMuBarCh = NMuBarZSeg*NMuBarPhiSeg*NMuBarRSeg;
 
 constexpr G4double muBarR[] = {4700*mm, 5000*mm, 5300*mm, 5700*mm}; // Dimension equal to NMuBarRSeg
 constexpr G4double muBardR[] = {100*mm, 150*mm, 200*mm, 300*mm}; // Dimension equal to NMuBarRSeg
-constexpr G4double muBarZLen[] = {10000*mm, 10500*mm, 11000*mm, 11500*mm}; // Dimension equal to NMuBarRSeg
+constexpr G4double muBarZLen[] = {850*cm, 850*cm, 850*cm, 850*cm}; // Dimension equal to NMuBarRSeg
+
+constexpr G4int NMuECZSeg = 5; // Default = 5
+constexpr G4int NMuECPhiSeg = 12; // Default = 12
+
+constexpr G4double muECRin[] = {100*cm, 100*cm, 100*cm, 100*cm, 100*cm}; // Dimension equal to NMuECZSeg
+constexpr G4double muECRout[] = {500*cm, 500*cm, 500*cm, 500*cm, 500*cm}; // Dimension equal to NMuECZSeg
+constexpr G4double muECZpos[] = {700*cm, 740*cm, 800*cm, 870*cm, 940*cm}; // Dimension equal to NMuECZSeg
+constexpr G4double muEChalfZwid[] = {10*cm, 20*cm, 30*cm, 30*cm, 30*cm}; // Dimension equal to NMuECZSeg
 
 #endif

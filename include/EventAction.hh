@@ -7,7 +7,7 @@
 #include "G4ThreeVector.hh"
 
 #include "TTree.h"
-
+//#include "TVector3.h"
 #include <vector>
 
 /// Event action
@@ -158,6 +158,7 @@ private:
   std::vector<G4double> muonHitX;
   std::vector<G4double> muonHitY;
   std::vector<G4double> muonHitZ;
+  //std::vector<TVector3*> muonHits;
   std::vector<G4double> muonEdep;
 
   TTree* eventTree;
