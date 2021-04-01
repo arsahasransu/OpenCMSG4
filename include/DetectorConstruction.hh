@@ -44,6 +44,10 @@ private:
   static G4ThreadLocal G4FieldManager* fFieldMgr3;
   static G4ThreadLocal MagneticField2* fMagneticField4;
   static G4ThreadLocal G4FieldManager* fFieldMgr4;
+  static G4ThreadLocal MagneticField2* fMagneticField5;
+  static G4ThreadLocal G4FieldManager* fFieldMgr5;
+  static G4ThreadLocal MagneticField2* fMagneticField6;
+  static G4ThreadLocal G4FieldManager* fFieldMgr6;
   
   G4LogicalVolume* logicWorld;
   G4LogicalVolume* ecalLogical;
@@ -53,6 +57,8 @@ private:
   G4LogicalVolume* fMagneticLogical2;
   G4LogicalVolume* fMagneticLogical3;
   G4LogicalVolume* fMagneticLogical4;
+  G4LogicalVolume* fMagneticLogical5;
+  G4LogicalVolume* fMagneticLogical6;
   G4LogicalVolume* trackerLogical;
   G4LogicalVolume* ecalPSLogical_r;
   G4LogicalVolume* ecalPSLogical_l;
@@ -63,6 +69,8 @@ private:
   G4LogicalVolume* hcalECLogical_l;
   G4LogicalVolume* solenoidLogical;
   G4LogicalVolume* muBrChLogical;
+  G4LogicalVolume* muECChLogical_r;
+  G4LogicalVolume* muECChLogical_l;
   
   std::vector<G4VisAttributes*> fVisAttributes;
   

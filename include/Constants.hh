@@ -4,6 +4,9 @@
 #include "globals.hh"
 #include "G4SystemOfUnits.hh"
 
+constexpr G4double world_sizeXY = 20*m;
+constexpr G4double world_sizeZ  = 20*m;
+
 constexpr G4int nofEmBarEta = 170; 	// Max Value = 170
 constexpr G4int nofEmBarPhi = 360; 		// Max Value = 360
 constexpr G4int nofEmBarCells = nofEmBarEta*nofEmBarPhi;

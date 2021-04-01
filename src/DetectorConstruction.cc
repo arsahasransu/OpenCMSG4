@@ -51,6 +51,10 @@ G4ThreadLocal MagneticField* DetectorConstruction::fMagneticField3 = 0;
 G4ThreadLocal G4FieldManager* DetectorConstruction::fFieldMgr3 = 0;
 G4ThreadLocal MagneticField2* DetectorConstruction::fMagneticField4 = 0;
 G4ThreadLocal G4FieldManager* DetectorConstruction::fFieldMgr4 = 0;
+G4ThreadLocal MagneticField2* DetectorConstruction::fMagneticField5 = 0;
+G4ThreadLocal G4FieldManager* DetectorConstruction::fFieldMgr5 = 0;
+G4ThreadLocal MagneticField2* DetectorConstruction::fMagneticField6 = 0;
+G4ThreadLocal G4FieldManager* DetectorConstruction::fFieldMgr6 = 0;
     
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -61,6 +65,8 @@ DetectorConstruction::DetectorConstruction()
   fMagneticLogical2(nullptr),
   fMagneticLogical3(nullptr),
   fMagneticLogical4(nullptr),
+  fMagneticLogical5(nullptr),
+  fMagneticLogical6(nullptr),
   fVisAttributes(), 
   ecalMode(111), tracMode(111111)
 {
@@ -91,8 +97,6 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// World Material
-  G4double world_sizeXY = 20*m;
-  G4double world_sizeZ  = 20*m;
 
 	G4String name, symbol;
 	G4double a, density, fractionmass;
@@ -433,14 +437,22 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// Muon Chamber Logical
-	auto muBrChSolid = new G4Tubs("MuonBarrelChamberSolid", 4600*mm, 7000*mm, 10000*mm, 0*deg, 360*deg);
+	auto muBrChSolid = new G4Tubs("MuonBarrelChamberSolid", 4600*mm, 7000*mm, solenoidHalfZ, 0*deg, 360*deg);
 	muBrChLogical = new G4LogicalVolume(muBrChSolid,world_mat,"Muon Barrel Chamber Logical");
 	new G4PVPlacement(0, G4ThreeVector(), muBrChLogical, "Muon Barrel", logicWorld, false, 0);
 
+	auto muECChSolid_r = new G4Tubs("MuonECChamberSolid_r", 0.9*muECRin[0], 0.5*world_sizeXY, 0.5*(0.5*world_sizeZ-solenoidHalfZ), 0*deg, 360*deg);
+	muECChLogical_r = new G4LogicalVolume(muECChSolid_r,world_mat,"Muon Right EndCap Chamber Logical");
+	new G4PVPlacement(0, G4ThreeVector(0,0,0.5*(0.5*world_sizeZ+solenoidHalfZ)), muECChLogical_r, "Muon Right EndCap", logicWorld, false, 0);
+
+	auto muECChSolid_l = new G4Tubs("MuonECChamberSolid_l", 0.9*muECRin[0], 0.5*world_sizeXY, 0.5*(0.5*world_sizeZ-solenoidHalfZ), 0*deg, 360*deg);
+	muECChLogical_l = new G4LogicalVolume(muECChSolid_l,world_mat,"Muon Left EndCap Chamber Logical");
+	new G4PVPlacement(0, G4ThreeVector(0,0,-0.5*(0.5*world_sizeZ+solenoidHalfZ)), muECChLogical_l, "Muon Left EndCap", logicWorld, false, 0);
+
 	MuonConstruction* muon = new MuonConstruction();
 	muon->makeBarrel(CuNi, muBrChLogical, fVisAttributes);
-	muon->makeEndCap_posz(CuNi, muBrChLogical, false, fVisAttributes);
-	muon->makeEndCap_negz(CuNi, muBrChLogical, false, fVisAttributes);
+	muon->makeEndCap_posz(CuNi, muECChLogical_r, false, fVisAttributes);
+	muon->makeEndCap_negz(CuNi, muECChLogical_l, false, fVisAttributes);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////// VISUALS ///////////////////////////////////////////////
@@ -492,6 +504,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   fMagneticLogical2 = trackerLogical;
   fMagneticLogical3 = hcalLogical;
   fMagneticLogical4 = muBrChLogical;
+  fMagneticLogical5 = muECChLogical_l;
+  fMagneticLogical6 = muECChLogical_l;
 
   return physWorld;
 }
@@ -526,6 +540,18 @@ void DetectorConstruction::ConstructSDandField()
   fFieldMgr4->CreateChordFinder(fMagneticField4);
   fMagneticLogical4->SetFieldManager(fFieldMgr4, forceToAllDaughters);
 
+  fMagneticField5 = new MagneticField2();
+  fFieldMgr5 = new G4FieldManager();
+  fFieldMgr5->SetDetectorField(fMagneticField5);
+  fFieldMgr5->CreateChordFinder(fMagneticField5);
+  fMagneticLogical5->SetFieldManager(fFieldMgr5, forceToAllDaughters);
+
+  fMagneticField6 = new MagneticField2();
+  fFieldMgr6 = new G4FieldManager();
+  fFieldMgr6->SetDetectorField(fMagneticField6);
+  fFieldMgr6->CreateChordFinder(fMagneticField6);
+  fMagneticLogical6->SetFieldManager(fFieldMgr6, forceToAllDaughters);
+
   // Register the field and its manager for deleting
   G4AutoDelete::Register(fMagneticField);
   G4AutoDelete::Register(fFieldMgr);
@@ -535,6 +561,10 @@ void DetectorConstruction::ConstructSDandField()
   G4AutoDelete::Register(fFieldMgr3);
   G4AutoDelete::Register(fMagneticField4);
   G4AutoDelete::Register(fFieldMgr4);
+  G4AutoDelete::Register(fMagneticField5);
+  G4AutoDelete::Register(fFieldMgr5);
+  G4AutoDelete::Register(fMagneticField6);
+  G4AutoDelete::Register(fFieldMgr6);
 }    
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
