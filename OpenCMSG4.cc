@@ -9,11 +9,13 @@
 
 #include "G4UImanager.hh"
 #include "FTFP_BERT.hh"
+#include "B4PhysicsList.hh"
 #include "G4StepLimiterPhysics.hh"
 
 #include "G4VisExecutive.hh"
 
 #include "G4UIExecutive.hh"
+#include "B4CustomPhysics.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -37,7 +39,7 @@ int main(int argc,char** argv)
   // Mandatory user initialization classes
   runManager->SetUserInitialization(new DetectorConstruction);
 
-  auto physicsList = new FTFP_BERT;
+  auto physicsList = new B4PhysicsList;  
   physicsList->RegisterPhysics(new G4StepLimiterPhysics());
   runManager->SetUserInitialization(physicsList);
 

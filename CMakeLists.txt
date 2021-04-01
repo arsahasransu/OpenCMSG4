@@ -93,7 +93,10 @@ set(OpenCMSG4_SCRIPTS
   exampleRun_particle.mac
   exampleRun_hepmc.mac
   readTrackerPixel.cc
-  )
+  decays.txt
+  ProcessList.txt
+  PhysicsConfiguration.txt
+  particles.txt  )
 
 foreach(_script ${OpenCMSG4_SCRIPTS})
   configure_file(

@@ -5,14 +5,14 @@
 #/detector/trackerMode 111111
 #/detector/ecalMode 111
 /detector/nonSensitiveMode false
-/detector/trackerMode 0
+/detector/trackerMode 111111
 /detector/ecalMode 111
 
 /run/initialize
 
 /generator particle
-/generator/particle/type mu+
-/generator/particle/momentum 5 GeV
+/generator/particle/type ~g_Lambda0
+/generator/particle/momentum 15 GeV
 /generator/particle/eta 0
 /generator/particle/sigmaEta 0
 /root/setFileName OpenCMSG4_particle.root

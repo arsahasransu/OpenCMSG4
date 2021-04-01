@@ -51,10 +51,6 @@ G4ThreadLocal MagneticField* DetectorConstruction::fMagneticField3 = 0;
 G4ThreadLocal G4FieldManager* DetectorConstruction::fFieldMgr3 = 0;
 G4ThreadLocal MagneticField2* DetectorConstruction::fMagneticField4 = 0;
 G4ThreadLocal G4FieldManager* DetectorConstruction::fFieldMgr4 = 0;
-G4ThreadLocal MagneticField2* DetectorConstruction::fMagneticField5 = 0;
-G4ThreadLocal G4FieldManager* DetectorConstruction::fFieldMgr5 = 0;
-G4ThreadLocal MagneticField2* DetectorConstruction::fMagneticField6 = 0;
-G4ThreadLocal G4FieldManager* DetectorConstruction::fFieldMgr6 = 0;
     
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -65,8 +61,6 @@ DetectorConstruction::DetectorConstruction()
   fMagneticLogical2(nullptr),
   fMagneticLogical3(nullptr),
   fMagneticLogical4(nullptr),
-  fMagneticLogical5(nullptr),
-  fMagneticLogical6(nullptr),
   fVisAttributes(), 
   ecalMode(111), tracMode(111111)
 {
@@ -504,8 +498,6 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   fMagneticLogical2 = trackerLogical;
   fMagneticLogical3 = hcalLogical;
   fMagneticLogical4 = muBrChLogical;
-  fMagneticLogical5 = muECChLogical_l;
-  fMagneticLogical6 = muECChLogical_l;
 
   return physWorld;
 }
@@ -540,18 +532,6 @@ void DetectorConstruction::ConstructSDandField()
   fFieldMgr4->CreateChordFinder(fMagneticField4);
   fMagneticLogical4->SetFieldManager(fFieldMgr4, forceToAllDaughters);
 
-  fMagneticField5 = new MagneticField2();
-  fFieldMgr5 = new G4FieldManager();
-  fFieldMgr5->SetDetectorField(fMagneticField5);
-  fFieldMgr5->CreateChordFinder(fMagneticField5);
-  fMagneticLogical5->SetFieldManager(fFieldMgr5, forceToAllDaughters);
-
-  fMagneticField6 = new MagneticField2();
-  fFieldMgr6 = new G4FieldManager();
-  fFieldMgr6->SetDetectorField(fMagneticField6);
-  fFieldMgr6->CreateChordFinder(fMagneticField6);
-  fMagneticLogical6->SetFieldManager(fFieldMgr6, forceToAllDaughters);
-
   // Register the field and its manager for deleting
   G4AutoDelete::Register(fMagneticField);
   G4AutoDelete::Register(fFieldMgr);
@@ -561,10 +541,6 @@ void DetectorConstruction::ConstructSDandField()
   G4AutoDelete::Register(fFieldMgr3);
   G4AutoDelete::Register(fMagneticField4);
   G4AutoDelete::Register(fFieldMgr4);
-  G4AutoDelete::Register(fMagneticField5);
-  G4AutoDelete::Register(fFieldMgr5);
-  G4AutoDelete::Register(fMagneticField6);
-  G4AutoDelete::Register(fFieldMgr6);
 }    
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
