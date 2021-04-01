@@ -101,7 +101,7 @@ void MuonConstruction::makeEndCap_posz(G4Material* muMat, G4LogicalVolume* muLog
 		     0,0,1);
     G4RotationMatrix *rot = new G4RotationMatrix(rottemp);
     
-    new G4PVPlacement(rot, G4ThreeVector(xpos,ypos,zpos), chamberMuonECLogical_r[copyNo], "muonECChamber_r", muLogical, false, copyNo, false);
+    new G4PVPlacement(rot, G4ThreeVector(xpos,ypos,zpos), chamberMuonECLogical_r[copyNo], "muonECChamber_r", muLogical, false, copyNo, true);
     //new G4PVPlacement(0, G4ThreeVector(0,0,0), chamberMuonBarLogical[copyNo], "muonBarrelChamber", muLogical, false, copyNo, false);
 
     visAttributes = new G4VisAttributes(G4Colour(0.8888,0.8888,0));
@@ -154,7 +154,7 @@ void MuonConstruction::makeEndCap_negz(G4Material* muMat, G4LogicalVolume* muLog
 		     0,0,1);
     G4RotationMatrix *rot = new G4RotationMatrix(rottemp);
     
-    new G4PVPlacement(rot, G4ThreeVector(xpos,ypos,zpos), chamberMuonECLogical_l[copyNo], "muonECChamber_l", muLogical, false, copyNo, false);
+    new G4PVPlacement(rot, G4ThreeVector(xpos,ypos,zpos), chamberMuonECLogical_l[copyNo], "muonECChamber_l", muLogical, false, copyNo, true);
     //new G4PVPlacement(0, G4ThreeVector(0,0,0), chamberMuonBarLogical[copyNo], "muonBarrelChamber", muLogical, false, copyNo, false);
 
     visAttributes = new G4VisAttributes(G4Colour(0.8888,0.8888,0));

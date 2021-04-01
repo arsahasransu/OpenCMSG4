@@ -697,13 +697,12 @@ void EventAction::sortAndSaveTrackHit() {
 
 void EventAction::fillMuonHit(G4String physName, G4ThreeVector pos, G4double edep) {
 
-  if(physName=="muonBarrelChamber") {
     muonHitX.push_back(pos.getX());
     muonHitY.push_back(pos.getY());
     muonHitZ.push_back(pos.getZ());
     //TVector3* vec3 = new TVector3(pos.getX(), pos.getY(), pos.getZ());
     //muonHits.push_back(vec3);
     muonEdep.push_back(edep);
-  }
+  
   
 }
