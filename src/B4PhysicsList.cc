@@ -46,7 +46,7 @@
 #include "G4HadronElasticPhysics.hh"
 #include "G4NeutronTrackingCut.hh"
 //#include "G4DataQuestionaire.hh"
-#include "G4HadronPhysicsQGSP_BERT.hh"
+#include "G4HadronPhysicsFTFP_BERT.hh"
 #include "B4CustomPhysics.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -57,7 +57,7 @@ B4PhysicsList::B4PhysicsList() : G4VModularPhysicsList() {
   SetVerboseLevel(1);
   
     //G4DataQuestionaire it(photon);
-  G4cout << "<<< Geant4 Physics List simulation engine: QGSP_BERT 2.0"<<G4endl;
+  G4cout << "<<< Geant4 Physics List simulation engine: FTFP_BERT 2.0"<<G4endl;
   G4cout <<G4endl;
   
  // EM Physics
@@ -73,7 +73,7 @@ B4PhysicsList::B4PhysicsList() : G4VModularPhysicsList() {
   RegisterPhysics( new G4HadronElasticPhysics() );
 
    // Hadron Physics
-  RegisterPhysics(  new G4HadronPhysicsQGSP_BERT());
+  RegisterPhysics(  new G4HadronPhysicsFTFP_BERT());
 
   // Stopping Physics
   RegisterPhysics( new G4StoppingPhysics() );

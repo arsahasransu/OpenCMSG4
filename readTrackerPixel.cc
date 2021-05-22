@@ -17,7 +17,7 @@ int main() {
   constexpr double phbitres = 4*pow(10,-6);
   constexpr double etbitres = pow(10,-6);
   constexpr double etashift = 4;
-  constexpr double phishift = 1.571;
+  constexpr double phishift = 3.2;
 
   while (myReader.Next()){
     std::cout << "Event " << evtCounter++ << std::endl;

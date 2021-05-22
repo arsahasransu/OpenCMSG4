@@ -10,7 +10,7 @@
 #include "G4HadronicException.hh"
 #include "G4ParticleDefinition.hh"
 
-
+class G4GenericMessenger;
 class G4ProcessHelper;
 
 class FullModelHadronicProcess : public G4VDiscreteProcess
@@ -62,10 +62,14 @@ private:
 
   const G4DynamicParticle* FindRhadron(G4ParticleChange*);
 
+  void DefineCommands();
+  
   G4ProcessHelper* theHelper;
   //G4bool toyModel;
+  G4bool force2to2;
   G4double cache;
   G4ThreeVector what;
+  G4GenericMessenger* fMessenger;
 
 
 };

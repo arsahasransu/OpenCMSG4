@@ -57,26 +57,30 @@ void CustomParticleFactory::loadCustomParticles()
       while(name.c_str()[0] == ' ') name.erase(0,1);
       while(name[name.size()-1] == ' ') name.erase(name.size()-1,1);
       
-      //      std::cout << name << std::endl;
+      std::cout << name << std::endl;
       
-      if(abs(pdgCode) / 1000000 == 0)
+      if(abs(pdgCode) / 10000000 == 0)
 	{
-	  std::cout << "Pdg code too low " << pdgCode << " "<<abs(pdgCode) / 1000000  << std::endl;
+	  std::cout << "Pdg code too low " << pdgCode << " "<<abs(pdgCode) / 10000000  << std::endl;
 	  continue;
 	}
       
       pType="custom";
-      if(CustomPDGParser::s_isRHadron(pdgCode)) pType = "rhadron";
-      if(CustomPDGParser::s_isSLepton(pdgCode)) pType = "sLepton";
-      if(CustomPDGParser::s_isMesonino(pdgCode)) pType = "mesonino";
-      if(CustomPDGParser::s_isSbaryon(pdgCode)) pType = "sbaryon";
+      if(CustomPDGParser::s_isR1Meson(pdgCode)) pType = "r1meson";
+      if(CustomPDGParser::s_isR1Baryon(pdgCode)) pType = "r1baryon";
+      if(CustomPDGParser::s_isS1Meson(pdgCode)) pType = "s1meson";
+      if(CustomPDGParser::s_isS1Baryon(pdgCode)) pType = "s1baryon";
 
       std::cout<<"pType: "<<pType<<std::endl;
+      //double charge=CustomPDGParser::s_charge(pdgCode);
+      //std::cout<<"Charge is"<<std::endl;
       std::cout<<"Charge of "<<name<<" is "<<CustomPDGParser::s_charge(pdgCode)<<std::endl;
       //      std::cout<<"s_isRMeson(pdgCode): "<<CustomPDGParser::s_isRMeson(pdgCode)<<std::endl;
       //      std::cout<<"s_isRBaryon(pdgCode): "<<CustomPDGParser::s_isRBaryon(pdgCode)<<std::endl;
-      if(CustomPDGParser::s_isRMeson(pdgCode)) std::cout<<"Is R-meson"<<std::endl;
-      if(CustomPDGParser::s_isRBaryon(pdgCode)) std::cout<<"Is R-baryon"<<std::endl;
+      if(CustomPDGParser::s_isR1Meson(pdgCode)) std::cout<<"Is R1-meson"<<std::endl;
+      if(CustomPDGParser::s_isR1Baryon(pdgCode)) std::cout<<"Is R1-baryon"<<std::endl;
+      if(CustomPDGParser::s_isS1Meson(pdgCode)) std::cout<<"Is S1-meson"<<std::endl;
+      if(CustomPDGParser::s_isS1Baryon(pdgCode)) std::cout<<"Is S1-baryon"<<std::endl;
 
       CustomParticle *particle  = new CustomParticle(
 						     name,           mass * GeV ,        0.0*MeV,       eplus* CustomPDGParser::s_charge(pdgCode), 
@@ -121,7 +125,7 @@ void CustomParticleFactory::loadCustomParticles()
       m_particles.insert(particle);
     }
   configFile.close();
-
+  /*
   // Reading decays from file
   std::vector<std::vector<std::string>* > decays;
   std::ifstream decayFile("decays.txt");
@@ -132,7 +136,7 @@ void CustomParticleFactory::loadCustomParticles()
       decays.push_back(txtvec);
     }
   decayFile.close();
-
+  
   // Looping over custom particles to add decays
   for (std::set<G4ParticleDefinition *>::iterator part=m_particles.begin();part!=m_particles.end();part++)
     {
@@ -166,7 +170,7 @@ void CustomParticleFactory::loadCustomParticles()
     	  (*part)->SetDecayTable(table);
 
 	}
-    }
+    } */
   return;    
 }
 

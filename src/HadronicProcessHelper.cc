@@ -94,7 +94,7 @@ G4double HadronicProcessHelper::inclusiveCrossSection(const G4DynamicParticle *p
   G4int pdgCode = particle->GetDefinition()->GetPDGEncoding();
 
   //24mb for gluino-balls
-  if(CustomPDGParser::s_isRGlueball(pdgCode)) return 24 * millibarn * element->GetN();
+  //if(CustomPDGParser::s_isRGlueball(pdgCode)) return 24 * millibarn * element->GetN();
   
   //get quark vector
   std::vector<G4int> quarks=CustomPDGParser::s_containedQuarks(pdgCode);

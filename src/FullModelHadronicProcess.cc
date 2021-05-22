@@ -7,13 +7,16 @@
 #include "G4HadReentrentException.hh"
 #include "CustomPDGParser.hh"
 #include "CustomParticle.hh"
-
+#include "G4GenericMessenger.hh"
 #include "G4PhysicalConstants.hh"
 #include "G4SystemOfUnits.hh"
 
 FullModelHadronicProcess::FullModelHadronicProcess(const G4String& processName) :
   G4VDiscreteProcess(processName)
 {
+  
+  //force2to2 = false;
+  DefineCommands();
   // Instantiating helper class
   theHelper = G4ProcessHelper::Instance();
 }
@@ -32,7 +35,7 @@ G4double FullModelHadronicProcess::GetMicroscopicCrossSection(const G4DynamicPar
 {
   //Get the cross section for this particle/element combination from the ProcessHelper
   G4double InclXsec = theHelper->GetInclusiveCrossSection(aParticle,anElement);
-  G4cout<<"Returned cross section from helper was: "<<InclXsec/millibarn<<" millibarn"<<G4endl;
+  //G4cout<<"Returned cross section from helper was: "<<InclXsec/millibarn<<" millibarn"<<G4endl;
 
   // Need to provide Set-methods for these in time
   G4double HighestEnergyLimit = 10 * TeV  ;
@@ -163,13 +166,13 @@ G4VParticleChange* FullModelHadronicProcess::PostStepDoIt(const G4Track& aTrack,
   
   G4ParticleDefinition* aTarget; 
   ReactionProduct rp = theHelper->GetFinalState(aTrack,aTarget);
-  G4bool force2to2 = false;
-  //  G4cout<<"Trying to get final state..."<<G4endl; 
-  while(rp.size()!=2 && force2to2){
+  auto forced2to2 = false;
+  //G4cout<<"Force 2 to 2:-"<< force2to2<<G4endl; 
+  while(rp.size()!=2 && forced2to2){
     rp = theHelper->GetFinalState(aTrack,aTarget);
   }
   G4int NumberOfSecondaries = rp.size();
-  //  G4cout<<"Multiplicity of selected final state: "<<rp.size()<<G4endl;
+  //if (rp.size()!=2) G4cout<<"Error: Multiplicity of selected final state: "<<rp.size()<<G4endl;
 
   //Getting CMS transforms. Boosting is done at histogram filling
   G4LorentzVector Target4Momentum;
@@ -410,18 +413,19 @@ G4VParticleChange* FullModelHadronicProcess::PostStepDoIt(const G4Track& aTrack,
 	  E_new = e_kin;
 	} else {
 	  E_new = theRhadron->GetKineticEnergy();
-	  if(CustomPDGParser::s_isRMeson(theRhadron->GetDefinition()->GetPDGEncoding())
+	  /*if(CustomPDGParser::s_isRMeson(theRhadron->GetDefinition()->GetPDGEncoding())
 	     !=CustomPDGParser::s_isRMeson(theIncidentPDG)
 	     ||
 	     CustomPDGParser::s_isMesonino(theRhadron->GetDefinition()->GetPDGEncoding())
 	     !=CustomPDGParser::s_isMesonino(theIncidentPDG)
 	     ) {
-	    std::cout<<"Rm: "<<CustomPDGParser::s_isRMeson(theRhadron->GetDefinition()->GetPDGEncoding())
+	    /*std::cout<<"Rm: "<<CustomPDGParser::s_isRMeson(theRhadron->GetDefinition()->GetPDGEncoding())
 		     <<" vs: "<<CustomPDGParser::s_isRMeson(theIncidentPDG)<<std::endl;
 	    std::cout<<"Sm: "<<CustomPDGParser::s_isMesonino(theRhadron->GetDefinition()->GetPDGEncoding())
-		     <<" vs: "<<CustomPDGParser::s_isMesonino(theIncidentPDG)<<std::endl;
+		     <<" vs: "<<CustomPDGParser::s_isMesonino(theIncidentPDG)<<std::endl; 
+		     //Prints Baryonisation fraction, sort of 
 
-	  }
+	  }*/
 	}
       
       //Calculating relevant scattering angles.
@@ -690,3 +694,20 @@ const G4DynamicParticle* FullModelHadronicProcess::FindRhadron(G4ParticleChange*
   return 0;
 }
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void FullModelHadronicProcess::DefineCommands()
+{
+  // Define /B4a/field command directory using generic messenger class
+  fMessenger = new G4GenericMessenger(this, 
+                                      "/B4a/physics/", 
+                                      "Physics Control");
+
+  // fieldValue command 
+  auto& valueCmd
+    = fMessenger->DeclareProperty("Force2to2",
+                                force2to2, 
+                                "Enable only 2 to 2 procs");
+  valueCmd.SetParameterName("flg", true);
+  valueCmd.SetDefaultValue("false");
+}
