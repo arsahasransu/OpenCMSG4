@@ -118,7 +118,7 @@ G4ProcessHelper::G4ProcessHelper(){
     if(particle!=0&&table!=0&&name.find("cloud")>name.size())
       {
 	particle->SetPDGLifeTime(hadronlifetime*s);
-	particle->SetPDGStable(false);
+	particle->SetPDGStable(true);
 	G4cout<<"Lifetime of: "<<name<<" set to: "<<particle->GetPDGLifeTime()/s<<" s."<<G4endl;
 	G4cout<<"Stable: "<<particle->GetPDGStable()<<G4endl;
       }
@@ -173,7 +173,7 @@ G4double G4ProcessHelper::GetInclusiveCrossSection(const G4DynamicParticle *aPar
 	    if (*it == 3) theXsec += 6 * millibarn;
 	  }
       
-    } else {
+    } else {//doesn't matter coz regge
     double R = Regge(boost);
     double P = Pom(boost);
     if(thePDGCode>0)
@@ -268,7 +268,7 @@ ReactionProduct G4ProcessHelper::GetFinalState(const G4Track& aTrack, G4Particle
 	(CustomPDGParser::s_isR1Meson(theIncidentPDG)&&theIncidentPDG>0)
 	)
      )  
-    baryonise=true;
+    baryonise=true;//doesn't matter coz regge
 
 
   //Making a pointer directly to the ReactionProductList we are looking at. Makes life easier :-)
@@ -305,6 +305,10 @@ ReactionProduct G4ProcessHelper::GetFinalState(const G4Track& aTrack, G4Particle
 	  (CustomPDGParser::s_isR1Baryon(theIncidentPDG))
 	  ||
 	  (CustomPDGParser::s_isS1Baryon(theIncidentPDG))
+	  ||
+	  (CustomPDGParser::s_isAntiR1Baryon(theIncidentPDG))
+	  ||
+	  (CustomPDGParser::s_isAntiS1Baryon(theIncidentPDG))
 	  ||!reggemodel
 	  )
        )
@@ -458,7 +462,9 @@ G4bool G4ProcessHelper::ReactionIsPossible(const ReactionProduct& aReaction,cons
 
 G4bool G4ProcessHelper::ReactionGivesBaryon(const ReactionProduct& aReaction){
   for (ReactionProduct::const_iterator it = aReaction.begin();it!=aReaction.end();it++)
-    if(CustomPDGParser::s_isR1Baryon(*it)||CustomPDGParser::s_isS1Baryon(*it)) return true;
+    if(CustomPDGParser::s_isR1Baryon(*it)||CustomPDGParser::s_isS1Baryon(*it)
+       ||(CustomPDGParser::s_isAntiR1Baryon(*it))||(CustomPDGParser::s_isAntiS1Baryon(*it)))
+     return true;
   return false;
 }
 

@@ -121,8 +121,8 @@ void B4CustomPhysics::addCustomPhysics()
 	      }
               if(particle->GetPDGCharge()/eplus != 0)
 		{ 
-		  pmanager->AddProcess(new G4hMultipleScattering(),-1, 1,i+1); //todo:-AddProcess function arguements???
-		  pmanager->AddProcess(new G4hhIonisation(),       -1, 2,i+2);
+		  pmanager->AddProcess(new G4hMultipleScattering(),-1, 1,i+1);
+		  pmanager->AddProcess(new G4hhIonisation(), -1, 2,i+2);
 		}
 	      pmanager->DumpInfo();
             }
@@ -138,7 +138,7 @@ void B4CustomPhysics::addCustomPhysics()
 
 #include "G4Decay.hh"
 
-void B4CustomPhysics::ConstructGeneral() //todo:-Decay added for custom particles???
+void B4CustomPhysics::ConstructGeneral()
 {
   auto theParticleIterator = GetParticleIterator();
   // Add Decay Process

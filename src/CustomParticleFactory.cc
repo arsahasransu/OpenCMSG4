@@ -67,9 +67,13 @@ void CustomParticleFactory::loadCustomParticles()
       
       pType="custom";
       if(CustomPDGParser::s_isR1Meson(pdgCode)) pType = "r1meson";
+      if(CustomPDGParser::s_isAntiR1Meson(pdgCode)) pType = "antir1meson";
       if(CustomPDGParser::s_isR1Baryon(pdgCode)) pType = "r1baryon";
+      if(CustomPDGParser::s_isAntiR1Baryon(pdgCode)) pType = "antir1baryon";
       if(CustomPDGParser::s_isS1Meson(pdgCode)) pType = "s1meson";
+      if(CustomPDGParser::s_isAntiS1Meson(pdgCode)) pType = "antis1meson";
       if(CustomPDGParser::s_isS1Baryon(pdgCode)) pType = "s1baryon";
+      if(CustomPDGParser::s_isAntiS1Baryon(pdgCode)) pType = "antis1baryon";
 
       std::cout<<"pType: "<<pType<<std::endl;
       //double charge=CustomPDGParser::s_charge(pdgCode);
@@ -81,6 +85,10 @@ void CustomParticleFactory::loadCustomParticles()
       if(CustomPDGParser::s_isR1Baryon(pdgCode)) std::cout<<"Is R1-baryon"<<std::endl;
       if(CustomPDGParser::s_isS1Meson(pdgCode)) std::cout<<"Is S1-meson"<<std::endl;
       if(CustomPDGParser::s_isS1Baryon(pdgCode)) std::cout<<"Is S1-baryon"<<std::endl;
+      if(CustomPDGParser::s_isAntiR1Meson(pdgCode)) std::cout<<"Is AntiR1-meson"<<std::endl;
+      if(CustomPDGParser::s_isAntiR1Baryon(pdgCode)) std::cout<<"Is AntiR1-baryon"<<std::endl;
+      if(CustomPDGParser::s_isAntiS1Meson(pdgCode)) std::cout<<"Is AntiS1-meson"<<std::endl;
+      if(CustomPDGParser::s_isAntiS1Baryon(pdgCode)) std::cout<<"Is AntiS1-baryon"<<std::endl;
 
       CustomParticle *particle  = new CustomParticle(
 						     name,           mass * GeV ,        0.0*MeV,       eplus* CustomPDGParser::s_charge(pdgCode), 

@@ -12,8 +12,8 @@
 #
 # Initialize kernel
 /detector/nonSensitiveMode true
-/detector/trackerMode 0
-/detector/ecalMode 0
+/detector/trackerMode 111111
+/detector/ecalMode 111
 
 /run/initialize
 #

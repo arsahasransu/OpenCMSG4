@@ -4,14 +4,14 @@
 #/detector/nonSensitiveMode true
 #/detector/trackerMode 111111
 #/detector/ecalMode 111
-/detector/nonSensitiveMode false
+/detector/nonSensitiveMode true
 /detector/trackerMode 111111
 /detector/ecalMode 111
 
 /run/initialize
 
 /generator particle
-/generator/particle/type ~g_Lambda0
+/generator/particle/type e+
 /generator/particle/momentum 15 GeV
 /generator/particle/eta 0
 /generator/particle/sigmaEta 0
