@@ -2,6 +2,8 @@
 #include <cmath>
 #include <vector>
 #include <bitset>
+#include <chrono>
+#include <omp.h>
 
 using namespace std;
 
@@ -24,8 +26,9 @@ int main() { // Check for rho
   std::vector<double> phivec;
   std::vector<double> rhovec;
   long i=0;
-  for(double eta=0; eta<=0; eta=eta+etbitres) {
-    for(double phi=0; phi<=8.388604; phi=phi+phbitres) { // 8.388604 = ((2^(22-1))-1) * (4*(10e-6))
+  for(double eta=0; eta<=4.194304; eta=eta+etbitres) { // 4.194304 = ((2^(23-1))-1) * (1e-6))
+    //for(double phi=0; phi<=8.388604; phi=phi+phbitres) { // 8.388604 = ((2^(22-1))-1) * (4e-6))
+    for(double phi=0; phi<=0; phi=phi+phbitres) { 
       //for(double rho=0; rho<=2.62143; rho+=rhbitres) { // 2.62143 = ((2^(19-1))-1) * (10e-5)
       for(double rho=0; rho<=0; rho+=rhbitres) {
 	//double pass = false;
@@ -33,7 +36,7 @@ int main() { // Check for rho
 	//pass = pass||(rho==0.08434||rho==0.08435)?true:false;
 	//pass = pass||(rho==0.57893||rho==0.57894)?true:false;
 	//if(!pass) continue;
-	//if(phi>10*phbitres) continue;
+	//if(eta>10*etbitres) continue;
 	  
 	double etashifted = eta+etashift;
 	double phishifted = phi+phishift;
@@ -56,18 +59,27 @@ int main() { // Check for rho
   }
 
   cout<<"Size of array to check: "<<facvec.size()<<endl;
-  for(int ctr=0; ctr<facvec.size(); ctr++) {
-    if(ctr%1000==0) cout<<ctr<<" done."<<endl;
-    for(int j=ctr+1; j<facvec.size(); j++) {
-      // Check if they are equal
-      if(facvec[ctr]==facvec[j]) {
-	std::bitset<64> tobitsi(facvec[ctr]);
-	cout<<"flag: "<<facvec[ctr]<<"\t"<<etavec[ctr]<<"\t"<<phivec[ctr]<<"\t"<<rhovec[ctr]<<"\t"<<tobitsi<<endl;
-	std::bitset<64> tobitsj(facvec[j]);
-	cout<<"flag: "<<facvec[j]<<"\t"<<etavec[j]<<"\t"<<phivec[j]<<"\t"<<rhovec[j]<<"\t"<<tobitsj<<endl;
+  auto start = std::chrono::steady_clock::now();
+#pragma omp parallel
+  {
+#pragma omp for
+    for(int ctr=0; ctr<facvec.size(); ctr++) {
+      if(ctr%1000==0) cout<<ctr<<" done."<<endl;
+      for(int j=ctr+1; j<facvec.size(); j++) {
+	// Check if they are equal
+	if(facvec[ctr]==facvec[j]) {
+	  std::bitset<64> tobitsi(facvec[ctr]);
+	  cout<<"flag: "<<facvec[ctr]<<"\t"<<etavec[ctr]<<"\t"<<phivec[ctr]<<"\t"<<rhovec[ctr]<<"\t"<<tobitsi<<endl;
+	  std::bitset<64> tobitsj(facvec[j]);
+	  cout<<"flag: "<<facvec[j]<<"\t"<<etavec[j]<<"\t"<<phivec[j]<<"\t"<<rhovec[j]<<"\t"<<tobitsj<<endl;
+	}
       }
     }
   }
+  auto end = std::chrono::steady_clock::now();
+  auto diff = end-start;
+  
+  cout<<"Clock time: "<<std::chrono::duration<double,milli> (diff).count()<<endl;
   
   return -1;
 }
