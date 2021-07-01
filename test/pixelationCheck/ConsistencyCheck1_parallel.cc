@@ -17,16 +17,16 @@ int main() { // Check for rho
   long rhbit = 0b1000000000000000000;
   long phbit = 0b1000000000000000000000;
   long etbit = 0b10000000000000000000000;
-  double rhbitres = 10e-06;
-  double phbitres = 4e-06;
-  double etbitres = 1e-06;
+  double rhbitres = 10*pow(10,-6);
+  double phbitres = 4*pow(10,-6);
+  double etbitres = 2*pow(10,-6);
 
   std::vector<long> facvec;
   std::vector<double> etavec;
   std::vector<double> phivec;
   std::vector<double> rhovec;
   long i=0;
-  for(double eta=0; eta<=4.194304; eta=eta+etbitres) { // 4.194304 = ((2^(23-1))-1) * (1e-6))
+  for(double eta=0; eta<=8.388606; eta=eta+etbitres) { // 8.388606 = ((2^(23-1))-1) * (2e-6))
     //for(double phi=0; phi<=8.388604; phi=phi+phbitres) { // 8.388604 = ((2^(22-1))-1) * (4e-6))
     for(double phi=0; phi<=0; phi=phi+phbitres) { 
       //for(double rho=0; rho<=2.62143; rho+=rhbitres) { // 2.62143 = ((2^(19-1))-1) * (10e-5)

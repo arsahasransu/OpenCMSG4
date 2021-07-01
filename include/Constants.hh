@@ -80,7 +80,7 @@ constexpr long phbit = 0b1000000000000000000000;
 constexpr long etbit = 0b10000000000000000000000;
 constexpr double rhbitres = 10*um;
 constexpr double phbitres = 4*pow(10,-6);
-constexpr double etbitres = pow(10,-6);
+constexpr double etbitres = 2*pow(10,-6);
 
 // HCal Barrel Variables
 constexpr G4int nofHcalBarEta = 2*15;  // 2*17 - default value

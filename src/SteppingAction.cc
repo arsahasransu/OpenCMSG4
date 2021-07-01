@@ -173,10 +173,10 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep) {
     double phProc = quantPos.getPhi()+phishift;
     double etProc = quantPos.getEta()+etashift;
     
-    long rhfactor = floor(rhProc/rhbitres);
-    long phfactor = floor(phProc/phbitres);
-    long etfactor = floor(etProc/etbitres);
-    long factor = rhfactor+phfactor*rhbit+etfactor*phbit*rhbit;
+    long rhfactor = round(rhProc/rhbitres);
+    long phfactor = round(phProc/phbitres);
+    long etfactor = round(etProc/etbitres);
+    long factor = rhfactor+rhbit*(phfactor+phbit*etfactor);
     
     fEventAction->fillTrackHit(etfactor,phfactor,rhfactor,factor,edep/eV);
   }
@@ -198,10 +198,10 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep) {
     double phProc = quantPos.getPhi()+phishift;
     double etProc = quantPos.getEta()+etashift;
     
-    long rhfactor = floor(rhProc/rhbitres);
-    long phfactor = floor(phProc/phbitres);
-    long etfactor = floor(etProc/etbitres);
-    long factor = rhfactor+phfactor*rhbit+etfactor*phbit*rhbit;
+    long rhfactor = round(rhProc/rhbitres);
+    long phfactor = round(phProc/phbitres);
+    long etfactor = round(etProc/etbitres);
+    long factor = rhfactor+rhbit*(phfactor+phbit*etfactor);
     
     fEventAction->fillTrackHit(rhfactor,phfactor,etfactor,factor,edep/eV);
     
