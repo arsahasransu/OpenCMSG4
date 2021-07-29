@@ -69,7 +69,7 @@ TrackerConstruction::TrackerConstruction()
 TrackerConstruction::~TrackerConstruction() {
 }
 
-void TrackerConstruction::makePIB(G4Material* elAl, G4Material* elSi, G4Material* Cu, std::vector<G4Material*> pixBarMat, G4LogicalVolume* trackerLogical, bool nonSens, std::vector<G4VisAttributes*> fVisAttributes) {
+void TrackerConstruction::makePIB(G4Material* elAl, G4Material* elSi, G4Material* Cu, std::vector<G4Material*> pixBarMat, G4LogicalVolume* trackerLogical, bool trackSens, std::vector<G4VisAttributes*> fVisAttributes) {
 
   for(G4int i=0; i<PIB_num; i++) {
     auto PIBSupp_Solid = new G4Tubs("PIBSupport_Solid",
@@ -80,7 +80,7 @@ void TrackerConstruction::makePIB(G4Material* elAl, G4Material* elSi, G4Material
     auto PIBSupp_Logical = new G4LogicalVolume(PIBSupp_Solid,
 					       elAl,
 					       "PIBSupport_Logical");
-    if(nonSens)
+    if(!trackSens)
       new G4PVPlacement(0,
 			G4ThreeVector(),
 			PIBSupp_Logical,
@@ -120,7 +120,7 @@ void TrackerConstruction::makePIB(G4Material* elAl, G4Material* elSi, G4Material
       auto PixBarMat_Logical = new G4LogicalVolume(PixBarMat_Solid,
 						   pixBarMat[mat_ctr],
 						   "PIBMaterials_Logical");
-      if(nonSens)
+      if(!trackSens)
 	new G4PVPlacement(0,
 			  G4ThreeVector(),
 			  PixBarMat_Logical,
@@ -141,7 +141,7 @@ void TrackerConstruction::makePIB(G4Material* elAl, G4Material* elSi, G4Material
   auto PIBMat_Logical = new G4LogicalVolume(PIBMat_Solid,
 					    Cu,
 					    "PIBCables_Logical");
-  if(nonSens)
+  if(!trackSens)
     new G4PVPlacement(0,
 		      G4ThreeVector(0,0,0.5*(66+177)*mm),
 		      PIBMat_Logical,
@@ -150,7 +150,7 @@ void TrackerConstruction::makePIB(G4Material* elAl, G4Material* elSi, G4Material
 		      false,
 		      0,
 		      true);
-  if(nonSens)
+  if(!trackSens)
     new G4PVPlacement(0,
 		      G4ThreeVector(0,0,-0.5*(66+177)*mm),
 		      PIBMat_Logical,
@@ -169,7 +169,7 @@ void TrackerConstruction::makePIB(G4Material* elAl, G4Material* elSi, G4Material
   PIBMat_Logical = new G4LogicalVolume(PIBMat_Solid,
 				       Cu,
 				       "PIBCables_Logical");
-  if(nonSens)
+  if(!trackSens)
     new G4PVPlacement(0,
 		      G4ThreeVector(0,0,0.5*(285+177)*mm),
 		      PIBMat_Logical,
@@ -178,7 +178,7 @@ void TrackerConstruction::makePIB(G4Material* elAl, G4Material* elSi, G4Material
 		      false,
 		      2,
 		      true);
-  if(nonSens)
+  if(!trackSens)
     new G4PVPlacement(0,
 		      G4ThreeVector(0,0,-0.5*(285+177)*mm),
 		      PIBMat_Logical,
@@ -197,7 +197,7 @@ void TrackerConstruction::makePIB(G4Material* elAl, G4Material* elSi, G4Material
   PIBMat_Logical = new G4LogicalVolume(PIBMat_Solid,
 				       Cu,
 				       "PIBCables_Logical");
-  if(nonSens)
+  if(!trackSens)
     new G4PVPlacement(0,
 		      G4ThreeVector(0,0,0.5*(285+110)*mm),
 		      PIBMat_Logical,
@@ -206,7 +206,7 @@ void TrackerConstruction::makePIB(G4Material* elAl, G4Material* elSi, G4Material
 		      false,
 		      4,
 		      true);
-  if(nonSens)
+  if(!trackSens)
     new G4PVPlacement(0,
 		      G4ThreeVector(0,0,-0.5*(285+110)*mm),
 		      PIBMat_Logical,
@@ -225,7 +225,7 @@ void TrackerConstruction::makePIB(G4Material* elAl, G4Material* elSi, G4Material
   PIBMat_Logical = new G4LogicalVolume(PIBMat_Solid,
 					     Cu,
 				       "PIBCables_Logical");
-  if(nonSens)
+  if(!trackSens)
     new G4PVPlacement(0,
 		      G4ThreeVector(0,0,0.5*(285+153)*mm),
 		      PIBMat_Logical,
@@ -234,7 +234,7 @@ void TrackerConstruction::makePIB(G4Material* elAl, G4Material* elSi, G4Material
 		      false,
 		      6,
 		      true);
-  if(nonSens)
+  if(!trackSens)
     new G4PVPlacement(0,
 		      G4ThreeVector(0,0,-0.5*(285+153)*mm),
 		      PIBMat_Logical,
@@ -253,7 +253,7 @@ void TrackerConstruction::makePIB(G4Material* elAl, G4Material* elSi, G4Material
   auto PIBSupp_Logical = new G4LogicalVolume(PIBSupp_Solid,
 					     elAl,
 					     "PIBSupport_Logical");
-  if(nonSens)
+  if(!trackSens)
     new G4PVPlacement(0,
 		      G4ThreeVector(0,0,285*mm+0.5*PIBSup_thick*mm),
 		      PIBSupp_Logical,
@@ -262,7 +262,7 @@ void TrackerConstruction::makePIB(G4Material* elAl, G4Material* elSi, G4Material
 		      false,
 		      PIB_num,
 		      true);
-  if(nonSens)
+  if(!trackSens)
     new G4PVPlacement(0,
 		      G4ThreeVector(0,0,-285*mm-0.5*PIBSup_thick*mm),
 		      PIBSupp_Logical,
@@ -281,7 +281,7 @@ void TrackerConstruction::makePIB(G4Material* elAl, G4Material* elSi, G4Material
   auto PIBCables_Logical = new G4LogicalVolume(PIBCables_Solid,
 					       Cu,
 					       "PIBCables_Logical");
-  if(nonSens)
+  if(!trackSens)
     new G4PVPlacement(0,
 		      G4ThreeVector(0,0,285*mm+PIBSup_thick*mm+0.5*PIBCables_thick*um),
 		      PIBCables_Logical,
@@ -290,7 +290,7 @@ void TrackerConstruction::makePIB(G4Material* elAl, G4Material* elSi, G4Material
 		      false,
 		      0,
 		      true);
-  if(nonSens)
+  if(!trackSens)
     new G4PVPlacement(0,
 		      G4ThreeVector(0,0,-285*mm-PIBSup_thick*mm-0.5*PIBCables_thick*um),
 		      PIBCables_Logical,
@@ -309,7 +309,7 @@ void TrackerConstruction::makePIB(G4Material* elAl, G4Material* elSi, G4Material
   auto PIBCables_Logical2 = new G4LogicalVolume(PIBCables_Solid2,
 						elAl,
 						"PIBCables_Logical2");
-  if(nonSens)
+  if(!trackSens)
     new G4PVPlacement(0,
 		      G4ThreeVector(0,0,285*mm+PIBSup_thick*mm+PIBCables_thick*um+0.5*290*mm),
 		      PIBCables_Logical2,
@@ -318,7 +318,7 @@ void TrackerConstruction::makePIB(G4Material* elAl, G4Material* elSi, G4Material
 		      false,
 		      0,
 		      true);
-  if(nonSens)
+  if(!trackSens)
     new G4PVPlacement(0,
 		      G4ThreeVector(0,0,-285*mm-PIBSup_thick*mm-PIBCables_thick*um-0.5*290*mm),
 		      PIBCables_Logical2,
@@ -337,7 +337,7 @@ void TrackerConstruction::makePIB(G4Material* elAl, G4Material* elSi, G4Material
   }
 }
 
-void TrackerConstruction::makePID(G4Material* elAl, G4Material* elSi, G4Material* Cu, std::vector<G4Material*> pixECMat, G4LogicalVolume* trackerLogical, bool nonSens, std::vector<G4VisAttributes*> fVisAttributes) {
+void TrackerConstruction::makePID(G4Material* elAl, G4Material* elSi, G4Material* Cu, std::vector<G4Material*> pixECMat, G4LogicalVolume* trackerLogical, bool trackSens, std::vector<G4VisAttributes*> fVisAttributes) {
   for(G4int i=0; i<PID_num; i++) {
     auto PID_Solid = new G4Tubs("PID_Solid",
 				PID_r[0]*mm,
@@ -369,7 +369,7 @@ void TrackerConstruction::makePID(G4Material* elAl, G4Material* elSi, G4Material
 						  pixECMat[mat_ctr],
 						  "PIDMaterials_Logical");
       Pix_zMat += 0.5*PIDMat_thick[mat_ctr]*um;
-      if(nonSens)
+      if(!trackSens)
 	new G4PVPlacement(0,
 			  G4ThreeVector(0.,0.,Pix_zMat),
 			  PixECMat_Logical,
@@ -392,7 +392,7 @@ void TrackerConstruction::makePID(G4Material* elAl, G4Material* elSi, G4Material
     auto PIDMat_Logical = new G4LogicalVolume(PIDMat_Solid,
 					      elAl,
 					      "PIDSupportLogical");
-    if(nonSens)
+    if(!trackSens)
       new G4PVPlacement(0,
 			G4ThreeVector(0,0,PID_posz[i]),
 			PIDMat_Logical,
@@ -410,7 +410,7 @@ void TrackerConstruction::makePID(G4Material* elAl, G4Material* elSi, G4Material
     PIDMat_Logical = new G4LogicalVolume(PIDMat_Solid,
 					 elAl,
 					 "PIDSupportLogical");
-    if(nonSens)
+    if(!trackSens)
       new G4PVPlacement(0,
 			G4ThreeVector(0,0,PID_posz[i]),
 			PIDMat_Logical,
@@ -430,7 +430,7 @@ void TrackerConstruction::makePID(G4Material* elAl, G4Material* elSi, G4Material
   auto PIDCables_Logical = new G4LogicalVolume(PIDCables_Solid,
 					       Cu,
 					       "PIDCables_Logical");
-  if(nonSens)
+  if(!trackSens)
     new G4PVPlacement(0,
 		      G4ThreeVector(0,0,PID_posz[0]+1000*mm),
 		      PIDCables_Logical,
@@ -439,7 +439,7 @@ void TrackerConstruction::makePID(G4Material* elAl, G4Material* elSi, G4Material
 		      false,
 		      0,
 		      true);
-  if(nonSens)
+  if(!trackSens)
     new G4PVPlacement(0,
 		      G4ThreeVector(0,0,-PID_posz[0]-1000*mm),
 		      PIDCables_Logical,
@@ -458,7 +458,7 @@ void TrackerConstruction::makePID(G4Material* elAl, G4Material* elSi, G4Material
   }
 }
 
-void TrackerConstruction::makeTIB(G4Material* elSi, G4Material* Cu, std::vector<G4Material*> TIBMat, G4LogicalVolume* trackerLogical, bool nonSens, std::vector<G4VisAttributes*> fVisAttributes) {
+void TrackerConstruction::makeTIB(G4Material* elSi, G4Material* Cu, std::vector<G4Material*> TIBMat, G4LogicalVolume* trackerLogical, bool trackSens, std::vector<G4VisAttributes*> fVisAttributes) {
   G4double TIBr;
   
   for(G4int i=0; i<TIB_num; i++) {
@@ -492,7 +492,7 @@ void TrackerConstruction::makeTIB(G4Material* elSi, G4Material* Cu, std::vector<
       auto TIBSupp_Logical = new G4LogicalVolume(TIBSupp_Solid,
 						 TIBMat[j],
 						 "TIBSupp_Logical");
-      if(nonSens)
+      if(!trackSens)
 	new G4PVPlacement(0,
 			  G4ThreeVector(),
 			  TIBSupp_Logical,
@@ -501,7 +501,7 @@ void TrackerConstruction::makeTIB(G4Material* elSi, G4Material* Cu, std::vector<
 			  false,
 			  0,
 			  true);
-      if(nonSens)
+      if(!trackSens)
 	new G4PVPlacement(0,
 			  G4ThreeVector(),
 			  TIBSupp_Logical,
@@ -523,7 +523,7 @@ void TrackerConstruction::makeTIB(G4Material* elSi, G4Material* Cu, std::vector<
       auto TIBEle_Logical = new G4LogicalVolume(TIBEle_Solid,
 						Cu,
 						"TIBEle_Logical");
-      if(nonSens)
+      if(!trackSens)
 	new G4PVPlacement(0,
 			  G4ThreeVector(0,0,0.5*(700+TIBSupp_pos[j])*mm),
 			  TIBEle_Logical,
@@ -532,7 +532,7 @@ void TrackerConstruction::makeTIB(G4Material* elSi, G4Material* Cu, std::vector<
 			  false,
 			  i*j,
 			  true);		
-      if(nonSens)
+      if(!trackSens)
 	new G4PVPlacement(0,
 			  G4ThreeVector(0,0,-0.5*(700+TIBSupp_pos[j])*mm),
 			  TIBEle_Logical,
@@ -553,7 +553,7 @@ void TrackerConstruction::makeTIB(G4Material* elSi, G4Material* Cu, std::vector<
   auto TIBEC_Logical = new G4LogicalVolume(TIBEC_Solid,
 					   Cu,
 					   "TIBEC_Logical");
-  if(nonSens)
+  if(!trackSens)
     new G4PVPlacement(0,
 		      G4ThreeVector(0,0,700*mm+TIBSupp_thick[0]*um),
 		      TIBEC_Logical,
@@ -562,7 +562,7 @@ void TrackerConstruction::makeTIB(G4Material* elSi, G4Material* Cu, std::vector<
 		      false,
 		      0,
 		      true);
-  if(nonSens)
+  if(!trackSens)
     new G4PVPlacement(0,
 		      G4ThreeVector(0,0,-700*mm-TIBSupp_thick[0]*um),
 		      TIBEC_Logical,
@@ -581,7 +581,7 @@ void TrackerConstruction::makeTIB(G4Material* elSi, G4Material* Cu, std::vector<
   auto TIBD_Logical = new G4LogicalVolume(TIBD_Solid,
 					  Cu,
 					  "TIBtoD_Logical");
-  if(nonSens)
+  if(!trackSens)
     new G4PVPlacement(0,
 		      G4ThreeVector(0,0,0.5*(TIDECSupp_pos+TIBSupp_pos[4])*mm),
 		      TIBD_Logical,
@@ -590,7 +590,7 @@ void TrackerConstruction::makeTIB(G4Material* elSi, G4Material* Cu, std::vector<
 		      false,
 		      0,
 		      true);
-  if(nonSens)
+  if(!trackSens)
     new G4PVPlacement(0,
 		      G4ThreeVector(0,0,-0.5*(TIDECSupp_pos+TIBSupp_pos[4])*mm),
 		      TIBD_Logical,
@@ -610,7 +610,7 @@ void TrackerConstruction::makeTIB(G4Material* elSi, G4Material* Cu, std::vector<
 
 }
 
-void TrackerConstruction::makeTID(G4Material* elAl, G4Material* elSi, G4Material* Cu, G4LogicalVolume* trackerLogical, bool nonSens, std::vector<G4VisAttributes*> fVisAttributes) {
+void TrackerConstruction::makeTID(G4Material* elAl, G4Material* elSi, G4Material* Cu, G4LogicalVolume* trackerLogical, bool trackSens, std::vector<G4VisAttributes*> fVisAttributes) {
 
   for(G4int i=0; i<TID_num;i=i+2) {
     auto TID_Solid = new G4Tubs("TID_Solid",
@@ -657,7 +657,7 @@ void TrackerConstruction::makeTID(G4Material* elAl, G4Material* elSi, G4Material
     auto TIDSupp_Logical = new G4LogicalVolume(TIDSupp_Solid,
 					       elAl,
 					       "TIDSupp_Logical");
-    if(nonSens)
+    if(!trackSens)
       new G4PVPlacement(0,
 			G4ThreeVector(0.,0.,pow(-1,i>=TID_num/2?1:0)*(TID_posz[i%3]*mm+2*320*um*(4.0/3)+0.5*TIDSupp_thick*um)),
 			TIDSupp_Logical,
@@ -675,7 +675,7 @@ void TrackerConstruction::makeTID(G4Material* elAl, G4Material* elSi, G4Material
     TIDSupp_Logical = new G4LogicalVolume(TIDSupp_Solid,
 					  elAl,
 					  "TIDSupp_Logical");
-    if(nonSens)
+    if(!trackSens)
       new G4PVPlacement(0,
 			G4ThreeVector(0.,0.,pow(-1,i>=TID_num/2?1:0)*(TID_posz[i%3]*mm+2*160*um*(4.0/3)+0.5*TIDSupp_thick*um)),
 			TIDSupp_Logical,
@@ -695,7 +695,7 @@ void TrackerConstruction::makeTID(G4Material* elAl, G4Material* elSi, G4Material
   auto TIDSupp_Logical = new G4LogicalVolume(TIDSupp_Solid,
 					     elAl,
 					     "TIDSupp_Logical");
-  if(nonSens)
+  if(!trackSens)
     new G4PVPlacement(0,
 		      G4ThreeVector(0,0,TIDECSupp_pos*mm+0.5*TIDSupp_thick*um),
 		      TIDSupp_Logical,
@@ -704,7 +704,7 @@ void TrackerConstruction::makeTID(G4Material* elAl, G4Material* elSi, G4Material
 		      false,
 		      0,
 		      true);
-  if(nonSens)
+  if(!trackSens)
     new G4PVPlacement(0,
 		      G4ThreeVector(0,0,-TIDECSupp_pos*mm-0.5*TIDSupp_thick*um),
 		      TIDSupp_Logical,
@@ -723,7 +723,7 @@ void TrackerConstruction::makeTID(G4Material* elAl, G4Material* elSi, G4Material
   auto TIDEle_Logical = new G4LogicalVolume(TIDEle_Solid,
 					    Cu,
 					    "TIDEle_Logical");
-  if(nonSens)
+  if(!trackSens)
     new G4PVPlacement(0,
 		      G4ThreeVector(0,0,0.5*(1050+564)*mm),
 		      TIDEle_Logical,
@@ -732,7 +732,7 @@ void TrackerConstruction::makeTID(G4Material* elAl, G4Material* elSi, G4Material
 		      false,
 		      0,
 		      true);
-  if(nonSens)		
+  if(!trackSens)		
     new G4PVPlacement(0,
 		      G4ThreeVector(0,0,-0.5*(1050+564)*mm),
 		      TIDEle_Logical,
@@ -751,7 +751,7 @@ void TrackerConstruction::makeTID(G4Material* elAl, G4Material* elSi, G4Material
   }
 }
 
-void TrackerConstruction::makeTOB(G4Material* elSi, G4Material* elAl, G4Material* Pb, std::vector<G4Material*> TOBMat, G4LogicalVolume* trackerLogical, bool nonSens, std::vector<G4VisAttributes*> fVisAttributes) {
+void TrackerConstruction::makeTOB(G4Material* elSi, G4Material* elAl, G4Material* Pb, std::vector<G4Material*> TOBMat, G4LogicalVolume* trackerLogical, bool trackSens, std::vector<G4VisAttributes*> fVisAttributes) {
   G4double rEleCool_min_hist = 0;
   for(G4int i=0; i<TOB_num; i++) {
     auto TOB_Solid = new G4Tubs("TOB_Solid",
@@ -784,7 +784,7 @@ void TrackerConstruction::makeTOB(G4Material* elSi, G4Material* elAl, G4Material
       auto TOBEleCool_Logical = new G4LogicalVolume(TOBEleCool_Solid,
 						    TOBMat[j],
 						    "TOBEleCool_Logical");
-      if(nonSens)
+      if(!trackSens)
 	new G4PVPlacement(0,
 			  G4ThreeVector(),
 			  TOBEleCool_Logical,
@@ -805,7 +805,7 @@ void TrackerConstruction::makeTOB(G4Material* elSi, G4Material* elAl, G4Material
     auto TOBWiring1_Logical = new G4LogicalVolume(TOBWiring1_Solid,
 						  Pb,
 						  "TOBWiring1_Logical");
-    if(nonSens)
+    if(!trackSens)
       new G4PVPlacement(0,
 			G4ThreeVector(0,0,0.5*zWiring1*mm+0.5*1180*mm),
 			TOBWiring1_Logical,
@@ -814,7 +814,7 @@ void TrackerConstruction::makeTOB(G4Material* elSi, G4Material* elAl, G4Material
 			false,
 			i,
 			true);
-    if(nonSens)
+    if(!trackSens)
       new G4PVPlacement(0,
 			G4ThreeVector(0,0,-0.5*zWiring1*mm-0.5*1180*mm),
 			TOBWiring1_Logical,
@@ -834,7 +834,7 @@ void TrackerConstruction::makeTOB(G4Material* elSi, G4Material* elAl, G4Material
     auto TOBWiring2_Logical = new G4LogicalVolume(TOBWiring2_Solid,
 						  Pb,
 						  "TOBWiring2_Logical");
-    if(nonSens)
+    if(!trackSens)
       new G4PVPlacement(0,
 			G4ThreeVector(0,0,0.5*zWiring2*mm+0.5*1180*mm),
 			TOBWiring2_Logical,
@@ -843,7 +843,7 @@ void TrackerConstruction::makeTOB(G4Material* elSi, G4Material* elAl, G4Material
 			false,
 			i,
 			true);
-    if(nonSens)
+    if(!trackSens)
       new G4PVPlacement(0,
 			G4ThreeVector(0,0,-0.5*zWiring2*mm-0.5*1180*mm),
 			TOBWiring2_Logical,
@@ -862,7 +862,7 @@ void TrackerConstruction::makeTOB(G4Material* elSi, G4Material* elAl, G4Material
     auto TOBSupp1_Logical = new G4LogicalVolume(TOBSupp1_Solid,
 						elAl,
 						"TOBSupp1_Logical");
-    if(nonSens)
+    if(!trackSens)
       new G4PVPlacement(0,
 			G4ThreeVector(0,0,1180*mm+0.5*zSupp1*mm),
 			TOBSupp1_Logical,
@@ -871,7 +871,7 @@ void TrackerConstruction::makeTOB(G4Material* elSi, G4Material* elAl, G4Material
 			false,
 			i,
 			true);
-    if(nonSens)
+    if(!trackSens)
       new G4PVPlacement(0,
 			G4ThreeVector(0,0,-1180*mm-0.5*zSupp1*mm),
 			TOBSupp1_Logical,
@@ -894,7 +894,7 @@ void TrackerConstruction::makeTOB(G4Material* elSi, G4Material* elAl, G4Material
       auto TOBSupp2_Logical = new G4LogicalVolume(TOBSupp2_Solid,
 						  elAl,
 						  "TOBSupp2_Logical");
-      if(nonSens)
+      if(!trackSens)
 	new G4PVPlacement(0,
 			  G4ThreeVector(0,0,1180*mm+zSupp1*mm+0.5*zSupp2*mm),
 			  TOBSupp2_Logical,
@@ -903,7 +903,7 @@ void TrackerConstruction::makeTOB(G4Material* elSi, G4Material* elAl, G4Material
 			  false,
 			  i,
 			  true);
-      if(nonSens)
+      if(!trackSens)
 	new G4PVPlacement(0,
 			  G4ThreeVector(0,0,-1180*mm-zSupp1*mm-0.5*zSupp2*mm),
 			  TOBSupp2_Logical,
@@ -922,7 +922,7 @@ void TrackerConstruction::makeTOB(G4Material* elSi, G4Material* elAl, G4Material
       auto TOBSupp3_Logical = new G4LogicalVolume(TOBSupp3_Solid,
 						  elAl,
 						  "TOBSupp3_Logical");
-      if(nonSens)
+      if(!trackSens)
 	new G4PVPlacement(0,
 			  G4ThreeVector(0,0,zSupp3Pos*mm),
 			  TOBSupp3_Logical,
@@ -931,7 +931,7 @@ void TrackerConstruction::makeTOB(G4Material* elSi, G4Material* elAl, G4Material
 			  false,
 			  i,
 			  true);
-      if(nonSens)
+      if(!trackSens)
 	new G4PVPlacement(0,
 			  G4ThreeVector(0,0,-zSupp3Pos*mm),
 			  TOBSupp3_Logical,
@@ -952,7 +952,7 @@ void TrackerConstruction::makeTOB(G4Material* elSi, G4Material* elAl, G4Material
   }
 }
 
-void TrackerConstruction::makeTEC(G4Material* elSi, std::vector<G4Material*> TECMat, G4LogicalVolume* trackerLogical, bool nonSens, std::vector<G4VisAttributes*> fVisAttributes) {
+void TrackerConstruction::makeTEC(G4Material* elSi, std::vector<G4Material*> TECMat, G4LogicalVolume* trackerLogical, bool trackSens, std::vector<G4VisAttributes*> fVisAttributes) {
   
   G4int tec_count=0;
   for(G4int ring=1; ring<=7; ring++) {
@@ -996,7 +996,7 @@ void TrackerConstruction::makeTEC(G4Material* elSi, std::vector<G4Material*> TEC
       auto TECMat_Logical = new G4LogicalVolume(TECMat_Solid,
 						TECMat[0],
 						"TECMat_Logical");
-      if(nonSens)
+      if(!trackSens)
 	new G4PVPlacement(0,
 			  G4ThreeVector(0,0,TEC_disk[disk-1][(ring-1)%2]*mm+TEC_thick*um+0.5*TECMat_thick*mm),
 			  TECMat_Logical,
@@ -1005,7 +1005,7 @@ void TrackerConstruction::makeTEC(G4Material* elSi, std::vector<G4Material*> TEC
 			  false,
 			  tec_count,
 			  true);
-      if(nonSens)
+      if(!trackSens)
 	new G4PVPlacement(0,
 			  G4ThreeVector(0,0,-TEC_disk[disk-1][(ring-1)%2]*mm-TEC_thick*um-0.5*TECMat_thick*mm),
 			  TECMat_Logical,

@@ -278,26 +278,26 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	TrackerConstruction* trac = new TrackerConstruction();
 
 	if(PIB){
-	  trac->makePIB(elAl, elSi, Cu, pixBarMat, trackerLogical, nonSens, fVisAttributes);
+	  trac->makePIB(elAl, elSi, Cu, pixBarMat, trackerLogical, trackSens, fVisAttributes);
 	}
 	
 	if(PID){
-	  trac->makePID(elAl, elSi, Cu, pixECMat, trackerLogical, nonSens, fVisAttributes);
+	  trac->makePID(elAl, elSi, Cu, pixECMat, trackerLogical, trackSens, fVisAttributes);
 	}
 
 	if(TIB){
-	  trac->makeTIB(elSi, Cu, TIBMat, trackerLogical, nonSens, fVisAttributes);
+	  trac->makeTIB(elSi, Cu, TIBMat, trackerLogical, trackSens, fVisAttributes);
 	}
 
 	if(TID){
-	  trac->makeTID(elAl, elSi, Cu, trackerLogical, nonSens, fVisAttributes);
+	  trac->makeTID(elAl, elSi, Cu, trackerLogical, trackSens, fVisAttributes);
 	}
 
 	if(TOB){
-	  trac->makeTOB(elSi, elAl, Pb, TOBMat, trackerLogical, nonSens, fVisAttributes);
+	  trac->makeTOB(elSi, elAl, Pb, TOBMat, trackerLogical, trackSens, fVisAttributes);
 	}
 	if(TEC){
-	  trac->makeTEC(elSi, TECMat, trackerLogical, nonSens, fVisAttributes);
+	  trac->makeTEC(elSi, TECMat, trackerLogical, trackSens, fVisAttributes);
 	}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -562,9 +562,9 @@ void DetectorConstruction::DefineCommands()
 				"Detector control");
 
 	// Non-Sensitive volume control command
-	auto& noSensCmd = fMessenger->DeclareProperty("nonSensitiveMode", nonSens, "Non Sensitive volume presence");
-	noSensCmd.SetParameterName("noSens", true);
-	noSensCmd.SetDefaultValue("true");
+	auto& noSensCmd = fMessenger->DeclareProperty("sensitiveMaterialOnly", trackSens, "Tracker Sensitive volume presence only");
+	noSensCmd.SetParameterName("trkSens", true);
+	noSensCmd.SetDefaultValue("false");
 
 	// ECal volume control command
 	auto& ecalCmd = fMessenger->DeclareProperty("ecalMode", ecalMode, "Mode of ECal");

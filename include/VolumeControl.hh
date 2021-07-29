@@ -4,7 +4,7 @@
 #include "globals.hh"
 #include "G4SystemOfUnits.hh"
 
-G4bool nonSens = true;
+G4bool trackSens = false;
 
 // Tracker
 G4bool PIB = true;
