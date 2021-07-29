@@ -142,7 +142,7 @@
     G4ParticleDefinition *aKaonZeroL = G4KaonZeroLong::KaonZeroLong();
 
     G4int i, l;
-    G4double forVeryForward = 0.;
+    //G4double forVeryForward = 0.;
     G4bool veryForward = false;
     
     const G4double ekOriginal = modifiedOriginal.GetKineticEnergy()/GeV;
@@ -172,7 +172,7 @@
     {
       // no kinetic energy in target .....
       G4double ek = currentParticle.GetKineticEnergy();
-      G4ThreeVector m = currentParticle.GetMomentum();
+      G4ThreeVector mom = currentParticle.GetMomentum();
       currentParticle = *vec[0];
       targetParticle = *vec[1];
       for( i=0; i<(vecLen-2); ++i )*vec[i] = *vec[i+2];
@@ -186,8 +186,8 @@
       incidentHasChanged = true;
       targetHasChanged = true;
       currentParticle.SetKineticEnergy( ek );
-      currentParticle.SetMomentum( m );
-      forVeryForward = aProton->GetPDGMass();
+      currentParticle.SetMomentum( mom );
+      //forVeryForward = aProton->GetPDGMass();
       veryForward = true;
     }
     const G4double atomicWeight = targetNucleus.GetN_asInt();
@@ -465,7 +465,7 @@
                 vec[i]->GetDefinition() == G4PionPlus::PionPlus() ||
                 vec[i]->GetDefinition() == G4PionZero::PionZero() )
             {
-              for(G4int i=0; i<vecLen; i++) delete vec[i];
+              for(G4int ctr=0; ctr<vecLen; ctr++) delete vec[ctr];
    	      vecLen = 0;
               throw G4HadReentrentException(__FILE__, __LINE__,
 	      "MyG4ReactionDynamics::GenerateXandPt : a pion has been counted as a backward nucleon");
@@ -651,12 +651,12 @@
               pp1 = vec[l]->GetMomentum().mag()/MeV;
               if( pp1 < 1.0e-6*GeV )
               {
-                G4double rthnve = pi*G4UniformRand();
-                G4double phinve = twopi*G4UniformRand();
-                G4double srth = std::sin(rthnve);
-                vec[l]->SetMomentum( pp*srth*std::cos(phinve)*MeV,
-                                     pp*srth*std::sin(phinve)*MeV,
-                                     pp*std::cos(rthnve)*MeV ) ;
+                G4double rthnv = pi*G4UniformRand();
+                G4double phinv = twopi*G4UniformRand();
+                G4double srth = std::sin(rthnv);
+                vec[l]->SetMomentum( pp*srth*std::cos(phinv)*MeV,
+                                     pp*srth*std::sin(phinv)*MeV,
+                                     pp*std::cos(rthnv)*MeV ) ;
               } else {
                 vec[l]->SetMomentum( vec[l]->GetMomentum() * (pp/pp1) );
               }
@@ -761,12 +761,12 @@
     pp1 = currentParticle.GetMomentum().mag()/MeV;
     if( pp1 < 1.0e-6*GeV )
     {
-      G4double rthnve = pi*G4UniformRand();
-      G4double phinve = twopi*G4UniformRand();
-      G4double srth = std::sin(rthnve);
-      currentParticle.SetMomentum( pp*srth*std::cos(phinve)*MeV,
-                                   pp*srth*std::sin(phinve)*MeV,
-                                   pp*std::cos(rthnve)*MeV );
+      G4double rthnv = pi*G4UniformRand();
+      G4double phinv = twopi*G4UniformRand();
+      G4double srth = std::sin(rthnv);
+      currentParticle.SetMomentum( pp*srth*std::cos(phinv)*MeV,
+                                   pp*srth*std::sin(phinv)*MeV,
+                                   pp*std::cos(rthnv)*MeV );
     } else {
       currentParticle.SetMomentum( currentParticle.GetMomentum() * (pp/pp1) );
     }
@@ -864,12 +864,12 @@
             pp1 = targetParticle.GetMomentum().mag()/MeV;
             if( pp1 < 1.0e-6*GeV )
             {
-              G4double rthnve = pi*G4UniformRand();
-              G4double phinve = twopi*G4UniformRand();
-              G4double srth = std::sin(rthnve);
-              targetParticle.SetMomentum( pp*srth*std::cos(phinve)*MeV,
-                                          pp*srth*std::sin(phinve)*MeV,
-                                          pp*std::cos(rthnve)*MeV );
+              G4double rthnv = pi*G4UniformRand();
+              G4double phinv = twopi*G4UniformRand();
+              G4double srth = std::sin(rthnv);
+              targetParticle.SetMomentum( pp*srth*std::cos(phinv)*MeV,
+                                          pp*srth*std::sin(phinv)*MeV,
+                                          pp*std::cos(rthnv)*MeV );
             }
             else
               targetParticle.SetMomentum( targetParticle.GetMomentum() * (pp/pp1) );
@@ -910,12 +910,12 @@
               pp1 = vec[l]->GetMomentum().mag()/MeV;
               if( pp1 < 1.0e-6*GeV )
               {
-                G4double rthnve = pi*G4UniformRand();
-                G4double phinve = twopi*G4UniformRand();
-                G4double srth = std::sin(rthnve);
-                vec[l]->SetMomentum( pp*srth*std::cos(phinve)*MeV,
-                                     pp*srth*std::sin(phinve)*MeV,
-                                     pp*std::cos(rthnve)*MeV );
+                G4double rthnv = pi*G4UniformRand();
+                G4double phinv = twopi*G4UniformRand();
+                G4double srth = std::sin(rthnv);
+                vec[l]->SetMomentum( pp*srth*std::cos(phinv)*MeV,
+                                     pp*srth*std::sin(phinv)*MeV,
+                                     pp*std::cos(rthnv)*MeV );
               }
               else
                 vec[l]->SetMomentum( vec[l]->GetMomentum() * (pp/pp1) );
@@ -1386,10 +1386,10 @@
    G4int &vecLen,
    const G4ReactionProduct &modifiedOriginal,
    G4ReactionProduct &currentParticle,
-   G4ReactionProduct &targetParticle,
+   G4ReactionProduct &/*targetParticle*/,
    const G4Nucleus &targetNucleus,
    G4bool &incidentHasChanged,
-   G4bool &targetHasChanged )
+   G4bool &/*targetHasChanged*/ )
   {
     // this code was originally in the fortran code TWOCLU
     //
@@ -1504,13 +1504,13 @@
     if( currentMass == 0.0 && targetMass == 0.0 )
     {
       G4double ek = currentParticle.GetKineticEnergy();
-      G4ThreeVector m = currentParticle.GetMomentum();
+      G4ThreeVector mom = currentParticle.GetMomentum();
       currentParticle = *vec[0];
       targetParticle = *vec[1];
       for( i=0; i<(vecLen-2); ++i )*vec[i] = *vec[i+2];
       if(vecLen<2) 
       {
-        for(G4int i=0; i<vecLen; i++) delete vec[i];
+        for(G4int ctr=0; ctr<vecLen; ctr++) delete vec[ctr];
 	vecLen = 0;
         throw G4HadReentrentException(__FILE__, __LINE__,
 	"MyG4ReactionDynamics::TwoCluster: Negative number of particles");
@@ -1523,7 +1523,7 @@
       incidentHasChanged = true;
       targetHasChanged = true;
       currentParticle.SetKineticEnergy( ek );
-      currentParticle.SetMomentum( m );
+      currentParticle.SetMomentum( mom );
     }
     const G4double atomicWeight = targetNucleus.GetN_asInt();
     const G4double atomicNumber = targetNucleus.GetZ_asInt();
@@ -2753,7 +2753,7 @@
     G4double weight = 0.0;           // weight is returned by GenerateNBodyEvent
     if( lzero )weight = std::exp( std::max(std::min(wtmax,expxu),expxl) );
     
-    G4double bang, cb, sb, s0, s1, s2, c, s, esys, a, b, gama, beta;
+    G4double bang, cb, sb, s0, s1, s2, c, sc, esys, a, b, gama, beta;
     pcm[0][0] = 0.0;
     pcm[1][0] = pd[0];
     pcm[2][0] = 0.0;
@@ -2766,7 +2766,7 @@
       cb = std::cos(bang);
       sb = std::sin(bang);
       c = 2.0*G4UniformRand() - 1.0;
-      s = std::sqrt( std::fabs( 1.0-c*c ) );
+      sc = std::sqrt( std::fabs( 1.0-c*c ) );
       if( i < vecLen-1 )
       {
         esys = std::sqrt(pd[i]*pd[i] + emm[i]*emm[i]);
@@ -2778,8 +2778,8 @@
           s1 = pcm[1][j];
           s2 = pcm[2][j];
           energy[j] = std::sqrt( s0*s0 + s1*s1 + s2*s2 + mass[j]*mass[j] );
-          a = s0*c - s1*s;                           //  rotation
-          pcm[1][j] = s0*s + s1*c;
+          a = s0*c - s1*sc;                           //  rotation
+          pcm[1][j] = s0*sc + s1*c;
           b = pcm[2][j];
           pcm[0][j] = a*cb - b*sb;
           pcm[2][j] = a*sb + b*cb;
@@ -2794,8 +2794,8 @@
           s1 = pcm[1][j];
           s2 = pcm[2][j];
           energy[j] = std::sqrt( s0*s0 + s1*s1 + s2*s2 + mass[j]*mass[j] );
-          a = s0*c - s1*s;                           //  rotation
-          pcm[1][j] = s0*s + s1*c;
+          a = s0*c - s1*sc;                           //  rotation
+          pcm[1][j] = s0*sc + s1*c;
           b = pcm[2][j];
           pcm[0][j] = a*cb - b*sb;
           pcm[2][j] = a*sb + b*cb;
@@ -2835,8 +2835,8 @@
      if( x > 9.9 )    // use normal distribution with sigma^2 = <x>
        iran = static_cast<G4int>(std::max( 0.0, x+normal()*std::sqrt(x) ) );
      else {
-      G4int mm = G4int(5.0*x);
-      if( mm <= 0 )   // for very small x try iran=1,2,3
+      G4int mmx = G4int(5.0*x);
+      if( mmx <= 0 )   // for very small x try iran=1,2,3
       {
         G4double p1 = x*std::exp(-x);
         G4double p2 = x*p1/2.0;
@@ -2860,7 +2860,7 @@
         {
           G4double rrr;
           G4double rr = r;
-          for( G4int i=1; i<=mm; ++i )
+          for( G4int i=1; i<=mmx; ++i )
           {
             iran++;
             if( i > 5 )   // Stirling's formula for large numbers
@@ -2879,10 +2879,10 @@
  G4int
    MyG4ReactionDynamics::Factorial( G4int n )
    {   // calculates factorial( n ) = n*(n-1)*(n-2)*...*1
-     G4int m = std::min(n,10);
+     G4int mi = std::min(n,10);
      G4int result = 1;
-     if( m <= 1 )return result;
-     for( G4int i=2; i<=m; ++i )result *= i;
+     if( mi <= 1 )return result;
+     for( G4int i=2; i<=mi; ++i )result *= i;
      return result;
    }
  
@@ -2985,9 +2985,9 @@
     a1 = std::sqrt(-2.0*std::log(r2));
     ran1 = a1*std::sin(r1)*0.020*numberofFinalStateNucleons*GeV;
     ran2 = a1*std::cos(r1)*0.020*numberofFinalStateNucleons*GeV;
-    G4ThreeVector fermi(ran1, ran2, 0);
+    G4ThreeVector fermion(ran1, ran2, 0);
 
-    pseudoParticle[0] = pseudoParticle[0]+fermi; // all particles + fermi
+    pseudoParticle[0] = pseudoParticle[0]+fermion; // all particles + fermion
     pseudoParticle[2] = temp; // original in cms system
     pseudoParticle[3] = pseudoParticle[0];
     
@@ -3483,14 +3483,14 @@
     }
     else               // otherwise  0 <= i3,i4 < vecLen
     {
-      G4double ran = G4UniformRand();
-      while( ran == 1.0 )ran = G4UniformRand();
-      i4 = i3 = G4int( vecLen*ran );
+      G4double randomvar = G4UniformRand();
+      while( randomvar == 1.0 )randomvar = G4UniformRand();
+      i4 = i3 = G4int( vecLen*randomvar );
       while( i3 == i4 )
       {
-        ran = G4UniformRand();
-        while( ran == 1.0 )ran = G4UniformRand();
-        i4 = G4int( vecLen*ran );
+        randomvar = G4UniformRand();
+        while( randomvar == 1.0 )randomvar = G4UniformRand();
+        i4 = G4int( vecLen*randomvar );
       }
     }
     //

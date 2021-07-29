@@ -81,7 +81,7 @@ double CustomPDGParser::s_charge(int pdg)
   
 	//std::cout<<"Print: "<<std::endl;
   float sign=1;
-  int pdgAbs=abs(pdg);
+  //int pdgAbs=abs(pdg);
   if(pdg > 0) sign=-1;
   int charge=sign*abs(pdg/10000%10);
 	//std::cout<<"Print: "<<std::endl;

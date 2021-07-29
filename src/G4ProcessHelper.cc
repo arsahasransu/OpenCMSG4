@@ -36,7 +36,7 @@ G4ProcessHelper::G4ProcessHelper(){
     
     // Making a ReactionProduct
     ReactionProduct prod;
-    for (G4int i = 2; i != tokens.size();i++){
+    for (unsigned int i = 2; i != tokens.size();i++){
       G4String part = tokens[i];
       if (particleTable->contains(part))
 	{

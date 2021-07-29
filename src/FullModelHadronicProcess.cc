@@ -31,7 +31,7 @@ G4bool FullModelHadronicProcess::IsApplicable(const G4ParticleDefinition& aP)
 
 G4double FullModelHadronicProcess::GetMicroscopicCrossSection(const G4DynamicParticle *aParticle,
 							      const G4Element *anElement,
-							      G4double aTemp)
+							      G4double)
 {
   //Get the cross section for this particle/element combination from the ProcessHelper
   G4double InclXsec = theHelper->GetInclusiveCrossSection(aParticle,anElement);
@@ -76,7 +76,7 @@ G4double FullModelHadronicProcess::GetMeanFreePath(const G4Track& aTrack, G4doub
 }
 
 G4VParticleChange* FullModelHadronicProcess::PostStepDoIt(const G4Track& aTrack,
-							  const G4Step&  aStep)
+							  const G4Step&)
 {
   // A little setting up
   aParticleChange.Initialize(aTrack);
@@ -92,15 +92,15 @@ G4VParticleChange* FullModelHadronicProcess::PostStepDoIt(const G4Track& aTrack,
   G4bool IncidentSurvives = false;
   G4bool TargetSurvives = false;
   G4Nucleus targetNucleus(aTrack.GetMaterial());
-  G4ParticleDefinition* outgoingRhadron;
-  G4ParticleDefinition* outgoingCloud;
+  G4ParticleDefinition* outgoingRhadron=0;
+  G4ParticleDefinition* outgoingCloud=0;
   G4ParticleDefinition* outgoingTarget=0;
 
   G4ThreeVector p_0 = IncidentRhadron->GetMomentum();
 
   //  static int n=0;
 
-  G4double e_kin_0 = IncidentRhadron->GetKineticEnergy();
+  //G4double e_kin_0 = IncidentRhadron->GetKineticEnergy();
   //  G4cout<<e_kin_0/GeV<<G4endl;
 
   G4DynamicParticle* cloudParticle = new G4DynamicParticle();
@@ -295,7 +295,7 @@ G4VParticleChange* FullModelHadronicProcess::PostStepDoIt(const G4Track& aTrack,
 
 
   aParticleChange.SetNumberOfSecondaries(vecLen+NumberOfSecondaries);
-  G4double e_kin;
+  //G4double e_kin;
   G4LorentzVector cloud_p4_new; //Cloud 4-momentum in lab after collision
 
   cloud_p4_new.setVectM(currentParticle.GetMomentum(),currentParticle.GetMass());
@@ -332,25 +332,27 @@ G4VParticleChange* FullModelHadronicProcess::PostStepDoIt(const G4Track& aTrack,
 				    aTrack.GetGlobalTime(),
 				    aPosition);
       aParticleChange.AddSecondary(Track0);
-
+      /*
       if(std::abs(p0->GetKineticEnergy()-e_kin_0)>100*GeV) {
 	G4cout<<"Diff. too big"<<G4endl;
       }
-
+      */
       aParticleChange.ProposeTrackStatus( fStopAndKill );
     }
   else
     {
 
-      G4double p = p_new.mag();
-      if( p > DBL_MIN )
-	aParticleChange.ProposeMomentumDirection( p_new.x()/p, p_new.y()/p, p_new.z()/p );
+      G4double pnewmag = p_new.mag();
+      if( pnewmag > DBL_MIN )
+	aParticleChange.ProposeMomentumDirection( p_new.x()/pnewmag, p_new.y()/pnewmag, p_new.z()/pnewmag );
       else
 	aParticleChange.ProposeMomentumDirection( 1.0, 0.0, 0.0 );
-      
-      G4double aE = sqrt(p*p+(outgoingRhadron->GetPDGMass()*outgoingRhadron->GetPDGMass()) );
-      e_kin = aE - outgoingRhadron->GetPDGMass();
+
       /*
+      G4double aE = sqrt(pnewmag*pnewmag+(outgoingRhadron->GetPDGMass()*outgoingRhadron->GetPDGMass()) );
+      
+      e_kin = aE - outgoingRhadron->GetPDGMass();
+      
       if(e_kin>e_kin_0) {
 	G4cout<<"ALAAAAARM!!!"<<G4endl;
 	G4cout<<"Energy loss: "<<(e_kin_0-e_kin)/GeV<<" GeV (should be positive)"<<G4endl;
@@ -406,27 +408,27 @@ G4VParticleChange* FullModelHadronicProcess::PostStepDoIt(const G4Track& aTrack,
 
   if (theRhadron!=NULL||IncidentSurvives)
     {
-      
+      /*
       double E_new;
       if(IncidentSurvives)
 	{
 	  E_new = e_kin;
 	} else {
 	  E_new = theRhadron->GetKineticEnergy();
-	  /*if(CustomPDGParser::s_isRMeson(theRhadron->GetDefinition()->GetPDGEncoding())
+	  if(CustomPDGParser::s_isRMeson(theRhadron->GetDefinition()->GetPDGEncoding())
 	     !=CustomPDGParser::s_isRMeson(theIncidentPDG)
 	     ||
 	     CustomPDGParser::s_isMesonino(theRhadron->GetDefinition()->GetPDGEncoding())
 	     !=CustomPDGParser::s_isMesonino(theIncidentPDG)
 	     ) {
-	    /*std::cout<<"Rm: "<<CustomPDGParser::s_isRMeson(theRhadron->GetDefinition()->GetPDGEncoding())
+	    std::cout<<"Rm: "<<CustomPDGParser::s_isRMeson(theRhadron->GetDefinition()->GetPDGEncoding())
 		     <<" vs: "<<CustomPDGParser::s_isRMeson(theIncidentPDG)<<std::endl;
 	    std::cout<<"Sm: "<<CustomPDGParser::s_isMesonino(theRhadron->GetDefinition()->GetPDGEncoding())
 		     <<" vs: "<<CustomPDGParser::s_isMesonino(theIncidentPDG)<<std::endl; 
 		     //Prints Baryonisation fraction, sort of 
 
-	  }*/
-	}
+	  }
+      }*/
       
       //Calculating relevant scattering angles.
       G4LorentzVector p4_old_full = FullRhadron4Momentum; //R-hadron in CMS BEFORE collision
@@ -559,7 +561,7 @@ void FullModelHadronicProcess::CalculateMomenta(
 	 originalIncident->GetDefinition() == G4KaonMinus::KaonMinus() ||
 	 originalIncident->GetDefinition() == G4KaonZeroLong::KaonZeroLong() ||
 	 originalIncident->GetDefinition() == G4KaonZeroShort::KaonZeroShort()) &&
-	rand1 < 0.5) || rand2 > twsup[vecLen]) )
+	rand1 < 0.5) || rand2 > twsup[vecLen]) ) {
     finishedGenXPt =
       theReactionDynamics.GenerateXandPt( vec, vecLen,
 					  modifiedOriginal, originalIncident,
@@ -567,11 +569,11 @@ void FullModelHadronicProcess::CalculateMomenta(
 					  targetNucleus, incidentHasChanged,
 					  targetHasChanged, leadFlag,
 					  leadingStrangeParticle );
-  if( finishedGenXPt )
-    {
-      Rotate(vec, vecLen);
-      return;
-    }
+  }
+  if( finishedGenXPt ) {
+    Rotate(vec, vecLen);
+    return;
+  }
 
   G4bool finishedTwoClu = false;
   if( modifiedOriginal.GetTotalMomentum()/MeV < 1.0 )
@@ -677,20 +679,19 @@ void FullModelHadronicProcess::Rotate(G4FastVector<G4ReactionProduct,256> &vec, 
     }
 }      
 
-const G4DynamicParticle* FullModelHadronicProcess::FindRhadron(G4ParticleChange* aParticleChange)
-{
-  G4int nsec = aParticleChange->GetNumberOfSecondaries();
+const G4DynamicParticle* FullModelHadronicProcess::FindRhadron(G4ParticleChange* aPC) {
+  G4int nsec = aPC->GetNumberOfSecondaries();
   if (nsec==0) return 0;
   int i = 0;
   G4bool found = false;
   while (i!=nsec && !found){
     //    G4cout<<"Checking "<<aParticleChange->GetSecondary(i)->GetDynamicParticle()->GetDefinition()->GetParticleName()<<G4endl;
     //    if (aParticleChange->GetSecondary(i)->GetDynamicParticle()->GetDefinition()->GetParticleType()=="rhadron") found = true;
-    if (dynamic_cast<CustomParticle*>(aParticleChange->GetSecondary(i)->GetDynamicParticle()->GetDefinition())!=0) found = true;
+    if (dynamic_cast<CustomParticle*>(aPC->GetSecondary(i)->GetDynamicParticle()->GetDefinition())!=0) found = true;
     i++;
   }
   i--;
-  if(found) return aParticleChange->GetSecondary(i)->GetDynamicParticle();
+  if(found) return aPC->GetSecondary(i)->GetDynamicParticle();
   return 0;
 }
 

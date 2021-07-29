@@ -29,8 +29,8 @@ void CustomParticleFactory::loadCustomParticles()
   //  std::ifstream configFile("stophadrons.txt");
   G4String pType="custom";
   G4String pSubType="";
-  G4double spectatormass;
-  G4ParticleDefinition* spectator; 
+  G4double spectatormass = 0.0;
+  G4ParticleDefinition* spectator = 0; // bogus default definiton to remove cpp warnings
   bool first = true;
   double mass;
   int pdgCode;
