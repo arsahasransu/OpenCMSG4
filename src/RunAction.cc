@@ -1,7 +1,6 @@
 #include "RunAction.hh"
 #include "EventAction.hh"
 #include "Analysis.hh"
-#include "Constants.hh"
 
 #include "G4Run.hh"
 #include "G4UnitsTable.hh"

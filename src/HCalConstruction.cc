@@ -4,6 +4,16 @@
 #include "G4Tubs.hh"
 #include "G4PVPlacement.hh"
 
+// HCal Barrel Variables
+constexpr G4int nofHcalBarEta = 2*15;  // 2*17 - default value
+constexpr G4int nofHcalBarPhi = 72;    // 72 - default value
+constexpr G4int nofHcalBarR = 18;       // 18 - default value
+constexpr G4int nofHcalBarCells = nofHcalBarEta*nofHcalBarPhi*nofHcalBarR;
+constexpr G4double diffRAbsBar = 55*mm;
+constexpr G4double diffRScnBar = 8*mm;
+
+constexpr G4double EtaArray[] = {1.740,1.830,1.930,2.043,2.172,2.322,2.5,2.65,3.0};
+
 HCalConstruction::HCalConstruction()
   : cellHcalBarAbsLogical(nofHcalBarEta),
     cellHcalBarScnLogical(nofHcalBarEta),

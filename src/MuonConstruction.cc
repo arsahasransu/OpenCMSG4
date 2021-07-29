@@ -5,6 +5,22 @@
 #include "G4PVPlacement.hh"
 #include "G4RotationMatrix.hh"
 
+// Variables for muon chambers
+constexpr G4int NMuBarZSeg = 5; // Default = 5
+constexpr G4int NMuBarPhiSeg = 12; // Default = 12
+constexpr G4int NMuBarRSeg = 4; // Default = 4
+constexpr G4int NMuBarCh = NMuBarZSeg*NMuBarPhiSeg*NMuBarRSeg;
+
+constexpr G4double muBarR[] = {4700*mm, 5000*mm, 5300*mm, 5700*mm}; // Dimension equal to NMuBarRSeg
+constexpr G4double muBardR[] = {100*mm, 150*mm, 200*mm, 300*mm}; // Dimension equal to NMuBarRSeg
+constexpr G4double muBarZLen[] = {1250*cm, 1250*cm, 1250*cm, 1250*cm}; // Dimension equal to NMuBarRSeg
+
+constexpr G4int NMuECZSeg = 5; // Default = 5
+constexpr G4int NMuECPhiSeg = 12; // Default = 12
+
+constexpr G4double muECZpos[] = {700*cm, 740*cm, 800*cm, 870*cm, 940*cm}; // Dimension equal to NMuECZSeg
+constexpr G4double muEChalfZwid[] = {10*cm, 20*cm, 30*cm, 30*cm, 30*cm}; // Dimension equal to NMuECZSeg
+
 MuonConstruction::MuonConstruction()
   : chamberMuonBarLogical(NMuBarCh),
     chamberMuonECLogical_r(NMuECZSeg*NMuECPhiSeg), chamberMuonECLogical_l(NMuECZSeg*NMuECPhiSeg) {
@@ -101,7 +117,7 @@ void MuonConstruction::makeEndCap_posz(G4Material* muMat, G4LogicalVolume* muLog
 		     0,0,1);
     G4RotationMatrix *rot = new G4RotationMatrix(rottemp);
     
-    new G4PVPlacement(rot, G4ThreeVector(xpos,ypos,zpos-0.5*(0.5*world_sizeZ+solenoidHalfZ)), chamberMuonECLogical_r[copyNo], "muonECChamber_r", muLogical, false, copyNo, true);
+    new G4PVPlacement(rot, G4ThreeVector(xpos,ypos,zpos-0.5*(10*m+solenoidHalfZ)), chamberMuonECLogical_r[copyNo], "muonECChamber_r", muLogical, false, copyNo, true);
     //new G4PVPlacement(0, G4ThreeVector(0,0,0), chamberMuonBarLogical[copyNo], "muonBarrelChamber", muLogical, false, copyNo, false);
 
     visAttributes = new G4VisAttributes(G4Colour(0.8888,0.8888,0));
@@ -154,7 +170,7 @@ void MuonConstruction::makeEndCap_negz(G4Material* muMat, G4LogicalVolume* muLog
 		     0,0,1);
     G4RotationMatrix *rot = new G4RotationMatrix(rottemp);
     
-    new G4PVPlacement(rot, G4ThreeVector(xpos,ypos,zpos+0.5*(0.5*world_sizeZ+solenoidHalfZ)), chamberMuonECLogical_l[copyNo], "muonECChamber_l", muLogical, false, copyNo, true);
+    new G4PVPlacement(rot, G4ThreeVector(xpos,ypos,zpos+0.5*(10*m+solenoidHalfZ)), chamberMuonECLogical_l[copyNo], "muonECChamber_l", muLogical, false, copyNo, true);
     //new G4PVPlacement(0, G4ThreeVector(0,0,0), chamberMuonBarLogical[copyNo], "muonBarrelChamber", muLogical, false, copyNo, false);
 
     visAttributes = new G4VisAttributes(G4Colour(0.8888,0.8888,0));

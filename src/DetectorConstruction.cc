@@ -54,6 +54,10 @@ G4ThreadLocal G4FieldManager* DetectorConstruction::fFieldMgr4 = 0;
     
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
+constexpr G4double PShower_thick[] = {1,1,2,9.3,2,2,1,1,1,2,3.7,2,2,1};
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
 DetectorConstruction::DetectorConstruction()
 : G4VUserDetectorConstruction(), 
   fMessenger(nullptr),
@@ -85,6 +89,10 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 {
 
   G4bool checkOverlaps = true;
+
+  constexpr G4double world_sizeXY = 20*m;
+  constexpr G4double world_sizeZ  = 20*m;
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////// MATERIALS //////////////////////////////////////////////

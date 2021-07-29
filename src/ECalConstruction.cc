@@ -1,9 +1,14 @@
 #include "ECalConstruction.hh"
-#include "Constants.hh"
 
 #include "G4Sphere.hh"
 #include "G4Trap.hh"
 #include "G4PVPlacement.hh"
+#include "G4SystemOfUnits.hh"
+
+constexpr G4int nofEmBarEta = 170; 	// Max Value = 170
+constexpr G4int nofEmBarPhi = 360; 		// Max Value = 360
+constexpr G4int nofEmBarCells = nofEmBarEta*nofEmBarPhi;
+constexpr G4int kNofEmECCells = 2708*4;
 
 ECalConstruction::ECalConstruction()
   : cellEcalBarLogical(nofEmBarEta),

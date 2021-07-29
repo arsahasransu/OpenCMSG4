@@ -9,10 +9,23 @@
 #include "G4ParticleDefinition.hh"
 #include "G4ParticleTypes.hh"
 #include "G4SystemOfUnits.hh"
-#include "Constants.hh"
 
 #include <vector>
 #include <cmath>
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+// Tracker Pixelation Variables
+constexpr G4double lPix = 50*um;
+constexpr G4double wPix = 50*um;
+constexpr G4double etashift = 4;
+constexpr G4double phishift = 3.2;
+constexpr long rhbit = 0b1000000000000000000;
+constexpr long phbit = 0b1000000000000000000000;
+constexpr long etbit = 0b10000000000000000000000;
+constexpr double rhbitres = 10*um;
+constexpr double phbitres = 4*pow(10,-6);
+constexpr double etbitres = 2*pow(10,-6);
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
