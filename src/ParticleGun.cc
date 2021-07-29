@@ -136,7 +136,7 @@ void ParticleGun::DefineCommands()
         "Sigma angle divergence of pseudorapidity of primaries.");
   sigmaEtaCmd.SetParameterName("sEta", true);
   sigmaEtaCmd.SetRange("sEta>=0.");                                
-  sigmaEtaCmd.SetDefaultValue("1.479");
+  sigmaEtaCmd.SetDefaultValue("0.1");
 
   // phi command
   auto& phiCmd

@@ -4,10 +4,10 @@ Volume Control				Constants			Run Action
 nonSens					kNoEmColumns(->)kNofEmBarEta	eventAction
 PIB					kNofEmRows(->)kNofEmBarPhi	fEventEdep
 PID					kNofEmCells(->)kNofEmBarCells	fEventAction
-TIB					kNoEmECCells	   		start
+TIB					kNoEmECCells                    start
 TID					kNofEvents(->) # remove		end
 TOB					kBz				myfile
-TEC					trPhiAng			
+TEC					trPhiAng                         
 					PIB_num				Event Action
 Action Initialization			PIB_rMin			=====================
 =========================		PIB_thick				

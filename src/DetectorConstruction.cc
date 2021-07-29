@@ -1,9 +1,12 @@
 #include "DetectorConstruction.hh"
 #include "MagneticField.hh"
+#include "MagneticField2.hh"
 #include "Constants.hh"
 #include "VolumeControl.hh"
 #include "ECalConstruction.hh"
+#include "HCalConstruction.hh"
 #include "TrackerConstruction.hh"
+#include "MuonConstruction.hh"
 
 #include "G4FieldManager.hh"
 #include "G4TransportationManager.hh"
@@ -20,6 +23,7 @@
 #include "G4Tubs.hh"
 #include "G4Sphere.hh"
 #include "G4Trap.hh"
+#include "G4Cons.hh"
 #include "G4LogicalVolume.hh"
 #include "G4VPhysicalVolume.hh"
 #include "G4PVPlacement.hh"
@@ -41,6 +45,12 @@
 
 G4ThreadLocal MagneticField* DetectorConstruction::fMagneticField = 0;
 G4ThreadLocal G4FieldManager* DetectorConstruction::fFieldMgr = 0;
+G4ThreadLocal MagneticField* DetectorConstruction::fMagneticField2 = 0;
+G4ThreadLocal G4FieldManager* DetectorConstruction::fFieldMgr2 = 0;
+G4ThreadLocal MagneticField* DetectorConstruction::fMagneticField3 = 0;
+G4ThreadLocal G4FieldManager* DetectorConstruction::fFieldMgr3 = 0;
+G4ThreadLocal MagneticField2* DetectorConstruction::fMagneticField4 = 0;
+G4ThreadLocal G4FieldManager* DetectorConstruction::fFieldMgr4 = 0;
     
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -48,6 +58,9 @@ DetectorConstruction::DetectorConstruction()
 : G4VUserDetectorConstruction(), 
   fMessenger(nullptr),
   fMagneticLogical(nullptr),
+  fMagneticLogical2(nullptr),
+  fMagneticLogical3(nullptr),
+  fMagneticLogical4(nullptr),
   fVisAttributes(), 
   ecalMode(111), tracMode(111111)
 {
@@ -78,8 +91,6 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// World Material
-  G4double world_sizeXY = 4*m;
-  G4double world_sizeZ  = 8*m;
 
 	G4String name, symbol;
 	G4double a, density, fractionmass;
@@ -186,6 +197,11 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	PShowerMat.push_back(elAl);
 	PShowerMat.push_back(elSi);
 	
+	density = 2.65*g/cm3;
+	G4Material* quartz = new G4Material(name="Quartz",density,ncomponents=2);
+	quartz->AddElement(Si, natoms=1);
+	quartz->AddElement(elO, natoms=2);	
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////// VOLUMES ///////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -318,9 +334,64 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	  ecal->makeEndCap(ecal_mat, ecalECLogical_r, ecalECLogical_l, ECalR, ECalL, fVisAttributes);
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////// PRE-SHOWER PLACEMENT ////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////// HCAL ////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+	// HCal Envelope
+	//auto hcalSolid = new G4Tubs("HCalSolid", 1800*mm, 3500*mm, 10000*mm, 0*deg, 360*deg);
+	auto hcalSolid = new G4Tubs("HCalSolid", 1770*mm, 3500*mm, 10000*mm, 0*deg, 360*deg);
+	hcalLogical = new G4LogicalVolume(hcalSolid,world_mat,"HCalLogical");
+	new G4PVPlacement(0, G4ThreeVector(), hcalLogical, "HCalEnvelope", logicWorld, false, 0);
+
+	auto hcalECOSolid = new G4Tubs("HCalECOSolid", 200*mm, 3500*mm,0.5*nofHcalEndCapR*(diffRAbsEC+diffRScnEC), 0*deg, 360*deg);
+	hcalECOLogical_r = new G4LogicalVolume(hcalECOSolid,world_mat,"HCalECOLogical");
+	hcalECOLogical_l = new G4LogicalVolume(hcalECOSolid,world_mat,"HCalECOLogical");
+
+	G4double hcalECOLogica_z = HcalECEnvZmin + 0.5*nofHcalEndCapR*(diffRAbsEC+diffRScnEC);
+	new G4PVPlacement(0, G4ThreeVector(0,0,hcalECOLogica_z), hcalECOLogical_r, "HCalECEnvelopeRight", logicWorld, false, 0);
+	new G4PVPlacement(0, G4ThreeVector(0,0,-hcalECOLogica_z), hcalECOLogical_l, "HCalECEnvelopeleft", logicWorld, false, 0);
+	
+	HCalConstruction* hcal = new HCalConstruction();
+	hcal->makeBarrel(Cu, quartz, hcalLogical, fVisAttributes);
+	/*
+	hcal->makeEndCapOuter(Cu, Cu, hcalECOLogical_r, hcalECOLogical_l, fVisAttributes);
+	hcal->makeEndCapInner(Cu, Cu, hcalECOLogical_r, hcalECOLogical_l, fVisAttributes);
+	*/
+
+	/*
+	// HCal EndCap Envelope
+	G4double HcalEC17to20ThetaOut = 2*atan(exp(-HcalEC17to20EtaOut));
+	G4double HcalEC17to20ThetaIn = 2*atan(exp(-HcalEC17to20EtaIn));
+	G4double HCalEC17to20ROut1 = HcalECEnvZmin*tan(HcalEC17to20ThetaOut);
+	G4double HCalEC17to20RIn1 = HcalECEnvZmin*tan(HcalEC17to20ThetaIn);
+	G4double HCalEC17to20ROut2 = (HcalECEnvZmin+HcalECEnvDelZ)*tan(HcalEC17to20ThetaOut);
+	G4double HCalEC17to20RIn2 = (HcalECEnvZmin+HcalECEnvDelZ)*tan(HcalEC17to20ThetaIn);
+
+	
+	auto hcalECSolid = new G4Cons("HCalECSolid",
+				      HCalEC17to20RIn1,
+				      HCalEC17to20ROut1,
+				      HCalEC17to20RIn2,
+				      HCalEC17to20ROut2,
+				      0.5*HcalECEnvDelZ,
+				      0*deg,
+				      360*deg);
+	hcalECLogical_r = new G4LogicalVolume(hcalECSolid,
+					      world_mat,
+					      "HCalECLogical");
+	new G4PVPlacement(0,
+			  G4ThreeVector(0, 0, HcalECEnvZmin+0.5*HcalECEnvDelZ),
+			  hcalECLogical_r,
+			  "HCalECEnvelopeRight",
+			  logicWorld,
+			  false,
+			  0,
+			  true);
+	*/
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////// PRE-SHOWER PLACEMENT ///////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// PreShower Endcap Envelope
 	G4double PSECenv_zpos = 3070*mm;
@@ -346,6 +417,37 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 		PShowPos += 0.5*PShower_thick[cNo];
 	}
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////// SOLENOID CYLINDER ////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	// Solenoid
+	auto solenoidSolid = new G4Tubs("SolenoidSolid", solenoidInnerR, solenoidOuterR, solenoidHalfZ, 0*deg, 360*deg);
+	solenoidLogical = new G4LogicalVolume(solenoidSolid,CuNi,"SolenoidLogical");
+	new G4PVPlacement(0, G4ThreeVector(), solenoidLogical, "Solenoid", logicWorld, false, 0);
+	
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////// MUON CHAMBER //////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	// Muon Chamber Logical
+	auto muBrChSolid = new G4Tubs("MuonBarrelChamberSolid", 4600*mm, 7000*mm, solenoidHalfZ, 0*deg, 360*deg);
+	muBrChLogical = new G4LogicalVolume(muBrChSolid,world_mat,"Muon Barrel Chamber Logical");
+	new G4PVPlacement(0, G4ThreeVector(), muBrChLogical, "Muon Barrel", logicWorld, false, 0);
+
+	auto muECChSolid_r = new G4Tubs("MuonECChamberSolid_r", 0.9*muECRin[0], 0.5*world_sizeXY, 0.5*(0.5*world_sizeZ-solenoidHalfZ), 0*deg, 360*deg);
+	muECChLogical_r = new G4LogicalVolume(muECChSolid_r,world_mat,"Muon Right EndCap Chamber Logical");
+	new G4PVPlacement(0, G4ThreeVector(0,0,0.5*(0.5*world_sizeZ+solenoidHalfZ)), muECChLogical_r, "Muon Right EndCap", logicWorld, false, 0);
+
+	auto muECChSolid_l = new G4Tubs("MuonECChamberSolid_l", 0.9*muECRin[0], 0.5*world_sizeXY, 0.5*(0.5*world_sizeZ-solenoidHalfZ), 0*deg, 360*deg);
+	muECChLogical_l = new G4LogicalVolume(muECChSolid_l,world_mat,"Muon Left EndCap Chamber Logical");
+	new G4PVPlacement(0, G4ThreeVector(0,0,-0.5*(0.5*world_sizeZ+solenoidHalfZ)), muECChLogical_l, "Muon Left EndCap", logicWorld, false, 0);
+
+	MuonConstruction* muon = new MuonConstruction();
+	muon->makeBarrel(CuNi, muBrChLogical, fVisAttributes);
+	muon->makeEndCap_posz(CuNi, muECChLogical_r, false, fVisAttributes);
+	muon->makeEndCap_negz(CuNi, muECChLogical_l, false, fVisAttributes);
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////// VISUALS ///////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -355,23 +457,35 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	//
 
   auto visAttributes = new G4VisAttributes(G4Colour(1.0,1.0,1.0));
-  visAttributes->SetVisibility(false);
+  //visAttributes->SetVisibility(false);
   logicWorld->SetVisAttributes(visAttributes);
   fVisAttributes.push_back(visAttributes);
 
   visAttributes = new G4VisAttributes(G4Colour(0.8888,0,0));
-  visAttributes->SetVisibility(false);
+  //visAttributes->SetVisibility(false);
 	//visAttributes->SetForceLineSegmentsPerCircle(10);
   ecalLogical->SetVisAttributes(visAttributes);
   fVisAttributes.push_back(visAttributes);
   
   visAttributes = new G4VisAttributes(G4Colour(0,0,0.8888));
-  visAttributes->SetVisibility(false);
+  //visAttributes->SetVisibility(false);
 	//visAttributes->SetForceLineSegmentsPerCircle(10);
   trackerLogical->SetVisAttributes(visAttributes);
   fVisAttributes.push_back(visAttributes);
 
-/*  visAttributes = new G4VisAttributes(G4Colour(0.8888,0.8888,0));
+  visAttributes = new G4VisAttributes(G4Colour(0.56,0,1));
+  //visAttributes->SetVisibility(false);
+	//visAttributes->SetForceLineSegmentsPerCircle(10);
+  solenoidLogical->SetVisAttributes(visAttributes);
+  fVisAttributes.push_back(visAttributes);
+
+  visAttributes = new G4VisAttributes(G4Colour(0.56,0.3,1));
+  //visAttributes->SetVisibility(false);
+	//visAttributes->SetForceLineSegmentsPerCircle(10);
+  muBrChLogical->SetVisAttributes(visAttributes);
+  fVisAttributes.push_back(visAttributes);
+
+  /*  visAttributes = new G4VisAttributes(G4Colour(0.8888,0.8888,0));
   //visAttributes->SetVisibility(false);
 	//visAttributes->SetForceLineSegmentsPerCircle(10);
   singleTrackerLogical->SetVisAttributes(visAttributes);
@@ -379,7 +493,11 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 */
   // return the world physical volume ----------------------------------------
   
-	fMagneticLogical = logicWorld;
+  //fMagneticLogical = logicWorld;
+  fMagneticLogical = ecalLogical;
+  fMagneticLogical2 = trackerLogical;
+  fMagneticLogical3 = hcalLogical;
+  fMagneticLogical4 = muBrChLogical;
 
   return physWorld;
 }
@@ -396,9 +514,33 @@ void DetectorConstruction::ConstructSDandField()
   G4bool forceToAllDaughters = true;
   fMagneticLogical->SetFieldManager(fFieldMgr, forceToAllDaughters);
 
+  fMagneticField2 = new MagneticField();
+  fFieldMgr2 = new G4FieldManager();
+  fFieldMgr2->SetDetectorField(fMagneticField2);
+  fFieldMgr2->CreateChordFinder(fMagneticField2);
+  fMagneticLogical2->SetFieldManager(fFieldMgr2, forceToAllDaughters);
+
+  fMagneticField3 = new MagneticField();
+  fFieldMgr3 = new G4FieldManager();
+  fFieldMgr3->SetDetectorField(fMagneticField3);
+  fFieldMgr3->CreateChordFinder(fMagneticField3);
+  fMagneticLogical3->SetFieldManager(fFieldMgr3, forceToAllDaughters);
+
+  fMagneticField4 = new MagneticField2();
+  fFieldMgr4 = new G4FieldManager();
+  fFieldMgr4->SetDetectorField(fMagneticField4);
+  fFieldMgr4->CreateChordFinder(fMagneticField4);
+  fMagneticLogical4->SetFieldManager(fFieldMgr4, forceToAllDaughters);
+
   // Register the field and its manager for deleting
   G4AutoDelete::Register(fMagneticField);
   G4AutoDelete::Register(fFieldMgr);
+  G4AutoDelete::Register(fMagneticField2);
+  G4AutoDelete::Register(fFieldMgr2);
+  G4AutoDelete::Register(fMagneticField3);
+  G4AutoDelete::Register(fFieldMgr3);
+  G4AutoDelete::Register(fMagneticField4);
+  G4AutoDelete::Register(fFieldMgr4);
 }    
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

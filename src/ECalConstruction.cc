@@ -18,12 +18,7 @@ ECalConstruction::ECalConstruction()
 }
 
 ECalConstruction::~ECalConstruction()
-{
-  for(G4int num=0; num<nofEmBarEta; num++) {
-    std::vector<G4LogicalVolume*> temp(nofEmBarPhi);
-    cellEcalBarLogical[num] = temp;
-  }  
-}
+{}
 
 void ECalConstruction::makeBarrel(G4Material* ecalMat, G4LogicalVolume* ecalLogical, std::vector<G4VisAttributes*> fVisAttributes)
 {
@@ -56,7 +51,7 @@ void ECalConstruction::makeBarrel(G4Material* ecalMat, G4LogicalVolume* ecalLogi
 
   for(G4int copyNo=0; copyNo<nofEmBarCells; copyNo++) {
     visAttributes = new G4VisAttributes(G4Colour(0.8888,0,0));
-    //visAttributes->SetVisibility(false);
+    visAttributes->SetVisibility(false);
     //visAttributes->SetForceLineSegmentsPerCircle(10);
     if(copyNo<360*30)   cellEcalBarLogical[copyNo/360][copyNo%360]->SetVisAttributes(visAttributes);
     else  cellEcalBarLogical[(copyNo+(nofEmBarPhi-360)*30)/nofEmBarPhi][(copyNo+(nofEmBarPhi-360)*30)%nofEmBarPhi]->SetVisAttributes(visAttributes);
@@ -124,13 +119,13 @@ void ECalConstruction::makeEndCap(G4Material* ecalMat, G4LogicalVolume* ecalECLo
   
   for(G4int copyNo=0; copyNo<kNofEmECCells; copyNo++) {
     visAttributes = new G4VisAttributes(G4Colour(0.9115,0.4112,0.0042));
-    //visAttributes->SetVisibility(false);
+    visAttributes->SetVisibility(false);
     //visAttributes->SetForceLineSegmentsPerCircle(10);
     cellEcalECLogical_r[copyNo]->SetVisAttributes(visAttributes);
     fVisAttributes.push_back(visAttributes);
     
     visAttributes = new G4VisAttributes(G4Colour(0.9115,0.4112,0.0042));
-    //visAttributes->SetVisibility(false);
+    visAttributes->SetVisibility(false);
     //visAttributes->SetForceLineSegmentsPerCircle(10);
     cellEcalECLogical_l[copyNo]->SetVisAttributes(visAttributes);
     fVisAttributes.push_back(visAttributes);

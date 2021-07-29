@@ -1,0 +1,268 @@
+R1_ubar # neutron # R1_ubar # neutron 
+R1_ubar # neutron # R1_ubar # neutron # pi0
+R1_ubar # neutron # R1_ubar # proton # pi-
+R1_ubar # neutron # R1_dd1 # pi0
+R1_ubar # neutron # R1_dd1 # pi0 # pi0
+R1_ubar # neutron # R1_dd1 # pi- # pi+
+R1_ubar # neutron # R1_dbar # neutron # pi-
+R1_ubar # neutron # R1_ud0 # pi-
+R1_ubar # neutron # R1_ud0 # pi- # pi0
+R1_ubar # proton # R1_ubar # neutron # pi+
+R1_ubar # proton # R1_ubar # proton 
+R1_ubar # proton # R1_ubar # proton # pi0
+R1_ubar # proton # R1_dbar # neutron 
+R1_ubar # proton # R1_dbar # neutron # pi0
+R1_ubar # proton # R1_dbar # proton # pi-
+R1_ubar # proton # R1_ud0 # pi0
+R1_ubar # proton # R1_ud0 # pi0 # pi0
+R1_ubar # proton # R1_ud0 # pi- # pi+
+R1_ubar # proton # R1_uu1 # pi-
+R1_ubar # proton # R1_uu1 # pi- # pi0
+R1_dbar # neutron # R1_ubar # neutron # pi-
+R1_dbar # neutron # R1_ubar # proton 
+R1_dbar # neutron # R1_ubar # proton # pi0
+R1_dbar # neutron # R1_dd1 # pi+
+R1_dbar # neutron # R1_dd1 # pi+ # pi0
+R1_dbar # neutron # R1_dbar # neutron 
+R1_dbar # neutron # R1_dbar # neutron # pi0
+R1_dbar # neutron # R1_dbar # proton # pi-
+R1_dbar # neutron # R1_ud0 # pi0
+R1_dbar # neutron # R1_ud0 # pi0 # pi0
+R1_dbar # neutron # R1_ud0 # pi- # pi+
+R1_dbar # proton # R1_ubar # proton # pi+
+R1_dbar # proton # R1_dbar # neutron # pi+
+R1_dbar # proton # R1_dbar # proton 
+R1_dbar # proton # R1_dbar # proton # pi0
+R1_dbar # proton # R1_ud0 # pi+
+R1_dbar # proton # R1_ud0 # pi+ # pi0
+R1_dbar # proton # R1_uu1 # pi0
+R1_dbar # proton # R1_uu1 # pi0 # pi0
+R1_dbar # proton # R1_uu1 # pi+ # pi-
+antiR1_u # neutron # antiR1_u # neutron
+antiR1_u # neutron # antiR1_u # neutron # pi0
+antiR1_u # neutron # antiR1_u # proton # pi-
+antiR1_u # neutron # antiR1_d # neutron # pi+
+antiR1_u # neutron # antiR1_d # proton
+antiR1_u # neutron # antiR1_d # proton # pi0
+antiR1_u # proton # antiR1_u # neutron # pi+
+antiR1_u # proton # antiR1_u # proton
+antiR1_u # proton # antiR1_u # proton # pi0
+antiR1_u # proton # antiR1_d # proton # pi+
+antiR1_d # neutron # antiR1_u # neutron # pi-
+antiR1_d # neutron # antiR1_d # neutron
+antiR1_d # neutron # antiR1_d # neutron # pi0
+antiR1_d # neutron # antiR1_d # proton # pi- 
+antiR1_d # proton # antiR1_u # neutron 
+antiR1_d # proton # antiR1_u # neutron # pi0
+antiR1_d # proton # antiR1_u # proton # pi-
+antiR1_d # proton # antiR1_d # neutron # pi+
+antiR1_d # proton # antiR1_d # proton
+antiR1_d # proton # antiR1_d # proton # pi0
+S1+_u # neutron # S1+_u # neutron
+S1+_u # neutron # S1+_u # neutron # pi0
+S1+_u # neutron # S1+_u # proton # pi-
+S1+_u # neutron # S1+_d # neutron # pi+
+S1+_u # neutron # S1+_d # proton
+S1+_u # neutron # S1+_d # proton # pi0
+S1+_u # proton # S1+_u # neutron # pi+
+S1+_u # proton # S1+_u # proton
+S1+_u # proton # S1+_u # proton # pi0
+S1+_u # proton # S1+_d # proton # pi+
+S1+_d # neutron # S1+_u # neutron # pi-
+S1+_d # neutron # S1+_d # neutron
+S1+_d # neutron # S1+_d # neutron # pi0
+S1+_d # neutron # S1+_d # proton # pi- 
+S1+_d # proton # S1+_u # neutron 
+S1+_d # proton # S1+_u # neutron # pi0
+S1+_d # proton # S1+_u # proton # pi-
+S1+_d # proton # S1+_d # neutron # pi+
+S1+_d # proton # S1+_d # proton
+S1+_d # proton # S1+_d # proton # pi0
+antiS1+_ubar # neutron # antiS1+_ubar # neutron 
+antiS1+_ubar # neutron # antiS1+_ubar # neutron # pi0
+antiS1+_ubar # neutron # antiS1+_ubar # proton # pi-
+antiS1+_ubar # neutron # antiS1+_dd1 # pi0
+antiS1+_ubar # neutron # antiS1+_dd1 # pi0 # pi0
+antiS1+_ubar # neutron # antiS1+_dd1 # pi- # pi+
+antiS1+_ubar # neutron # antiS1+_dbar # neutron # pi-
+antiS1+_ubar # neutron # antiS1+_ud0 # pi-
+antiS1+_ubar # neutron # antiS1+_ud0 # pi- # pi0
+antiS1+_ubar # proton # antiS1+_ubar # neutron # pi+
+antiS1+_ubar # proton # antiS1+_ubar # proton 
+antiS1+_ubar # proton # antiS1+_ubar # proton # pi0
+antiS1+_ubar # proton # antiS1+_dbar # neutron 
+antiS1+_ubar # proton # antiS1+_dbar # neutron # pi0
+antiS1+_ubar # proton # antiS1+_dbar # proton # pi-
+antiS1+_ubar # proton # antiS1+_ud0 # pi0
+antiS1+_ubar # proton # antiS1+_ud0 # pi0 # pi0
+antiS1+_ubar # proton # antiS1+_ud0 # pi- # pi+
+antiS1+_ubar # proton # antiS1+_uu1 # pi-
+antiS1+_ubar # proton # antiS1+_uu1 # pi- # pi0
+antiS1+_dbar # neutron # antiS1+_ubar # neutron # pi-
+antiS1+_dbar # neutron # antiS1+_ubar # proton 
+antiS1+_dbar # neutron # antiS1+_ubar # proton # pi0
+antiS1+_dbar # neutron # antiS1+_dd1 # pi+
+antiS1+_dbar # neutron # antiS1+_dd1 # pi+ # pi0
+antiS1+_dbar # neutron # antiS1+_dbar # neutron 
+antiS1+_dbar # neutron # antiS1+_dbar # neutron # pi0
+antiS1+_dbar # neutron # antiS1+_dbar # proton # pi-
+antiS1+_dbar # neutron # antiS1+_ud0 # pi0
+antiS1+_dbar # neutron # antiS1+_ud0 # pi0 # pi0
+antiS1+_dbar # neutron # antiS1+_ud0 # pi- # pi+
+antiS1+_dbar # proton # antiS1+_ubar # proton # pi+
+antiS1+_dbar # proton # antiS1+_dbar # neutron # pi+
+antiS1+_dbar # proton # antiS1+_dbar # proton 
+antiS1+_dbar # proton # antiS1+_dbar # proton # pi0
+antiS1+_dbar # proton # antiS1+_ud0 # pi+
+antiS1+_dbar # proton # antiS1+_ud0 # pi+ # pi0
+antiS1+_dbar # proton # antiS1+_uu1 # pi0
+antiS1+_dbar # proton # antiS1+_uu1 # pi0 # pi0
+antiS1+_dbar # proton # antiS1+_uu1 # pi+ # pi-
+S1+_dbardbar1 # neutron # S1+_u # pi0
+S1+_dbardbar1 # neutron # S1+_dbardbar1 # neutron 
+S1+_dbardbar1 # neutron # S1+_dbardbar1 # neutron # pi0 
+S1+_dbardbar1 # neutron # S1+_d # pi0
+S1+_dbardbar1 # neutron # S1+_ubardbar0 # proton
+S1+_dbardbar1 # proton # S1+_u # pi+
+S1+_dbardbar1 # proton # S1+_dbardbar1 # proton 
+S1+_dbardbar1 # proton # S1+_dbardbar1 # proton # pi0 
+S1+_ubardbar0 # neutron # S1+_u # pi-
+S1+_ubardbar0 # neutron # S1+_dbardbar1 # neutron # pi-
+S1+_ubardbar0 # neutron # S1+_d # pi0
+S1+_ubardbar0 # neutron # S1+_ubardbar0 # neutron 
+S1+_ubardbar0 # neutron # S1+_ubardbar0 # neutron # pi0 
+S1+_ubardbar0 # neutron # S1+_ubardbar0 # proton # pi-
+S1+_ubardbar0 # neutron # S1+_ubarubar1 # neutron # pi+
+S1+_ubardbar0 # neutron # S1+_ubarubar1 # proton
+S1+_ubardbar0 # neutron # S1+_ubarubar1 # proton # pi0
+S1+_ubardbar0 # proton # S1+_u # pi0
+S1+_ubardbar0 # proton # S1+_dbardbar1 # neutron
+S1+_ubardbar0 # proton # S1+_dbardbar1 # neutron # pi0
+S1+_ubardbar0 # proton # S1+_dbardbar1 # proton # pi-
+S1+_ubardbar0 # proton # S1+_d # pi+
+S1+_ubardbar0 # proton # S1+_ubardbar0 # neutron # pi+
+S1+_ubardbar0 # proton # S1+_ubardbar0 # proton 
+S1+_ubardbar0 # proton # S1+_ubardbar0 # proton # pi0 
+S1+_ubardbar0 # proton # S1+_ubarubar1 # proton # pi+
+S1+_ubarubar1 # neutron # S1+_d # pi-
+S1+_ubarubar1 # neutron # S1+_ubardbar0 # neutron # pi-
+S1+_ubarubar1 # neutron # S1+_ubarubar1 # neutron 
+S1+_ubarubar1 # neutron # S1+_ubarubar1 # neutron # pi0 
+S1+_ubarubar1 # neutron # S1+_ubarubar1 # proton # pi-
+S1+_ubarubar1 # proton # S1+_u # pi-
+S1+_ubarubar1 # proton # S1+_dbardbar1 # neutron # pi-
+S1+_ubarubar1 # proton # S1+_d # pi0
+S1+_ubarubar1 # proton # S1+_ubardbar0 # neutron
+S1+_ubarubar1 # proton # S1+_ubardbar0 # neutron # pi0
+S1+_ubarubar1 # proton # S1+_ubardbar0 # proton # pi-
+S1+_ubarubar1 # proton # S1+_ubarubar1 # neutron # pi+
+S1+_ubarubar1 # proton # S1+_ubarubar1 # proton 
+S1+_ubarubar1 # proton # S1+_ubarubar1 # proton # pi0 
+antiS1+_dd1 # neutron # antiS1+_dd1 # neutron
+antiS1+_dd1 # neutron # antiS1+_dd1 # neutron # pi0
+antiS1+_dd1 # neutron # antiS1+_dd1 # proton # pi-
+antiS1+_dd1 # neutron # antiS1+_ud0 # neutron # pi-
+antiS1+_dd1 # proton # antiS1+_dd1 # neutron # pi+
+antiS1+_dd1 # proton # antiS1+_dd1 # proton
+antiS1+_dd1 # proton # antiS1+_dd1 # proton # pi0
+antiS1+_dd1 # proton # antiS1+_ud0 # neutron
+antiS1+_dd1 # proton # antiS1+_ud0 # neutron # pi0
+antiS1+_dd1 # proton # antiS1+_ud0 # proton # pi- 
+antiS1+_dd1 # proton # antiS1+_uu1 # neutron # pi-
+antiS1+_ud0 # neutron # antiS1+_dd1 # neutron # pi+
+antiS1+_ud0 # neutron # antiS1+_dd1 # proton
+antiS1+_ud0 # neutron # antiS1+_dd1 # proton # pi0
+antiS1+_ud0 # neutron # antiS1+_ud0 # neutron
+antiS1+_ud0 # neutron # antiS1+_ud0 # neutron # pi0
+antiS1+_ud0 # neutron # antiS1+_ud0 # proton # pi-
+antiS1+_ud0 # proton # antiS1+_dd1 # proton # pi+
+antiS1+_ud0 # proton # antiS1+_ud0 # neutron # pi+
+antiS1+_ud0 # proton # antiS1+_ud0 # proton
+antiS1+_ud0 # proton # antiS1+_ud0 # proton # pi0
+antiS1+_ud0 # proton # antiS1+_uu1 # neutron
+antiS1+_ud0 # proton # antiS1+_uu1 # neutron # pi0
+antiS1+_ud0 # proton # antiS1+_uu1 # proton # pi-
+antiS1+_uu1 # neutron # antiS1+_ud0 # neutron # pi+
+antiS1+_uu1 # neutron # antiS1+_ud0 # proton
+antiS1+_uu1 # neutron # antiS1+_ud0 # proton # pi0
+antiS1+_uu1 # neutron # antiS1+_uu1 # neutron
+antiS1+_uu1 # neutron # antiS1+_uu1 # neutron # pi0
+antiS1+_uu1 # neutron # antiS1+_uu1 # proton # pi-
+antiS1+_uu1 # proton # antiS1+_ud0 # proton # pi+
+antiS1+_uu1 # proton # antiS1+_uu1 # neutron # pi+
+antiS1+_uu1 # proton # antiS1+_uu1 # proton
+antiS1+_uu1 # proton # antiS1+_uu1 # proton # pi0
+R1_dd1 # neutron # R1_dd1 # neutron
+R1_dd1 # neutron # R1_dd1 # neutron # pi0
+R1_dd1 # neutron # R1_dd1 # proton # pi-
+R1_dd1 # neutron # R1_ud0 # neutron # pi-
+R1_dd1 # proton # R1_dd1 # neutron # pi+
+R1_dd1 # proton # R1_dd1 # proton
+R1_dd1 # proton # R1_dd1 # proton # pi0
+R1_dd1 # proton # R1_ud0 # neutron
+R1_dd1 # proton # R1_ud0 # neutron # pi0
+R1_dd1 # proton # R1_ud0 # proton # pi- 
+R1_dd1 # proton # R1_uu1 # neutron # pi-
+R1_ud0 # neutron # R1_dd1 # neutron # pi+
+R1_ud0 # neutron # R1_dd1 # proton
+R1_ud0 # neutron # R1_dd1 # proton # pi0
+R1_ud0 # neutron # R1_ud0 # neutron
+R1_ud0 # neutron # R1_ud0 # neutron # pi0
+R1_ud0 # neutron # R1_ud0 # proton # pi-
+R1_ud0 # proton # R1_dd1 # proton # pi+
+R1_ud0 # proton # R1_ud0 # neutron # pi+
+R1_ud0 # proton # R1_ud0 # proton
+R1_ud0 # proton # R1_ud0 # proton # pi0
+R1_ud0 # proton # R1_uu1 # neutron
+R1_ud0 # proton # R1_uu1 # neutron # pi0
+R1_ud0 # proton # R1_uu1 # proton # pi-
+R1_uu1 # neutron # R1_ud0 # neutron # pi+
+R1_uu1 # neutron # R1_ud0 # proton
+R1_uu1 # neutron # R1_ud0 # proton # pi0
+R1_uu1 # neutron # R1_uu1 # neutron
+R1_uu1 # neutron # R1_uu1 # neutron # pi0
+R1_uu1 # neutron # R1_uu1 # proton # pi-
+R1_uu1 # proton # R1_ud0 # proton # pi+
+R1_uu1 # proton # R1_uu1 # neutron # pi+
+R1_uu1 # proton # R1_uu1 # proton
+R1_uu1 # proton # R1_uu1 # proton # pi0
+antiR1_dbardbar1 # neutron # antiR1_u # pi0
+antiR1_dbardbar1 # neutron # antiR1_dbardbar1 # neutron 
+antiR1_dbardbar1 # neutron # antiR1_dbardbar1 # neutron # pi0 
+antiR1_dbardbar1 # neutron # antiR1_d # pi0
+antiR1_dbardbar1 # neutron # antiR1_ubardbar0 # proton
+antiR1_dbardbar1 # proton # antiR1_u # pi+
+antiR1_dbardbar1 # proton # antiR1_dbardbar1 # proton 
+antiR1_dbardbar1 # proton # antiR1_dbardbar1 # proton # pi0 
+antiR1_ubardbar0 # neutron # antiR1_u # pi-
+antiR1_ubardbar0 # neutron # antiR1_dbardbar1 # neutron # pi-
+antiR1_ubardbar0 # neutron # antiR1_d # pi0
+antiR1_ubardbar0 # neutron # antiR1_ubardbar0 # neutron 
+antiR1_ubardbar0 # neutron # antiR1_ubardbar0 # neutron # pi0 
+antiR1_ubardbar0 # neutron # antiR1_ubardbar0 # proton # pi-
+antiR1_ubardbar0 # neutron # antiR1_ubarubar1 # neutron # pi+
+antiR1_ubardbar0 # neutron # antiR1_ubarubar1 # proton
+antiR1_ubardbar0 # neutron # antiR1_ubarubar1 # proton # pi0
+antiR1_ubardbar0 # proton # antiR1_u # pi0
+antiR1_ubardbar0 # proton # antiR1_dbardbar1 # neutron
+antiR1_ubardbar0 # proton # antiR1_dbardbar1 # neutron # pi0
+antiR1_ubardbar0 # proton # antiR1_dbardbar1 # proton # pi-
+antiR1_ubardbar0 # proton # antiR1_d # pi+
+antiR1_ubardbar0 # proton # antiR1_ubardbar0 # neutron # pi+
+antiR1_ubardbar0 # proton # antiR1_ubardbar0 # proton 
+antiR1_ubardbar0 # proton # antiR1_ubardbar0 # proton # pi0 
+antiR1_ubardbar0 # proton # antiR1_ubarubar1 # proton # pi+
+antiR1_ubarubar1 # neutron # antiR1_d # pi-
+antiR1_ubarubar1 # neutron # antiR1_ubardbar0 # neutron # pi-
+antiR1_ubarubar1 # neutron # antiR1_ubarubar1 # neutron 
+antiR1_ubarubar1 # neutron # antiR1_ubarubar1 # neutron # pi0 
+antiR1_ubarubar1 # neutron # antiR1_ubarubar1 # proton # pi-
+antiR1_ubarubar1 # proton # antiR1_u # pi-
+antiR1_ubarubar1 # proton # antiR1_dbardbar1 # neutron # pi-
+antiR1_ubarubar1 # proton # antiR1_d # pi0
+antiR1_ubarubar1 # proton # antiR1_ubardbar0 # neutron
+antiR1_ubarubar1 # proton # antiR1_ubardbar0 # neutron # pi0
+antiR1_ubarubar1 # proton # antiR1_ubardbar0 # proton # pi-
+antiR1_ubarubar1 # proton # antiR1_ubarubar1 # neutron # pi+
+antiR1_ubarubar1 # proton # antiR1_ubarubar1 # proton 
+antiR1_ubarubar1 # proton # antiR1_ubarubar1 # proton # pi0 

@@ -6,6 +6,10 @@
 #include "G4Run.hh"
 #include "G4UnitsTable.hh"
 #include "G4SystemOfUnits.hh"
+#include "G4GenericMessenger.hh"
+
+#include "TFile.h"
+#include "TTree.h"
 
 #include <ctime>
 #include <fstream>
@@ -13,114 +17,68 @@
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 RunAction::RunAction(EventAction* eventAction):
-	G4UserRunAction(),
-	fEventAction(eventAction)
-{ 
-	// Create analysis manager
-	// The choice of analysis technology is done via selectin of a namespace
-	// in Analysis.hh
-	auto analysisManager = G4AnalysisManager::Instance();
-	G4cout << "Using " << analysisManager->GetType() << G4endl;
-
-	// Default settings
-	analysisManager->SetNtupleMerging(true);
-    // Note: merging ntuples is available only with Root output
-	analysisManager->SetVerboseLevel(1);
-	analysisManager->SetFileName("OpenCMSG4");
-
-	// Book histograms, ntuple
-	//
+  G4UserRunAction(),
+  runMessenger(nullptr),
+  fEventAction(eventAction),
+  outRootName("OpenCMSG4_root.root"){
   
+  // Define Commands for this class
+  DefineCommands();
 
-	// Creating ntuple
-	//
-	if ( fEventAction ) 
-	{
-		analysisManager->CreateNtuple("Events", "Events");		// tuple ID = 0
-    	analysisManager                                   // column Id = 0
-    		->CreateNtupleDColumn("CrysEdep", fEventAction->GetEmCalEdep()); 
-    	analysisManager                                   // column Id = 1
-    		->CreateNtupleIColumn("CrysNum", fEventAction->GetEmCalCrysNum()); 
-    	analysisManager                                   // column Id = 2
-    		->CreateNtupleDColumn("CrysEdepEC_r", 
-									fEventAction->GetEmCalECEdep_r()); 
-	    analysisManager                                   // column Id = 3
-		    ->CreateNtupleIColumn("CrysNumEC_r", 
-									fEventAction->GetEmCalECCrysNum_r()); 
-	    analysisManager                                   // column Id = 4
-		    ->CreateNtupleDColumn("CrysEdepEC_l", 
-									fEventAction->GetEmCalECEdep_l()); 
-	    analysisManager                                   // column Id = 5
-    		->CreateNtupleIColumn("CrysNumEC_l", 
-									fEventAction->GetEmCalECCrysNum_l()); 
-	    analysisManager                                   // column Id = 6
-		    ->CreateNtupleDColumn("EventEdep"); 
-	    analysisManager                                   // column Id = 7
-    		->CreateNtupleIColumn("HitNum"); 
-	    analysisManager                                   // column Id = 8
-    		->CreateNtupleIColumn("ConvertedFlag"); 
-	    analysisManager                                   // column Id = 9
-		   	->CreateNtupleDColumn("ConvertedX", fEventAction->GetConvertedX()); 
-	    analysisManager                                   // column Id = 10
-		    ->CreateNtupleDColumn("ConvertedY", fEventAction->GetConvertedY()); 
-	    analysisManager                                   // column Id = 11
-		    ->CreateNtupleDColumn("ConvertedZ", fEventAction->GetConvertedZ()); 
-	    analysisManager                                  // column Id = 12
-	      ->CreateNtupleDColumn("TrackerHitPositionX", fEventAction->GetTrackPosX());
-	    analysisManager                                  // column Id = 13
-	      ->CreateNtupleDColumn("TrackerHitPositionY", fEventAction->GetTrackPosY());
-	    analysisManager                                  // column Id = 14
-	      ->CreateNtupleDColumn("TrackerHitPositionZ", fEventAction->GetTrackPosZ());
-	    analysisManager->FinishNtuple();
-	}
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-RunAction::~RunAction()
-{
-	delete G4AnalysisManager::Instance();  
+RunAction::~RunAction(){
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void RunAction::BeginOfRunAction(const G4Run*)
-{ 
-
-	// Remember the start time to store the duration of a run.
-	start = time(NULL);
-	myfile.open("time_keeper.txt",std::ios::app);
+void RunAction::BeginOfRunAction(const G4Run*){ 
   
-	// Get analysis manager
-	auto analysisManager = G4AnalysisManager::Instance();
-
-	// Open an output file 
-	// The default file name is set in RunAction::RunAction(),
-	// it can be overwritten in a macro
-	analysisManager->OpenFile();
+  outRootFile = TFile::Open(outRootName,"RECREATE");
+  
+  // Book histogram for ROOT Tree
+  auto tree = new TTree("Events", "Events");
+  fEventAction->EventTree(tree);
+  
+  // Remember the start time to store the duration of a run.
+  start = time(NULL);
+  myfile.open("time_keeper.txt",std::ios::app);
+  
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void RunAction::EndOfRunAction(const G4Run*)
-{
+void RunAction::EndOfRunAction(const G4Run*){
+  
+  // Append the run time to a file
+  end = time(NULL);
+  std::cout<<"The time of the run was "<<difftime(end,start)
+	   <<" seconds."<<std::endl;
+  myfile<<"The time of the run was "<<difftime(end,start)
+	<<" seconds."<<std::endl;
+  myfile<<"-------------------------------------------------------------"
+	<<std::endl;
+  myfile.close();
+  
+  outRootFile->Write();
+  outRootFile->Close();
+}
 
-	// save histograms & ntuple
-	//
-	auto analysisManager = G4AnalysisManager::Instance();
-	analysisManager->Write();
-	analysisManager->CloseFile();
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-	// Append the run time to a file
-	end = time(NULL);
-	std::cout<<"The time of the run was "<<difftime(end,start)
-				<<" seconds."<<std::endl;
-	myfile<<"The time of the run was "<<difftime(end,start)
-				<<" seconds."<<std::endl;
-	myfile<<"-------------------------------------------------------------"
-				<<std::endl;
-	myfile.close();
-
+void RunAction::DefineCommands() {
+  
+  runMessenger = new G4GenericMessenger(this,
+					"/root/",
+					"Analysis Settings");
+  
+  // Control for the output file name
+  auto& outRootNameCmd = runMessenger->DeclareProperty("setFileName", outRootName, "Name of the output ROOT file");
+  outRootNameCmd.SetParameterName("setFileName", true);
+  outRootNameCmd.SetDefaultValue("OpenCMSG4_root.root");
+  
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

@@ -1,0 +1,15 @@
+#include "HCalConstruction.hh"
+#include "Constants.hh"
+
+#include "G4Tube.hh"
+
+HCalConstruction::HCalConstruction()
+  : cellHcalBarLogical(nofHcalBarEta) {
+}
+
+HCalConstruction::~HCalConstruction() {
+}
+
+void HCalConstruction::makeBarrel(G4Material* hcal_absMat, G4Material* hcal_scnMat, G4LogicalVolume* hcalLogical, std::vector<G4VisAttributes*> fVisAttributes) {
+  std::cout<<"Making the barrel for hadronic calorimeter"<<std::endl;
+}

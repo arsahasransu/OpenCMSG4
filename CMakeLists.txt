@@ -3,6 +3,8 @@
 cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
 project(OpenCMSG4ver1)
 
+list(APPEND CMAKE_PREFIX_PATH $ENV{ROOTSYS})
+
 #----------------------------------------------------------------------------
 # Find Geant4 package, activating all available UI and Vis drivers by default
 # You can set WITH_GEANT4_UIVIS to OFF via the command line or ccmake/cmake-gui
@@ -27,6 +29,15 @@ include(${Geant4_USE_FILE})
 find_package(HepMC REQUIRED)
 
 #----------------------------------------------------------------------------
+# Find ROOT (required package)
+#
+find_package(ROOT REQUIRED)
+if(ROOT_FOUND)
+  message(STATUS "Found ROOT: ${ROOT_INCLUDE_DIRS} compiled with ${ROOT_CXX_FLAGS}")
+endif()
+include(${ROOT_USE_FILE})
+
+#----------------------------------------------------------------------------
 # Find Pythia6 (optional package)
 #
 find_package(Pythia6 QUIET)
@@ -36,6 +47,15 @@ if(PYTHIA6_FOUND)
 else()
   set(PYTHIA6_LIBRARIES "")  
 endif()
+
+#----------------------------------------------------------------------------
+# GCC COMPILER FLAGS
+#
+SET(CMAKE_CXX_STANDARD 14)
+SET(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+SET(GCC_COMPILE_FLAGS "-Wshadow")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GCC_COMPILE_FLAGS}")
 
 #----------------------------------------------------------------------------
 # Locate sources and headers for this project
@@ -53,7 +73,7 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 add_executable(OpenCMSG4 OpenCMSG4.cc ${sources} ${headers})
 target_link_libraries(OpenCMSG4 ${Geant4_LIBRARIES}
 						${HEPMC_LIBRARIES} ${HEPMC_FIO_LIBRARIES}
-						${PYTHIA6_LIBRARIES} gfortran)	
+						${PYTHIA6_LIBRARIES} ${ROOT_LIBRARIES} gfortran)	
 
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we
@@ -72,7 +92,11 @@ set(OpenCMSG4_SCRIPTS
   example_MyPythia.dat
   exampleRun_particle.mac
   exampleRun_hepmc.mac
-  )
+  readTrackerPixel.cc
+  decays.txt
+  ProcessList.txt
+  PhysicsConfiguration.txt
+  particles.txt  )
 
 foreach(_script ${OpenCMSG4_SCRIPTS})
   configure_file(
