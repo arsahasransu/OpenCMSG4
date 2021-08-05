@@ -540,15 +540,6 @@ void DetectorConstruction::ConstructSDandField()
   fFieldMgr4->CreateChordFinder(fMagneticField4);
   fMagneticLogical4->SetFieldManager(fFieldMgr4, forceToAllDaughters);
 
-  // Register the field and its manager for deleting
-  G4AutoDelete::Register(fMagneticField);
-  G4AutoDelete::Register(fFieldMgr);
-  G4AutoDelete::Register(fMagneticField2);
-  G4AutoDelete::Register(fFieldMgr2);
-  G4AutoDelete::Register(fMagneticField3);
-  G4AutoDelete::Register(fFieldMgr3);
-  G4AutoDelete::Register(fMagneticField4);
-  G4AutoDelete::Register(fFieldMgr4);
 }    
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

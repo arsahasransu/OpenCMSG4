@@ -11,7 +11,7 @@
 #/run/numberOfThreads 1
 #
 # Initialize kernel
-/detector/nonSensitiveMode true
+/detector/sensitiveMaterialOnly false
 /detector/trackerMode 111111
 /detector/ecalMode 111
 
