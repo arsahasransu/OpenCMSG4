@@ -78,6 +78,8 @@ private:
   std::vector<G4LogicalVolume*> cellEcalPS_l;
   std::vector<G4LogicalVolume*> cellEcalPS_r;
 
+  G4int muChmMode;
+  G4int hcalMode;
   G4int ecalMode;
   G4int tracMode;
   G4bool solenoidMode;

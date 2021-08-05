@@ -346,6 +346,21 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 ////////////////////////////////////////// HCAL ////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
+	if(hcalMode%10 == 0)
+	HCalR = false;
+	else
+	HCalR = true;
+
+	if((hcalMode/10)%10 == 0)
+	HCalBar = false;
+	else
+	HCalBar = true;
+
+	if((hcalMode/100)%10 == 0)
+	HCalL = false;
+	else
+	HCalL = true;
+
 	// HCal Envelope
 	//auto hcalSolid = new G4Tubs("HCalSolid", 1800*mm, 3500*mm, 10000*mm, 0*deg, 360*deg);
 	auto hcalSolid = new G4Tubs("HCalSolid", 1770*mm, 3500*mm, 10000*mm, 0*deg, 360*deg);
@@ -361,10 +376,16 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	new G4PVPlacement(0, G4ThreeVector(0,0,-hcalECOLogica_z), hcalECOLogical_l, "HCalECEnvelopeleft", logicWorld, false, 0);
 	
 	HCalConstruction* hcal = new HCalConstruction();
-	hcal->makeBarrel(Cu, quartz, hcalLogical, fVisAttributes);
+	if(HCalBar) {
+	  hcal->makeBarrel(Cu, quartz, hcalLogical, fVisAttributes);
+	}
 	/*
-	hcal->makeEndCapOuter(Cu, Cu, hcalECOLogical_r, hcalECOLogical_l, fVisAttributes);
-	hcal->makeEndCapInner(Cu, Cu, hcalECOLogical_r, hcalECOLogical_l, fVisAttributes);
+	if(HCalR) {
+	  hcal->makeEndCapOuter(Cu, quartz, hcalECOLogical_r, hcalECOLogical_l, fVisAttributes);
+	}
+	if(HCalL) {
+	  hcal->makeEndCapInner(Cu, quartz, hcalECOLogical_r, hcalECOLogical_l, fVisAttributes);
+	}
 	*/
 
 	/*
@@ -440,6 +461,21 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 ///////////////////////////////////////// MUON CHAMBER //////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	if(muChmMode%10 == 0)
+	MuChmR = false;
+	else
+	MuChmR = true;
+
+	if((muChmMode/10)%10 == 0)
+	MuChmBar = false;
+	else
+	MuChmBar = true;
+
+	if((muChmMode/100)%10 == 0)
+	MuChmL = false;
+	else
+	MuChmL = true;
+
 	// Muon Chamber Logical
 	auto muBrChSolid = new G4Tubs("MuonBarrelChamberSolid", 4600*mm, 7000*mm, solenoidHalfZ, 0*deg, 360*deg);
 	muBrChLogical = new G4LogicalVolume(muBrChSolid,world_mat,"Muon Barrel Chamber Logical");
@@ -454,9 +490,15 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	new G4PVPlacement(0, G4ThreeVector(0,0,-0.5*(0.5*world_sizeZ+solenoidHalfZ)), muECChLogical_l, "Muon Left EndCap", logicWorld, false, 0);
 
 	MuonConstruction* muon = new MuonConstruction();
-	muon->makeBarrel(CuNi, muBrChLogical, fVisAttributes);
-	muon->makeEndCap_posz(CuNi, muECChLogical_r, false, fVisAttributes);
-	muon->makeEndCap_negz(CuNi, muECChLogical_l, false, fVisAttributes);
+	if(MuChmBar) {
+	  muon->makeBarrel(CuNi, muBrChLogical, fVisAttributes);
+	}
+	if(MuChmR) {
+	  muon->makeEndCap_posz(CuNi, muECChLogical_r, false, fVisAttributes);
+	}
+	if(MuChmL) {
+	  muon->makeEndCap_negz(CuNi, muECChLogical_l, false, fVisAttributes);
+	}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////// VISUALS ///////////////////////////////////////////////
@@ -558,6 +600,18 @@ void DetectorConstruction::DefineCommands()
 	auto& noSensCmd = fMessenger->DeclareProperty("sensitiveMaterialOnly", trackSens, "Tracker Sensitive volume presence only");
 	noSensCmd.SetParameterName("trkSens", true);
 	noSensCmd.SetDefaultValue("false");
+
+	// Muon System volume control command
+	auto& muChmCmd = fMessenger->DeclareProperty("muChmMode", muChmMode, "Mode of Muon Chambers");
+	muChmCmd.SetParameterName("muChm", true);
+	muChmCmd.SetRange("muChm>=0 && muChm<1000");
+	muChmCmd.SetDefaultValue("111");
+
+	// HCal volume control command
+	auto& hcalCmd = fMessenger->DeclareProperty("hcalMode", hcalMode, "Mode of HCal");
+	hcalCmd.SetParameterName("hcal", true);
+	hcalCmd.SetRange("hcal>=0 && hcal<1000");
+	hcalCmd.SetDefaultValue("111");
 
 	// ECal volume control command
 	auto& ecalCmd = fMessenger->DeclareProperty("ecalMode", ecalMode, "Mode of ECal");
