@@ -23,6 +23,7 @@ G4bool ECalR = true;
 G4bool HCalL = true;
 G4bool HCalBar = true;
 G4bool HCalR = true;
+G4bool HCalScn = false;
 
 // MuChm
 G4bool MuChmL = true;

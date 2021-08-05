@@ -13,9 +13,9 @@ public:
   HCalConstruction();
   virtual ~HCalConstruction();
 
-  void makeBarrel(G4Material*, G4Material*, G4LogicalVolume*, std::vector<G4VisAttributes*>);
-  void makeEndCapOuter(G4Material*, G4Material*, G4LogicalVolume*, G4LogicalVolume*, std::vector<G4VisAttributes*>);
-  void makeEndCapInner(G4Material*, G4Material*, G4LogicalVolume*, G4LogicalVolume*, std::vector<G4VisAttributes*>);
+  void makeBarrel(G4Material*, G4Material*, G4LogicalVolume*, std::vector<G4VisAttributes*>, G4bool);
+  void makeEndCapOuter(G4Material*, G4Material*, G4LogicalVolume*, G4LogicalVolume*, std::vector<G4VisAttributes*>, G4bool, G4bool, G4bool);
+  void makeEndCapInner(G4Material*, G4Material*, G4LogicalVolume*, G4LogicalVolume*, std::vector<G4VisAttributes*>, G4bool, G4bool, G4bool);
   void makeEndCapJoint(G4Material*, G4Material*, G4LogicalVolume*, std::vector<G4VisAttributes*>);
 
 private:

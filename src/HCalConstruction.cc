@@ -73,7 +73,8 @@ HCalConstruction::~HCalConstruction() {
 void HCalConstruction::makeBarrel(G4Material* hcal_absMat,
 				  G4Material* hcal_scnMat,
 				  G4LogicalVolume* hcalLogical,
-				  std::vector<G4VisAttributes*> fVisAttributes) {
+				  std::vector<G4VisAttributes*> fVisAttributes,
+				  G4bool HCalScn) {
   
   std::cout<<"Making the barrel for hadronic calorimeter"<<std::endl;
   
@@ -130,7 +131,8 @@ void HCalConstruction::makeBarrel(G4Material* hcal_absMat,
 									"cellHCalScintillatorLogical");
       
       G4double dispCell = 0.5*(z_eAvg+z_bAvg);
-      
+
+      if(!HCalScn)
       new G4PVPlacement(0,
 			G4ThreeVector(0,0,dispCell),
 			cellHcalBarAbsLogical[etaNum][rNum][phiNum],
@@ -161,10 +163,11 @@ void HCalConstruction::makeBarrel(G4Material* hcal_absMat,
 }
 
 void HCalConstruction::makeEndCapOuter(G4Material* hcal_absMat,
-				  G4Material* hcal_scnMat,
-			      G4LogicalVolume* hcalECOLogical_r,
-				  G4LogicalVolume* hcalECOLogical_l,
-				  std::vector<G4VisAttributes*> fVisAttributes) {
+				       G4Material* hcal_scnMat,
+				       G4LogicalVolume* hcalECOLogical_r,
+				       G4LogicalVolume* hcalECOLogical_l,
+				       std::vector<G4VisAttributes*> fVisAttributes,
+				       G4bool HCalR, G4bool HCalL, G4bool HCalScn) {
   
   std::cout<<"Making the end cap (outer) for hadronic calorimeter"<<std::endl;
 // Right side end cap (for the time being)
@@ -238,29 +241,34 @@ void HCalConstruction::makeEndCapOuter(G4Material* hcal_absMat,
 
       G4double dispCellAbsECO = 0.5*(zminA_wrtMother+zmaxA_wrtMother);
       G4double dispCellScnECO = 0.5*(zmaxA_wrtMother+zmaxS_wrtMother);
-  
-      new G4PVPlacement(0,
-			G4ThreeVector(0,0,dispCellAbsECO),
-			cellHcalECAbsLogical_r1[etaNum][rNum][phiNum],
-			"HcalECAbsCell_r1",
-			hcalECOLogical_r,
-			false,
-			copyNo,
-			false);
-      
-      new G4PVPlacement(0,
-			G4ThreeVector(0,0,dispCellScnECO),
-			cellHcalECScnLogical_r1[etaNum][rNum][phiNum],
-			"HcalECScnCell_r1",
-			hcalECOLogical_r,
-			false,
-			copyNo,
-			false);
+
+      if(HCalR && !HCalScn) {
+	new G4PVPlacement(0,
+			  G4ThreeVector(0,0,dispCellAbsECO),
+			  cellHcalECAbsLogical_r1[etaNum][rNum][phiNum],
+			  "HcalECAbsCell_r1",
+			  hcalECOLogical_r,
+			  false,
+			  copyNo,
+			  false);
+      }
+      if(HCalR) {
+	new G4PVPlacement(0,
+			  G4ThreeVector(0,0,dispCellScnECO),
+			  cellHcalECScnLogical_r1[etaNum][rNum][phiNum],
+			  "HcalECScnCell_r1",
+			  hcalECOLogical_r,
+			  false,
+			  copyNo,
+			  false);
+      }
 
       visAttributes = new G4VisAttributes(G4Colour(0.00,0.00,0.50));
+      visAttributes->SetVisibility(false);
       cellHcalECAbsLogical_r1[etaNum][rNum][phiNum]->SetVisAttributes(visAttributes);
       fVisAttributes.push_back(visAttributes);
       visAttributes = new G4VisAttributes(G4Colour(0.00,0.50,0.00));
+      visAttributes->SetVisibility(false);
       cellHcalECScnLogical_r1[etaNum][rNum][phiNum]->SetVisAttributes(visAttributes);
       fVisAttributes.push_back(visAttributes);
       
@@ -276,28 +284,33 @@ void HCalConstruction::makeEndCapOuter(G4Material* hcal_absMat,
       dispCellScnECO = -dispCellScnECO;
 
       
-      new G4PVPlacement(0,
-			G4ThreeVector(0,0,dispCellAbsECO),
-			cellHcalECAbsLogical_l1[etaNum][rNum][phiNum],
-			"HcalECAbsCell_l1",
-			hcalECOLogical_l,
-			false,
-			copyNo,
-			false);
-      
-      new G4PVPlacement(0,
-			G4ThreeVector(0,0,dispCellScnECO),
-			cellHcalECScnLogical_l1[etaNum][rNum][phiNum],
-			"HcalECScnCell_l1",
-			hcalECOLogical_l,
-			false,
-			copyNo,
-			false);
+      if(HCalL && !HCalScn) {
+	new G4PVPlacement(0,
+			  G4ThreeVector(0,0,dispCellAbsECO),
+			  cellHcalECAbsLogical_l1[etaNum][rNum][phiNum],
+			  "HcalECAbsCell_l1",
+			  hcalECOLogical_l,
+			  false,
+			  copyNo,
+			  false);
+      }
+      if(HCalL) {
+	new G4PVPlacement(0,
+			  G4ThreeVector(0,0,dispCellScnECO),
+			  cellHcalECScnLogical_l1[etaNum][rNum][phiNum],
+			  "HcalECScnCell_l1",
+			  hcalECOLogical_l,
+			  false,
+			  copyNo,
+			  false);
+      }
 
       visAttributes = new G4VisAttributes(G4Colour(0.00,0.00,0.50));
+      visAttributes->SetVisibility(false);
       cellHcalECAbsLogical_l1[etaNum][rNum][phiNum]->SetVisAttributes(visAttributes);
       fVisAttributes.push_back(visAttributes);
       visAttributes = new G4VisAttributes(G4Colour(0.00,0.50,0.00));
+      visAttributes->SetVisibility(false);
       cellHcalECScnLogical_l1[etaNum][rNum][phiNum]->SetVisAttributes(visAttributes);
       fVisAttributes.push_back(visAttributes);
       
@@ -305,9 +318,10 @@ void HCalConstruction::makeEndCapOuter(G4Material* hcal_absMat,
 }
 
 void HCalConstruction::makeEndCapInner(G4Material* hcal_absMat,
-				  G4Material* hcal_scnMat,
+				       G4Material* hcal_scnMat,
 				       G4LogicalVolume* hcalECOLogical_r, G4LogicalVolume* hcalECOLogical_l,
-				  std::vector<G4VisAttributes*> fVisAttributes) {
+				       std::vector<G4VisAttributes*> fVisAttributes,
+				       G4bool HCalR, G4bool HCalL, G4bool HCalScn) {
   
   std::cout<<"Making the end cap (outer) for hadronic calorimeter"<<std::endl;
 // Right side end cap (for the time being)
@@ -382,28 +396,33 @@ void HCalConstruction::makeEndCapInner(G4Material* hcal_absMat,
       G4double dispCellAbsECI = 0.5*(zminA_wrtMother+zmaxA_wrtMother);
       G4double dispCellScnECI = 0.5*(zmaxA_wrtMother+zmaxS_wrtMother);
 
-      new G4PVPlacement(0,
-			G4ThreeVector(0,0,dispCellAbsECI),
-			cellHcalECAbsLogical_r2[etaNum][rNum][phiNum],
-			"HcalECAbsCell_r2",
-			hcalECOLogical_r,
-			false,
-			copyNo,
-			false);
-      
-      new G4PVPlacement(0,
-			G4ThreeVector(0,0,dispCellScnECI),
-			cellHcalECScnLogical_r2[etaNum][rNum][phiNum],
-			"HcalECScnCell_r2",
-			hcalECOLogical_r,
-			false,
-			copyNo,
-			false);
+      if(HCalR && !HCalScn) {      
+	new G4PVPlacement(0,
+			  G4ThreeVector(0,0,dispCellAbsECI),
+			  cellHcalECAbsLogical_r2[etaNum][rNum][phiNum],
+			  "HcalECAbsCell_r2",
+			  hcalECOLogical_r,
+			  false,
+			  copyNo,
+			  false);
+      }
+      if(HCalR) {
+	new G4PVPlacement(0,
+			  G4ThreeVector(0,0,dispCellScnECI),
+			  cellHcalECScnLogical_r2[etaNum][rNum][phiNum],
+			  "HcalECScnCell_r2",
+			  hcalECOLogical_r,
+			  false,
+			  copyNo,
+			  false);
+      }
       
       visAttributes = new G4VisAttributes(G4Colour(0.50,0.00,0.00));
+      visAttributes->SetVisibility(false);
       cellHcalECAbsLogical_r2[etaNum][rNum][phiNum]->SetVisAttributes(visAttributes);
       fVisAttributes.push_back(visAttributes);
       visAttributes = new G4VisAttributes(G4Colour(0.00,0.50,0.00));
+      visAttributes->SetVisibility(false);
       cellHcalECScnLogical_r2[etaNum][rNum][phiNum]->SetVisAttributes(visAttributes);
       fVisAttributes.push_back(visAttributes);
       
@@ -421,28 +440,33 @@ void HCalConstruction::makeEndCapInner(G4Material* hcal_absMat,
       dispCellAbsECI = -dispCellAbsECI;
       dispCellScnECI = -dispCellScnECI;
 
-      new G4PVPlacement(0,
-			G4ThreeVector(0,0,dispCellAbsECI),
-			cellHcalECAbsLogical_l2[etaNum][rNum][phiNum],
-			"HcalECAbsCell_l2",
-			hcalECOLogical_l,
-			false,
-			copyNo,
-			false);
-      
-      new G4PVPlacement(0,
-			G4ThreeVector(0,0,dispCellScnECI),
-			cellHcalECScnLogical_l2[etaNum][rNum][phiNum],
-			"HcalECScnCell_l2",
-			hcalECOLogical_l,
-			false,
-			copyNo,
-			false);
+      if(HCalL && !HCalScn) {
+	new G4PVPlacement(0,
+			  G4ThreeVector(0,0,dispCellAbsECI),
+			  cellHcalECAbsLogical_l2[etaNum][rNum][phiNum],
+			  "HcalECAbsCell_l2",
+			  hcalECOLogical_l,
+			  false,
+			  copyNo,
+			  false);
+      }
+      if(HCalL) {
+	new G4PVPlacement(0,
+			  G4ThreeVector(0,0,dispCellScnECI),
+			  cellHcalECScnLogical_l2[etaNum][rNum][phiNum],
+			  "HcalECScnCell_l2",
+			  hcalECOLogical_l,
+			  false,
+			  copyNo,
+			  false);
+      }
       
       visAttributes = new G4VisAttributes(G4Colour(0.50,0.00,0.00));
+      visAttributes->SetVisibility(false);
       cellHcalECAbsLogical_l2[etaNum][rNum][phiNum]->SetVisAttributes(visAttributes);
       fVisAttributes.push_back(visAttributes);
       visAttributes = new G4VisAttributes(G4Colour(0.00,0.50,0.00));
+      visAttributes->SetVisibility(false);
       cellHcalECScnLogical_l2[etaNum][rNum][phiNum]->SetVisAttributes(visAttributes);
       fVisAttributes.push_back(visAttributes);
     }

@@ -347,16 +347,21 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 	if(hcalMode%10 == 0)
+	HCalScn = false;
+	else
+	HCalScn = true;
+
+	if((hcalMode/10)%10 == 0)
 	HCalR = false;
 	else
 	HCalR = true;
 
-	if((hcalMode/10)%10 == 0)
+	if((hcalMode/100)%10 == 0)
 	HCalBar = false;
 	else
 	HCalBar = true;
 
-	if((hcalMode/100)%10 == 0)
+	if((hcalMode/1000)%10 == 0)
 	HCalL = false;
 	else
 	HCalL = true;
@@ -377,16 +382,12 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	
 	HCalConstruction* hcal = new HCalConstruction();
 	if(HCalBar) {
-	  hcal->makeBarrel(Cu, quartz, hcalLogical, fVisAttributes);
+	  hcal->makeBarrel(Cu, quartz, hcalLogical, fVisAttributes, HCalScn);
 	}
-	/*
-	if(HCalR) {
-	  hcal->makeEndCapOuter(Cu, quartz, hcalECOLogical_r, hcalECOLogical_l, fVisAttributes);
-	}
-	if(HCalL) {
-	  hcal->makeEndCapInner(Cu, quartz, hcalECOLogical_r, hcalECOLogical_l, fVisAttributes);
-	}
-	*/
+	
+	hcal->makeEndCapOuter(Cu, quartz, hcalECOLogical_r, hcalECOLogical_l, fVisAttributes, HCalR, HCalL, HCalScn);
+	hcal->makeEndCapInner(Cu, quartz, hcalECOLogical_r, hcalECOLogical_l, fVisAttributes, HCalR, HCalL, HCalScn);
+	
 
 	/*
 	// HCal EndCap Envelope
@@ -597,7 +598,7 @@ void DetectorConstruction::DefineCommands()
 				"Detector control");
 
 	// Non-Sensitive volume control command
-	auto& noSensCmd = fMessenger->DeclareProperty("sensitiveMaterialOnly", trackSens, "Tracker Sensitive volume presence only");
+	auto& noSensCmd = fMessenger->DeclareProperty("trackerSensitiveMaterialOnly", trackSens, "Tracker Sensitive volume presence only");
 	noSensCmd.SetParameterName("trkSens", true);
 	noSensCmd.SetDefaultValue("false");
 
@@ -610,8 +611,8 @@ void DetectorConstruction::DefineCommands()
 	// HCal volume control command
 	auto& hcalCmd = fMessenger->DeclareProperty("hcalMode", hcalMode, "Mode of HCal");
 	hcalCmd.SetParameterName("hcal", true);
-	hcalCmd.SetRange("hcal>=0 && hcal<1000");
-	hcalCmd.SetDefaultValue("111");
+	hcalCmd.SetRange("hcal>=0 && hcal<10000");
+	hcalCmd.SetDefaultValue("1110"); // left-barrel-right-scintillatorOnly
 
 	// ECal volume control command
 	auto& ecalCmd = fMessenger->DeclareProperty("ecalMode", ecalMode, "Mode of ECal");
