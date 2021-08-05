@@ -432,7 +432,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	// Solenoid
 	auto solenoidSolid = new G4Tubs("SolenoidSolid", solenoidInnerR, solenoidOuterR, solenoidHalfZ, 0*deg, 360*deg);
 	solenoidLogical = new G4LogicalVolume(solenoidSolid,CuNi,"SolenoidLogical");
-	new G4PVPlacement(0, G4ThreeVector(), solenoidLogical, "Solenoid", logicWorld, false, 0);
+	if(solenoidMode) {
+	  new G4PVPlacement(0, G4ThreeVector(), solenoidLogical, "Solenoid", logicWorld, false, 0);
+	}
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////// MUON CHAMBER //////////////////////////////////////////////
@@ -568,6 +570,11 @@ void DetectorConstruction::DefineCommands()
 	trackerCmd.SetParameterName("tracker", true);
 	trackerCmd.SetRange("tracker>=0 && tracker<1000000");
 	trackerCmd.SetDefaultValue("111111");
+
+	// Tracker volume control command
+	auto& solenoidCmd = fMessenger->DeclareProperty("solenoidMaterial", solenoidMode, "Mode of Solenoid");
+	solenoidCmd.SetParameterName("solenoidMat", true);
+	solenoidCmd.SetDefaultValue("true");
 
 }
 

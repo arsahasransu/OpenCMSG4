@@ -80,6 +80,7 @@ private:
 
   G4int ecalMode;
   G4int tracMode;
+  G4bool solenoidMode;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

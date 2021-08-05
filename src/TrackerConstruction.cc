@@ -330,7 +330,7 @@ void TrackerConstruction::makePIB(G4Material* elAl, G4Material* elSi, G4Material
 
   for(G4int copyNo=0; copyNo<PIB_num; copyNo++)	{
     visAttributes = new G4VisAttributes(G4Colour(0.8888,0.8888,0));
-    //visAttributes->SetVisibility(false);
+    visAttributes->SetVisibility(false);
     //visAttributes->SetForceLineSegmentsPerCircle(10);
     PIB_Logical[copyNo]->SetVisAttributes(visAttributes);
     fVisAttributes.push_back(visAttributes);
@@ -451,7 +451,7 @@ void TrackerConstruction::makePID(G4Material* elAl, G4Material* elSi, G4Material
 
   for(G4int copyNo=0; copyNo<PID_num; copyNo++)	{
     visAttributes = new G4VisAttributes(G4Colour(0.8888,0.8888,0));
-    //visAttributes->SetVisibility(false);
+    visAttributes->SetVisibility(false);
     //visAttributes->SetForceLineSegmentsPerCircle(10);
     PID_Logical[copyNo]->SetVisAttributes(visAttributes);
     fVisAttributes.push_back(visAttributes);
@@ -602,7 +602,7 @@ void TrackerConstruction::makeTIB(G4Material* elSi, G4Material* Cu, std::vector<
 
   for(G4int copyNo=0; copyNo<TIB_num; copyNo++)	{
     visAttributes = new G4VisAttributes(G4Colour(0.8888,0.8888,0));
-    //visAttributes->SetVisibility(false);
+    visAttributes->SetVisibility(false);
     //visAttributes->SetForceLineSegmentsPerCircle(10);
     TIB_Logical[copyNo]->SetVisAttributes(visAttributes);
     fVisAttributes.push_back(visAttributes);
@@ -744,7 +744,7 @@ void TrackerConstruction::makeTID(G4Material* elAl, G4Material* elSi, G4Material
 
   for(G4int copyNo=0; copyNo<TID_num; copyNo++)	{
     visAttributes = new G4VisAttributes(G4Colour(0.8888,0.8888,0));
-    //visAttributes->SetVisibility(false);
+    visAttributes->SetVisibility(false);
     //visAttributes->SetForceLineSegmentsPerCircle(10);
     TID_Logical[copyNo]->SetVisAttributes(visAttributes);
     fVisAttributes.push_back(visAttributes);
@@ -945,7 +945,7 @@ void TrackerConstruction::makeTOB(G4Material* elSi, G4Material* elAl, G4Material
   }
   for(G4int copyNo=0; copyNo<TOB_num; copyNo++) {
     visAttributes = new G4VisAttributes(G4Colour(0.8888,0.8888,0));
-    //visAttributes->SetVisibility(false);
+    visAttributes->SetVisibility(false);
     //visAttributes->SetForceLineSegmentsPerCircle(10);
     TOB_Logical[copyNo]->SetVisAttributes(visAttributes);
     fVisAttributes.push_back(visAttributes);
@@ -1020,7 +1020,7 @@ void TrackerConstruction::makeTEC(G4Material* elSi, std::vector<G4Material*> TEC
   }
   for(G4int copyNo=0; copyNo<tec_count; copyNo++) {
     visAttributes = new G4VisAttributes(G4Colour(0.8888,0.8888,0));
-    //visAttributes->SetVisibility(false);
+    visAttributes->SetVisibility(false);
     //visAttributes->SetForceLineSegmentsPerCircle(10);
     TEC_Logical[copyNo]->SetVisAttributes(visAttributes);
     fVisAttributes.push_back(visAttributes);
