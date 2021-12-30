@@ -9,7 +9,7 @@
 constexpr G4double trPhiAng = 360;
 constexpr G4int PIB_num = 3;
 constexpr G4double PIB_rMin[] = {44,73,102};
-constexpr G4double PIB_thick = 285*(4.0/3);
+constexpr G4double PIB_thick = 380;
 constexpr G4double PIB_halfz = 0.5*530;
 constexpr G4int PID_num = 4;
 constexpr G4double PID_posz[] = {345,465,-345,-465};
@@ -17,12 +17,14 @@ constexpr G4double PID_r[] = {60, 150};
 constexpr G4double PID_halfz = 0.5*285*(4.0/3);
 constexpr G4int TIB_num = 4;
 constexpr G4double TIB_rMin[] = {255,339,418.5,498};
-constexpr G4double TIB_thick[] = {2*320,2*320,320,320};
+constexpr G4double TIB_thick[] = {2*427,2*427,427,427};
+constexpr G4double TIB_halfz = 0.5*1400;
 constexpr G4int TID_num = 12;
 constexpr G4double TID_posz[] = {800,900,1000};
 constexpr G4int TOB_num = 6;
 constexpr G4double TOB_rMin[] = {608,692,780,868,965,1080};
-constexpr G4double TOB_thick[] = {2*500,2*500,500,500,500,500};
+constexpr G4double TOB_thick[] = {2*667,2*667,667,667,667,667};
+constexpr G4double TOB_halfz = 0.5*2360;
 constexpr G4int TEC_num = 53;
 constexpr G4double TEC_ring[][2] = {{225,325},{320,405},{380,520},{515,640},{620,770},{740,930},{880,1100}};
 constexpr G4double TEC_disk[][2] = {{1240,1280},{1390,1420},{1540,1580},{1660,1700},{1840,1870},{2020,2050},{2220,2250},{2460,2490},{2700,2740}};
@@ -464,8 +466,8 @@ void TrackerConstruction::makeTIB(G4Material* elSi, G4Material* Cu, std::vector<
   for(G4int i=0; i<TIB_num; i++) {
     auto TIB_Solid = new G4Tubs("TIB_Solid",
 				TIB_rMin[i]*mm,
-				TIB_rMin[i]*mm+TIB_thick[i]*um*(4.0/3),
-				700*mm,
+				TIB_rMin[i]*mm+TIB_thick[i]*um,
+				TIB_halfz*mm,
 				90*deg,
 				trPhiAng*deg);
     TIB_Logical[i] = new G4LogicalVolume(TIB_Solid,
@@ -756,8 +758,8 @@ void TrackerConstruction::makeTOB(G4Material* elSi, G4Material* elAl, G4Material
   for(G4int i=0; i<TOB_num; i++) {
     auto TOB_Solid = new G4Tubs("TOB_Solid",
 				TOB_rMin[i]*mm,
-				TOB_rMin[i]*mm+TOB_thick[i]*um*(4.0/3),
-				1180*mm,
+				TOB_rMin[i]*mm+TOB_thick[i]*um,
+				TOB_halfz*mm,
 				90*deg,
 				trPhiAng*deg);
     TOB_Logical[i] = new G4LogicalVolume(TOB_Solid,
