@@ -36,13 +36,13 @@ EventAction::EventAction():
   TrackPosX(), TrackPosY(), TrackPosZ(),
   trackerHits(), trackerEdep(),
   trackHitCollector(),
-  muonHitX(), muonHitY(), muonHitZ(), /*muonHits(),*/ muonEdep(){
+  muonHitX(), muonHitY(), muonHitZ(), muonEdep(){
 
   pair_prod_flag = 0;
   
   // set printing per each event
   G4RunManager::GetRunManager()->SetPrintProgress(1);
-  
+
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -59,65 +59,6 @@ void EventAction::BeginOfEventAction(const G4Event*){
   totalEmE = 0.;
   totalHCalHit = 0;
   totalHCalE = 0.;
-
-  eventTree->Branch("CrysEdep", &ecalBarEdep);
-  eventTree->Branch("CrysNum", &EmBarCrysNum);
-  eventTree->Branch("CrysEdepEC_r", &ecalECEdep_r);
-  eventTree->Branch("CrysNumEC_r", &EmECCrysNum_r);
-  eventTree->Branch("CrysEdepEC_l", &ecalECEdep_l);
-  eventTree->Branch("CrysNumEC_l", &EmECCrysNum_l);
-  eventTree->Branch("EventEdep", &totalEmE);
-  eventTree->Branch("HitNum", &totalEmHit);
-
-  eventTree->Branch("ConvertedFlag", &pair_prod_flag);
-  eventTree->Branch("ConvertedX", &convX);
-  eventTree->Branch("ConvertedY", &convY);
-  eventTree->Branch("ConvertedZ", &convZ);
-  eventTree->Branch("TrackerHitPositionX", &TrackPosX);
-  eventTree->Branch("TrackerHitPositionY", &TrackPosY);
-  eventTree->Branch("TrackerHitPositionZ", &TrackPosZ);
-  eventTree->Branch("trackerHits", &trackerHits);
-  eventTree->Branch("trackerEdep", &trackerEdep);
-
-  eventTree->Branch("CrysHCalBarAbsEdep", &HCalBarAbsEdep);
-  eventTree->Branch("CrysHCalBarAbsNum", &HCalBarAbsCrysNum);
-  eventTree->Branch("CrysHCalBarScintillatorEdep", &HCalBarScintillatorEdep);
-  eventTree->Branch("CrysHCalBarScintillatorNum", &HCalBarScintillatorCrysNum);
-  eventTree->Branch("CrysHCalBarEdep", &HCalBarEdep);
-  eventTree->Branch("CrysHCalBarNum", &HCalBarCrysNum);
-  eventTree->Branch("CrysHCalECAbs_r1Edep", &HCalECAbs_r1Edep);
-  eventTree->Branch("CrysHCalECAbs_r1Num", &HCalECAbs_r1CrysNum);
-  eventTree->Branch("CrysHCalECScn_r1Edep", &HCalECScn_r1Edep);
-  eventTree->Branch("CrysHCalECScn_r1Num", &HCalECScn_r1CrysNum);
-  eventTree->Branch("CrysHCalEC_r1Edep", &HCalEC_r1Edep);
-  eventTree->Branch("CrysHCalEC_r1Num", &HCalEC_r1CrysNum);
-  eventTree->Branch("CrysHCalECAbs_l1Edep", &HCalECAbs_l1Edep);
-  eventTree->Branch("CrysHCalECAbs_l1Num", &HCalECAbs_l1CrysNum);
-  eventTree->Branch("CrysHCalECScn_l1Edep", &HCalECScn_l1Edep);
-  eventTree->Branch("CrysHCalECScn_l1Num", &HCalECScn_l1CrysNum);
-  eventTree->Branch("CrysHCalEC_l1Edep", &HCalEC_l1Edep);
-  eventTree->Branch("CrysHCalEC_l1Num", &HCalEC_l1CrysNum);
-  eventTree->Branch("CrysHCalECAbs_r2Edep", &HCalECAbs_r2Edep);
-  eventTree->Branch("CrysHCalECAbs_r2Num", &HCalECAbs_r2CrysNum);
-  eventTree->Branch("CrysHCalECScn_r2Edep", &HCalECScn_r2Edep);
-  eventTree->Branch("CrysHCalECScn_r2Num", &HCalECScn_r2CrysNum);
-  eventTree->Branch("CrysHCalEC_r2Edep", &HCalEC_r2Edep);
-  eventTree->Branch("CrysHCalEC_r2Num", &HCalEC_r2CrysNum);
-  eventTree->Branch("CrysHCalECAbs_l2Edep", &HCalECAbs_l2Edep);
-  eventTree->Branch("CrysHCalECAbs_l2Num", &HCalECAbs_l2CrysNum);
-  eventTree->Branch("CrysHCalECScn_l2Edep", &HCalECScn_l2Edep);
-  eventTree->Branch("CrysHCalECScn_l2Num", &HCalECScn_l2CrysNum);
-  eventTree->Branch("CrysHCalEC_l2Edep", &HCalEC_l2Edep);
-  eventTree->Branch("CrysHCalEC_l2Num", &HCalEC_l2CrysNum);
-  
-  eventTree->Branch("EventHCalEdep", &totalHCalE);
-  eventTree->Branch("HCalHitNum", &totalHCalHit);
-
-  eventTree->Branch("MuonHitX", &muonHitX);
-  eventTree->Branch("MuonHitY", &muonHitY);
-  eventTree->Branch("MuonHitZ", &muonHitZ);
-  //eventTree->Branch("MuonHits", &muonHits);
-  eventTree->Branch("MuonEdep", &muonEdep);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -147,68 +88,67 @@ void EventAction::EndOfEventAction(const G4Event* event)
   sortAndSaveTrackHit();
   eventTree->Fill();
 
-  ecalBarEdep.erase(ecalBarEdep.begin(),ecalBarEdep.begin()+ecalBarEdep.size());
-  ecalECEdep_r.erase(ecalECEdep_r.begin(),ecalECEdep_r.begin()+ecalECEdep_r.size());
-  ecalECEdep_l.erase(ecalECEdep_l.begin(),ecalECEdep_l.begin()+ecalECEdep_l.size());
+  ecalBarEdep.clear();
+  ecalECEdep_r.clear();
+  ecalECEdep_l.clear();
   
-  HCalBarAbsEdep.erase(HCalBarAbsEdep.begin(),HCalBarAbsEdep.begin()+HCalBarAbsEdep.size());
-  HCalBarScintillatorEdep.erase(HCalBarScintillatorEdep.begin(),HCalBarScintillatorEdep.begin()+HCalBarScintillatorEdep.size());
-  HCalBarEdep.erase(HCalBarEdep.begin(),HCalBarEdep.begin()+HCalBarEdep.size());
+  HCalBarAbsEdep.clear();
+  HCalBarScintillatorEdep.clear();
+  HCalBarEdep.clear();
 
-  HCalECAbs_r1Edep.erase(HCalECAbs_r1Edep.begin(),HCalECAbs_r1Edep.begin()+HCalECAbs_r1Edep.size());
-  HCalECScn_r1Edep.erase(HCalECScn_r1Edep.begin(),HCalECScn_r1Edep.begin()+HCalECScn_r1Edep.size());
-  HCalEC_r1Edep.erase(HCalEC_r1Edep.begin(),HCalEC_r1Edep.begin()+HCalEC_r1Edep.size());
+  HCalECAbs_r1Edep.clear();
+  HCalECScn_r1Edep.clear();
+  HCalEC_r1Edep.clear();
 
-  HCalECAbs_l1Edep.erase(HCalECAbs_l1Edep.begin(),HCalECAbs_l1Edep.begin()+HCalECAbs_l1Edep.size());
-  HCalECScn_l1Edep.erase(HCalECScn_l1Edep.begin(),HCalECScn_l1Edep.begin()+HCalECScn_l1Edep.size());
-  HCalEC_l1Edep.erase(HCalEC_l1Edep.begin(),HCalEC_l1Edep.begin()+HCalEC_l1Edep.size());
+  HCalECAbs_l1Edep.clear();
+  HCalECScn_l1Edep.clear();
+  HCalEC_l1Edep.clear();
 
-  HCalECAbs_r2Edep.erase(HCalECAbs_r2Edep.begin(),HCalECAbs_r2Edep.begin()+HCalECAbs_r2Edep.size());
-  HCalECScn_r2Edep.erase(HCalECScn_r2Edep.begin(),HCalECScn_r2Edep.begin()+HCalECScn_r2Edep.size());
-  HCalEC_r2Edep.erase(HCalEC_r2Edep.begin(),HCalEC_r2Edep.begin()+HCalEC_r2Edep.size());
+  HCalECAbs_r2Edep.clear();
+  HCalECScn_r2Edep.clear();
+  HCalEC_r2Edep.clear();
 
-  HCalECAbs_l2Edep.erase(HCalECAbs_l2Edep.begin(),HCalECAbs_l2Edep.begin()+HCalECAbs_l2Edep.size());
-  HCalECScn_l2Edep.erase(HCalECScn_l2Edep.begin(),HCalECScn_l2Edep.begin()+HCalECScn_l2Edep.size());
-  HCalEC_l2Edep.erase(HCalEC_l2Edep.begin(),HCalEC_l2Edep.begin()+HCalEC_l2Edep.size());
+  HCalECAbs_l2Edep.clear();
+  HCalECScn_l2Edep.clear();
+  HCalEC_l2Edep.clear();
  
-  convX.erase(convX.begin(),convX.begin()+convX.size());
-  convY.erase(convY.begin(),convY.begin()+convY.size());
-  convZ.erase(convZ.begin(),convZ.begin()+convZ.size());
-  EmBarCrysNum.erase(EmBarCrysNum.begin(),EmBarCrysNum.begin()+EmBarCrysNum.size());
-  EmECCrysNum_r.erase(EmECCrysNum_r.begin(),EmECCrysNum_r.begin()+EmECCrysNum_r.size());
-  EmECCrysNum_l.erase(EmECCrysNum_l.begin(),EmECCrysNum_l.begin()+EmECCrysNum_l.size());
+  convX.clear();
+  convY.clear();
+  convZ.clear();
+  EmBarCrysNum.clear();
+  EmECCrysNum_r.clear();
+  EmECCrysNum_l.clear();
 
-  HCalBarAbsCrysNum.erase(HCalBarAbsCrysNum.begin(),HCalBarAbsCrysNum.begin()+HCalBarAbsCrysNum.size());
-  HCalBarScintillatorCrysNum.erase(HCalBarScintillatorCrysNum.begin(),HCalBarScintillatorCrysNum.begin()+HCalBarScintillatorCrysNum.size());
-  HCalBarCrysNum.erase(HCalBarCrysNum.begin(),HCalBarCrysNum.begin()+HCalBarCrysNum.size());
+  HCalBarAbsCrysNum.clear();
+  HCalBarScintillatorCrysNum.clear();
+  HCalBarCrysNum.clear();
 
-  HCalECAbs_r1CrysNum.erase(HCalECAbs_r1CrysNum.begin(),HCalECAbs_r1CrysNum.begin()+HCalECAbs_r1CrysNum.size());
-  HCalECScn_r1CrysNum.erase(HCalECScn_r1CrysNum.begin(),HCalECScn_r1CrysNum.begin()+HCalECScn_r1CrysNum.size());
-  HCalEC_r1CrysNum.erase(HCalEC_r1CrysNum.begin(),HCalEC_r1CrysNum.begin()+HCalEC_r1CrysNum.size());
+  HCalECAbs_r1CrysNum.clear();
+  HCalECScn_r1CrysNum.clear();
+  HCalEC_r1CrysNum.clear();
 
-  HCalECAbs_l1CrysNum.erase(HCalECAbs_l1CrysNum.begin(),HCalECAbs_l1CrysNum.begin()+HCalECAbs_l1CrysNum.size());
-  HCalECScn_l1CrysNum.erase(HCalECScn_l1CrysNum.begin(),HCalECScn_l1CrysNum.begin()+HCalECScn_l1CrysNum.size());
-  HCalEC_l1CrysNum.erase(HCalEC_l1CrysNum.begin(),HCalEC_l1CrysNum.begin()+HCalEC_l1CrysNum.size());
+  HCalECAbs_l1CrysNum.clear();
+  HCalECScn_l1CrysNum.clear();
+  HCalEC_l1CrysNum.clear();
 
-  HCalECAbs_r2CrysNum.erase(HCalECAbs_r2CrysNum.begin(),HCalECAbs_r2CrysNum.begin()+HCalECAbs_r2CrysNum.size());
-  HCalECScn_r2CrysNum.erase(HCalECScn_r2CrysNum.begin(),HCalECScn_r2CrysNum.begin()+HCalECScn_r2CrysNum.size());
-  HCalEC_r2CrysNum.erase(HCalEC_r2CrysNum.begin(),HCalEC_r2CrysNum.begin()+HCalEC_r2CrysNum.size());
+  HCalECAbs_r2CrysNum.clear();
+  HCalECScn_r2CrysNum.clear();
+  HCalEC_r2CrysNum.clear();
 
-  HCalECAbs_l2CrysNum.erase(HCalECAbs_l2CrysNum.begin(),HCalECAbs_l2CrysNum.begin()+HCalECAbs_l2CrysNum.size());
-  HCalECScn_l2CrysNum.erase(HCalECScn_l2CrysNum.begin(),HCalECScn_l2CrysNum.begin()+HCalECScn_l2CrysNum.size());
-  HCalEC_l2CrysNum.erase(HCalEC_l2CrysNum.begin(),HCalEC_l2CrysNum.begin()+HCalEC_l2CrysNum.size());  
-  TrackPosX.erase(TrackPosX.begin(),TrackPosX.begin()+TrackPosX.size());
-  TrackPosY.erase(TrackPosY.begin(),TrackPosY.begin()+TrackPosY.size());
-  TrackPosZ.erase(TrackPosZ.begin(),TrackPosZ.begin()+TrackPosZ.size());
-  trackerHits.erase(trackerHits.begin(),trackerHits.begin()+trackerHits.size());
-  trackerEdep.erase(trackerEdep.begin(),trackerEdep.begin()+trackerEdep.size());
-  trackHitCollector.erase(trackHitCollector.begin(),trackHitCollector.begin()+trackHitCollector.size());
+  HCalECAbs_l2CrysNum.clear();
+  HCalECScn_l2CrysNum.clear();
+  HCalEC_l2CrysNum.clear();  
+  TrackPosX.clear();
+  TrackPosY.clear();
+  TrackPosZ.clear();
+  trackerHits.clear();
+  trackerEdep.clear();
+  trackHitCollector.clear();
 
-  muonHitX.erase(muonHitX.begin(),muonHitX.begin()+muonHitX.size());
-  muonHitY.erase(muonHitY.begin(),muonHitY.begin()+muonHitY.size());
-  muonHitZ.erase(muonHitZ.begin(),muonHitZ.begin()+muonHitZ.size());
-  //muonHits.erase(muonHits.begin(),muonHits.begin()+muonHits.size());
-  muonEdep.erase(muonEdep.begin(),muonEdep.begin()+muonEdep.size());
+  muonHitX.clear();
+  muonHitY.clear();
+  muonHitZ.clear();
+  muonEdep.clear();
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -694,6 +634,8 @@ void EventAction::sortAndSaveTrackHit() {
   }
 }
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
 void EventAction::fillMuonHit(G4String, G4ThreeVector pos, G4double edep) {
 
     muonHitX.push_back(pos.getX());
@@ -704,3 +646,71 @@ void EventAction::fillMuonHit(G4String, G4ThreeVector pos, G4double edep) {
     muonEdep.push_back(edep);
     
 }
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void EventAction::EventTree(TTree* tree){
+
+  eventTree = tree;
+  
+  // Initialize the event storing variables
+  eventTree->Branch("CrysEdep", &ecalBarEdep);
+  eventTree->Branch("CrysNum", &EmBarCrysNum);
+  eventTree->Branch("CrysEdepEC_r", &ecalECEdep_r);
+  eventTree->Branch("CrysNumEC_r", &EmECCrysNum_r);
+  eventTree->Branch("CrysEdepEC_l", &ecalECEdep_l);
+  eventTree->Branch("CrysNumEC_l", &EmECCrysNum_l);
+  eventTree->Branch("EventEdep", &totalEmE);
+  eventTree->Branch("HitNum", &totalEmHit);
+
+  eventTree->Branch("ConvertedFlag", &pair_prod_flag);
+  eventTree->Branch("ConvertedX", &convX);
+  eventTree->Branch("ConvertedY", &convY);
+  eventTree->Branch("ConvertedZ", &convZ);
+  eventTree->Branch("TrackerHitPositionX", &TrackPosX);
+  eventTree->Branch("TrackerHitPositionY", &TrackPosY);
+  eventTree->Branch("TrackerHitPositionZ", &TrackPosZ);
+  eventTree->Branch("trackerHits", &trackerHits);
+  eventTree->Branch("trackerEdep", &trackerEdep);
+
+  eventTree->Branch("CrysHCalBarAbsEdep", &HCalBarAbsEdep);
+  eventTree->Branch("CrysHCalBarAbsNum", &HCalBarAbsCrysNum);
+  eventTree->Branch("CrysHCalBarScintillatorEdep", &HCalBarScintillatorEdep);
+  eventTree->Branch("CrysHCalBarScintillatorNum", &HCalBarScintillatorCrysNum);
+  eventTree->Branch("CrysHCalBarEdep", &HCalBarEdep);
+  eventTree->Branch("CrysHCalBarNum", &HCalBarCrysNum);
+  eventTree->Branch("CrysHCalECAbs_r1Edep", &HCalECAbs_r1Edep);
+  eventTree->Branch("CrysHCalECAbs_r1Num", &HCalECAbs_r1CrysNum);
+  eventTree->Branch("CrysHCalECScn_r1Edep", &HCalECScn_r1Edep);
+  eventTree->Branch("CrysHCalECScn_r1Num", &HCalECScn_r1CrysNum);
+  eventTree->Branch("CrysHCalEC_r1Edep", &HCalEC_r1Edep);
+  eventTree->Branch("CrysHCalEC_r1Num", &HCalEC_r1CrysNum);
+  eventTree->Branch("CrysHCalECAbs_l1Edep", &HCalECAbs_l1Edep);
+  eventTree->Branch("CrysHCalECAbs_l1Num", &HCalECAbs_l1CrysNum);
+  eventTree->Branch("CrysHCalECScn_l1Edep", &HCalECScn_l1Edep);
+  eventTree->Branch("CrysHCalECScn_l1Num", &HCalECScn_l1CrysNum);
+  eventTree->Branch("CrysHCalEC_l1Edep", &HCalEC_l1Edep);
+  eventTree->Branch("CrysHCalEC_l1Num", &HCalEC_l1CrysNum);
+  eventTree->Branch("CrysHCalECAbs_r2Edep", &HCalECAbs_r2Edep);
+  eventTree->Branch("CrysHCalECAbs_r2Num", &HCalECAbs_r2CrysNum);
+  eventTree->Branch("CrysHCalECScn_r2Edep", &HCalECScn_r2Edep);
+  eventTree->Branch("CrysHCalECScn_r2Num", &HCalECScn_r2CrysNum);
+  eventTree->Branch("CrysHCalEC_r2Edep", &HCalEC_r2Edep);
+  eventTree->Branch("CrysHCalEC_r2Num", &HCalEC_r2CrysNum);
+  eventTree->Branch("CrysHCalECAbs_l2Edep", &HCalECAbs_l2Edep);
+  eventTree->Branch("CrysHCalECAbs_l2Num", &HCalECAbs_l2CrysNum);
+  eventTree->Branch("CrysHCalECScn_l2Edep", &HCalECScn_l2Edep);
+  eventTree->Branch("CrysHCalECScn_l2Num", &HCalECScn_l2CrysNum);
+  eventTree->Branch("CrysHCalEC_l2Edep", &HCalEC_l2Edep);
+  eventTree->Branch("CrysHCalEC_l2Num", &HCalEC_l2CrysNum);
+  
+  eventTree->Branch("EventHCalEdep", &totalHCalE);
+  eventTree->Branch("HCalHitNum", &totalHCalHit);
+
+  eventTree->Branch("MuonHitX", &muonHitX);
+  eventTree->Branch("MuonHitY", &muonHitY);
+  eventTree->Branch("MuonHitZ", &muonHitZ);
+  eventTree->Branch("MuonEdep", &muonEdep);
+
+}
+

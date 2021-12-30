@@ -46,11 +46,7 @@ public:
     return totalHCalE;
   }
 
-  void EventTree(TTree* tree){
-    eventTree = tree;
-
-  }
-
+  void EventTree(TTree*);
   void fillTrackHit(long, long, long, long, double);
   void fillMuonHit(G4String, G4ThreeVector, G4double);
 
