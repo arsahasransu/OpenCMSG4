@@ -702,6 +702,5 @@ void EventAction::fillMuonHit(G4String, G4ThreeVector pos, G4double edep) {
     //TVector3* vec3 = new TVector3(pos.getX(), pos.getY(), pos.getZ());
     //muonHits.push_back(vec3);
     muonEdep.push_back(edep);
-  
-  
+    
 }
