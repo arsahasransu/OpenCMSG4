@@ -5,8 +5,8 @@
 #include "G4PVPlacement.hh"
 #include "G4SystemOfUnits.hh"
 
-constexpr G4int nofEmBarEta = 170; 	// Max Value = 170
-constexpr G4int nofEmBarPhi = 360; 		// Max Value = 360
+constexpr G4int nofEmBarEta = 40; 	// Max Value = 170
+constexpr G4int nofEmBarPhi = 270; 		// Max Value = 360
 constexpr G4int nofEmBarCells = nofEmBarEta*nofEmBarPhi;
 constexpr G4int kNofEmECCells = 2708*4;
 
@@ -31,12 +31,14 @@ void ECalConstruction::makeBarrel(G4Material* ecalMat, G4LogicalVolume* ecalLogi
   
   for(G4int copyNo=0; copyNo<nofEmBarCells; copyNo++) {
     G4double eta_max = 1.479;
-    G4double eta_step = eta_max/85;
+    G4double eta_step = 2*eta_max/nofEmBarEta; // From -eta_max to +eta_max
     G4double y = 1290.0*mm;
     G4double dy = 220*mm;
     
-    G4int etaNum = (copyNo+(nofEmBarPhi-360)*30)/nofEmBarPhi;
-    G4int phiNum = (copyNo+(nofEmBarPhi-360)*30)%nofEmBarPhi;
+    //G4int etaNum = (copyNo+(nofEmBarPhi-360)*30)/nofEmBarPhi;
+    //G4int phiNum = (copyNo+(nofEmBarPhi-360)*30)%nofEmBarPhi;
+    G4int etaNum = copyNo/nofEmBarPhi;
+    G4int phiNum = copyNo%nofEmBarPhi;
     
     G4double eta_b = -eta_max+etaNum*eta_step;
     G4double eta_e = -eta_max+(etaNum+1)*eta_step;
@@ -46,7 +48,8 @@ void ECalConstruction::makeBarrel(G4Material* ecalMat, G4LogicalVolume* ecalLogi
     G4double rMin = y/sin(theta_avg*M_PI/180);
     G4double rMax = rMin+dy;
     auto cellSolid 
-      = new G4Sphere("cellSolid", rMin,rMax,phiNum*deg, 1.*deg, theta_e*deg, (theta_b-theta_e)*deg);
+      = new G4Sphere("cellSolid", rMin,rMax,phiNum*deg+90*deg, 1.*deg, theta_e*deg, (theta_b-theta_e)*deg);
+    // Addition by 90*deg to make the partial angular visibility in line with tracker view
     
     cellEcalBarLogical[etaNum][phiNum]
       = new G4LogicalVolume(cellSolid,ecalMat,"cellLogical");
@@ -56,10 +59,9 @@ void ECalConstruction::makeBarrel(G4Material* ecalMat, G4LogicalVolume* ecalLogi
 
   for(G4int copyNo=0; copyNo<nofEmBarCells; copyNo++) {
     visAttributes = new G4VisAttributes(G4Colour(0.8888,0,0));
-    visAttributes->SetVisibility(false);
+    //visAttributes->SetVisibility(false);
     //visAttributes->SetForceLineSegmentsPerCircle(10);
-    if(copyNo<360*30)   cellEcalBarLogical[copyNo/360][copyNo%360]->SetVisAttributes(visAttributes);
-    else  cellEcalBarLogical[(copyNo+(nofEmBarPhi-360)*30)/nofEmBarPhi][(copyNo+(nofEmBarPhi-360)*30)%nofEmBarPhi]->SetVisAttributes(visAttributes);
+    cellEcalBarLogical[copyNo/nofEmBarPhi][copyNo%nofEmBarPhi]->SetVisAttributes(visAttributes);
     fVisAttributes.push_back(visAttributes);
   }
   
