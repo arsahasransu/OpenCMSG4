@@ -5,7 +5,7 @@
 #include "G4PVPlacement.hh"
 #include "G4SystemOfUnits.hh"
 
-constexpr G4int nofEmBarEta = 40; 	// Max Value = 170
+constexpr G4int nofEmBarEta = 170; 	// Max Value = 170
 constexpr G4int nofEmBarPhi = 270; 		// Max Value = 360
 constexpr G4int nofEmBarCells = nofEmBarEta*nofEmBarPhi;
 constexpr G4int kNofEmECCells = 2708*4;
@@ -48,8 +48,7 @@ void ECalConstruction::makeBarrel(G4Material* ecalMat, G4LogicalVolume* ecalLogi
     G4double rMin = y/sin(theta_avg*M_PI/180);
     G4double rMax = rMin+dy;
     auto cellSolid 
-      = new G4Sphere("cellSolid", rMin,rMax,phiNum*deg+90*deg, 1.*deg, theta_e*deg, (theta_b-theta_e)*deg);
-    // Addition by 90*deg to make the partial angular visibility in line with tracker view
+      = new G4Sphere("cellSolid", rMin,rMax,phiNum*deg, 1.*deg, theta_e*deg, (theta_b-theta_e)*deg);
     
     cellEcalBarLogical[etaNum][phiNum]
       = new G4LogicalVolume(cellSolid,ecalMat,"cellLogical");
@@ -58,7 +57,7 @@ void ECalConstruction::makeBarrel(G4Material* ecalMat, G4LogicalVolume* ecalLogi
   }
 
   for(G4int copyNo=0; copyNo<nofEmBarCells; copyNo++) {
-    visAttributes = new G4VisAttributes(G4Colour(0.8888,0,0));
+    visAttributes = new G4VisAttributes(G4Colour(0.4,0.698,1));
     //visAttributes->SetVisibility(false);
     //visAttributes->SetForceLineSegmentsPerCircle(10);
     cellEcalBarLogical[copyNo/nofEmBarPhi][copyNo%nofEmBarPhi]->SetVisAttributes(visAttributes);
@@ -75,13 +74,19 @@ void ECalConstruction::makeEndCap(G4Material* ecalMat, G4LogicalVolume* ecalECLo
   G4double rmax_EC = 3205*tan(2*atan(exp(-1.479+0.04)));
   G4double y1=25.7, y2=26.9, len=220.0;
   int k = 0;
+  std::vector<G4bool> visdec;
+
   for(int i=-70; i<70; i++) {
     for(int j=-70; j<70; j++) {
       if(k<kNofEmECCells) {
 	G4double d1 = sqrt(pow(y2*(i+0.5),2)+pow(y2*(j+0.5),2));
 	if(d1>rmin_EC && d1<rmax_EC) {
+	  
 	  xpos_EC = y2*(i+0.5);
 	  ypos_EC = y2*(j+0.5);
+	  if(xpos_EC>0 && ypos_EC<0) visdec.push_back(false);
+	  else visdec.push_back(false);
+
 	  G4ThreeVector* d_r = new G4ThreeVector(xpos_EC, ypos_EC, (3205+110+1300));
 	  auto cellEcalECSolid_r = new G4Trap("cellEcalECSolid_r",
 					      0.5*len*mm,
@@ -125,14 +130,14 @@ void ECalConstruction::makeEndCap(G4Material* ecalMat, G4LogicalVolume* ecalECLo
   }
   
   for(G4int copyNo=0; copyNo<kNofEmECCells; copyNo++) {
-    visAttributes = new G4VisAttributes(G4Colour(0.9115,0.4112,0.0042));
-    visAttributes->SetVisibility(false);
+    visAttributes = new G4VisAttributes(G4Colour(0.4,0.698,1));
+    //visAttributes->SetVisibility(visdec[copyNo]);
     //visAttributes->SetForceLineSegmentsPerCircle(10);
     cellEcalECLogical_r[copyNo]->SetVisAttributes(visAttributes);
     fVisAttributes.push_back(visAttributes);
     
-    visAttributes = new G4VisAttributes(G4Colour(0.9115,0.4112,0.0042));
-    visAttributes->SetVisibility(false);
+    visAttributes = new G4VisAttributes(G4Colour(0.4,0.698,1));
+    //visAttributes->SetVisibility(visdec[copyNo]);
     //visAttributes->SetForceLineSegmentsPerCircle(10);
     cellEcalECLogical_l[copyNo]->SetVisAttributes(visAttributes);
     fVisAttributes.push_back(visAttributes);

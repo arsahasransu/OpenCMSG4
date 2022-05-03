@@ -389,37 +389,6 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   hcal->makeEndCapOuter(Cu, quartz, hcalECOLogical_r, hcalECOLogical_l, fVisAttributes, HCalR, HCalL, HCalScn);
   hcal->makeEndCapInner(Cu, quartz, hcalECOLogical_r, hcalECOLogical_l, fVisAttributes, HCalR, HCalL, HCalScn);
   
-  
-  /*
-  // HCal EndCap Envelope
-  G4double HcalEC17to20ThetaOut = 2*atan(exp(-HcalEC17to20EtaOut));
-  G4double HcalEC17to20ThetaIn = 2*atan(exp(-HcalEC17to20EtaIn));
-  G4double HCalEC17to20ROut1 = HcalECEnvZmin*tan(HcalEC17to20ThetaOut);
-  G4double HCalEC17to20RIn1 = HcalECEnvZmin*tan(HcalEC17to20ThetaIn);
-  G4double HCalEC17to20ROut2 = (HcalECEnvZmin+HcalECEnvDelZ)*tan(HcalEC17to20ThetaOut);
-  G4double HCalEC17to20RIn2 = (HcalECEnvZmin+HcalECEnvDelZ)*tan(HcalEC17to20ThetaIn);
-  
-  
-  auto hcalECSolid = new G4Cons("HCalECSolid",
-  HCalEC17to20RIn1,
-  HCalEC17to20ROut1,
-  HCalEC17to20RIn2,
-  HCalEC17to20ROut2,
-  0.5*HcalECEnvDelZ,
-  0*deg,
-  360*deg);
-  hcalECLogical_r = new G4LogicalVolume(hcalECSolid,
-  world_mat,
-  "HCalECLogical");
-  new G4PVPlacement(0,
-  G4ThreeVector(0, 0, HcalECEnvZmin+0.5*HcalECEnvDelZ),
-  hcalECLogical_r,
-  "HCalECEnvelopeRight",
-  logicWorld,
-  false,
-  0,
-  true);
-  */
   /////////////////////////////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////// PRE-SHOWER PLACEMENT ///////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -439,7 +408,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4double PShowPos = -PSECenv_dz;
   for(unsigned int cNo=0; cNo<PShowerMat.size(); cNo++) {
     PShowPos += 0.5*PShower_thick[cNo];
-    auto PSECSolid = new G4Tubs("PSECSolid", PSECenv_rMin, PSECenv_rMax, 0.5*PShower_thick[cNo], 0, 360.0*deg);
+    auto PSECSolid = new G4Tubs("PSECSolid", PSECenv_rMin, PSECenv_rMax, 0.5*PShower_thick[cNo], 0, 270.0*deg);
     cellEcalPS_l.push_back(new G4LogicalVolume(PSECSolid, PShowerMat[cNo], "PSECLogical_l"));
     new G4PVPlacement(0, G4ThreeVector(0, 0, PShowPos), cellEcalPS_l[cNo], "PSECLeftPhysical", ecalPSLogical_l, false, 0, true);
     cellEcalPS_r.push_back(new G4LogicalVolume(PSECSolid, PShowerMat[cNo], "PSECLogical_r"));
@@ -452,7 +421,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   /////////////////////////////////////////////////////////////////////////////////////////////////////
   
   // Solenoid
-  auto solenoidSolid = new G4Tubs("SolenoidSolid", solenoidInnerR, solenoidOuterR, solenoidHalfZ, 0*deg, 360*deg);
+  auto solenoidSolid = new G4Tubs("SolenoidSolid", solenoidInnerR, solenoidOuterR, solenoidHalfZ, 0*deg, 270*deg);
   solenoidLogical = new G4LogicalVolume(solenoidSolid,CuNi,"SolenoidLogical");
   if(solenoidMode) {
     new G4PVPlacement(0, G4ThreeVector(), solenoidLogical, "Solenoid", logicWorld, false, 0);
@@ -510,41 +479,97 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //
   
   auto visAttributes = new G4VisAttributes(G4Colour(1.0,1.0,1.0));
-  //visAttributes->SetVisibility(false);
+  visAttributes->SetVisibility(false);
   logicWorld->SetVisAttributes(visAttributes);
   fVisAttributes.push_back(visAttributes);
 
-  visAttributes = new G4VisAttributes(G4Colour(0.8888,0,0));
-  //visAttributes->SetVisibility(false);
-  //visAttributes->SetForceLineSegmentsPerCircle(10);
-  ecalLogical->SetVisAttributes(visAttributes);
-  fVisAttributes.push_back(visAttributes);
-  
   visAttributes = new G4VisAttributes(G4Colour(0,0,0.8888));
-  //visAttributes->SetVisibility(false);
+  visAttributes->SetVisibility(false);
   //visAttributes->SetForceLineSegmentsPerCircle(10);
   trackerLogical->SetVisAttributes(visAttributes);
   fVisAttributes.push_back(visAttributes);
 
-  visAttributes = new G4VisAttributes(G4Colour(0.56,0,1));
-  //visAttributes->SetVisibility(false);
+  visAttributes = new G4VisAttributes(G4Colour(0.8888,0,0));
+  visAttributes->SetVisibility(false);
+  //visAttributes->SetForceLineSegmentsPerCircle(10);
+  ecalLogical->SetVisAttributes(visAttributes);
+  fVisAttributes.push_back(visAttributes);
+  
+  visAttributes = new G4VisAttributes(G4Colour(0.8888,0,0));
+  visAttributes->SetVisibility(false);
+  //visAttributes->SetForceLineSegmentsPerCircle(10);
+  ecalECLogical_r->SetVisAttributes(visAttributes);
+  fVisAttributes.push_back(visAttributes);
+  
+  visAttributes = new G4VisAttributes(G4Colour(0.8888,0,0));
+  visAttributes->SetVisibility(false);
+  //visAttributes->SetForceLineSegmentsPerCircle(10);
+  ecalECLogical_l->SetVisAttributes(visAttributes);
+  fVisAttributes.push_back(visAttributes);
+  
+  visAttributes = new G4VisAttributes(G4Colour(0.8888,0.8888,0));
+  visAttributes->SetVisibility(false);
+  //visAttributes->SetForceLineSegmentsPerCircle(10);
+  hcalLogical->SetVisAttributes(visAttributes);
+  fVisAttributes.push_back(visAttributes);
+  
+  visAttributes = new G4VisAttributes(G4Colour(0.8888,0.8888,0));
+  visAttributes->SetVisibility(false);
+  //visAttributes->SetForceLineSegmentsPerCircle(10);
+  hcalECOLogical_r->SetVisAttributes(visAttributes);
+  fVisAttributes.push_back(visAttributes);
+  
+  visAttributes = new G4VisAttributes(G4Colour(0.8888,0.8888,0));
+  visAttributes->SetVisibility(false);
+  //visAttributes->SetForceLineSegmentsPerCircle(10);
+  hcalECOLogical_l->SetVisAttributes(visAttributes);
+  fVisAttributes.push_back(visAttributes);
+  
+  visAttributes = new G4VisAttributes(G4Colour(0.8888,0,0.8888));
+  visAttributes->SetVisibility(false);
+  //visAttributes->SetForceLineSegmentsPerCircle(10);
+  ecalPSLogical_r->SetVisAttributes(visAttributes);
+  fVisAttributes.push_back(visAttributes);
+  
+  visAttributes = new G4VisAttributes(G4Colour(0.8888,0,0.8888));
+  visAttributes->SetVisibility(false);
+  //visAttributes->SetForceLineSegmentsPerCircle(10);
+  ecalPSLogical_l->SetVisAttributes(visAttributes);
+  fVisAttributes.push_back(visAttributes);
+  
+  for(unsigned int cNo=0; cNo<PShowerMat.size(); cNo++) {
+    visAttributes = new G4VisAttributes(G4Colour(1.0,0,0));
+    visAttributes->SetVisibility(false);
+    //visAttributes->SetForceLineSegmentsPerCircle(10);
+    cellEcalPS_r[cNo]->SetVisAttributes(visAttributes);
+    cellEcalPS_l[cNo]->SetVisAttributes(visAttributes);
+    fVisAttributes.push_back(visAttributes);  
+  }
+  
+  visAttributes = new G4VisAttributes(G4Colour(1,0.5,0));
+  visAttributes->SetVisibility(false);
   //visAttributes->SetForceLineSegmentsPerCircle(10);
   solenoidLogical->SetVisAttributes(visAttributes);
   fVisAttributes.push_back(visAttributes);
 
   visAttributes = new G4VisAttributes(G4Colour(0.56,0.3,1));
-  //visAttributes->SetVisibility(false);
+  visAttributes->SetVisibility(false);
   //visAttributes->SetForceLineSegmentsPerCircle(10);
   muBrChLogical->SetVisAttributes(visAttributes);
   fVisAttributes.push_back(visAttributes);
 
-  /*  visAttributes = new G4VisAttributes(G4Colour(0.8888,0.8888,0));
-  //visAttributes->SetVisibility(false);
+  visAttributes = new G4VisAttributes(G4Colour(0.56,0.3,1));
+  visAttributes->SetVisibility(false);
   //visAttributes->SetForceLineSegmentsPerCircle(10);
-  singleTrackerLogical->SetVisAttributes(visAttributes);
+  muECChLogical_r->SetVisAttributes(visAttributes);
   fVisAttributes.push_back(visAttributes);
-  */
-  
+
+  visAttributes = new G4VisAttributes(G4Colour(0.56,0.3,1));
+  visAttributes->SetVisibility(false);
+  //visAttributes->SetForceLineSegmentsPerCircle(10);
+  muECChLogical_l->SetVisAttributes(visAttributes);
+  fVisAttributes.push_back(visAttributes);
+
   // return the world physical volume ----------------------------------------
   
   //fMagneticLogical = logicWorld;

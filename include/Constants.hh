@@ -7,8 +7,8 @@
 constexpr G4double kBz = 4.0*tesla;
 
 // HCal EndCap Envelope Variables
-constexpr G4int nofHcalECOPhi = 72;    // 72 - default value
-constexpr G4int nofHcalECIPhi = 36;    // 36 - default value
+constexpr G4int nofHcalECOPhi = 54;    // 72 - default value
+constexpr G4int nofHcalECIPhi = 27;    // 36 - default value
 constexpr G4double HcalEC17to20EtaOut = 0.087*16;
 constexpr G4double HcalEC17to20EtaIn = 0.087*20;
 constexpr G4int nofHcalEndCapR= 18;       // 18 - defaultvalue

@@ -1,15 +1,15 @@
 #/vis/ogl/set/displayListLimit 10000000000
 #/vis/viewer/set/viewpointThetaPhi 65 315 deg
 
+/detector/trackerSensitiveMaterialOnly false
+/detector/trackerMode 111111
+/detector/ecalMode 111
 #/detector/sensitiveMaterialOnly false
-#/detector/trackerMode 111111
-#/detector/ecalMode 111
-/detector/sensitiveMaterialOnly false
-/detector/trackerMode 000
-/detector/ecalMode 000
+#/detector/trackerMode 000
+#/detector/ecalMode 000
 /detector/hcalMode 111
-/detector/muChmMode 000
-/detector/solenoidMaterial false
+/detector/muChmMode 111
+/detector/solenoidMaterial true
 
 /run/initialize
 
@@ -20,4 +20,4 @@
 /generator/particle/sigmaEta 0
 /root/setFileName OpenCMSG4_particle.root
 
-/run/beamOn 1
+/run/beamOn 100

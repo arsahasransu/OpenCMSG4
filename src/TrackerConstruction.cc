@@ -6,7 +6,7 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-constexpr G4double trPhiAng = 360;
+constexpr G4double trPhiAng = 1;
 constexpr G4int PIB_num = 3;
 constexpr G4double PIB_rMin[] = {44,73,102};
 constexpr G4double PIB_thick = 380;
@@ -77,7 +77,7 @@ void TrackerConstruction::makePIB(G4Material* elAl, G4Material* elSi, G4Material
     auto PIBSupp_Solid = new G4Tubs("PIBSupport_Solid",
 				    PIB_rMin[i]*mm-PIBSup_thick*mm,
 				    PIB_rMin[i]*mm,
-				    285*mm, 90*deg,
+				    285*mm, 0*deg,
 				    trPhiAng*deg);
     auto PIBSupp_Logical = new G4LogicalVolume(PIBSupp_Solid,
 					       elAl,
@@ -96,7 +96,7 @@ void TrackerConstruction::makePIB(G4Material* elAl, G4Material* elSi, G4Material
 				PIB_rMin[i]*mm,
 				PIB_rMin[i]*mm+PIB_thick*um,
 				PIB_halfz*mm,
-				90*deg,
+				0*deg,
 				trPhiAng*deg);
     PIB_Logical[i] = new G4LogicalVolume(PIB_Solid,
 					 elSi,
@@ -116,7 +116,7 @@ void TrackerConstruction::makePIB(G4Material* elAl, G4Material* elSi, G4Material
 					Pix_rMat,
 					Pix_rMat+PIBMat_thick[mat_ctr]*um,
 					PIB_halfz*mm,
-					90*deg,
+					0*deg,
 					trPhiAng*deg);
       Pix_rMat = Pix_rMat+PIBMat_thick[mat_ctr]*um;
       auto PixBarMat_Logical = new G4LogicalVolume(PixBarMat_Solid,
@@ -138,7 +138,7 @@ void TrackerConstruction::makePIB(G4Material* elAl, G4Material* elSi, G4Material
 				 PIB_thick*um+44555*um,
 				 PIB_thick*um+44555*um+300*um,
 				 0.5*(177-66)*mm,
-				 90*deg,
+				 0*deg,
 				 trPhiAng*deg);
   auto PIBMat_Logical = new G4LogicalVolume(PIBMat_Solid,
 					    Cu,
@@ -166,7 +166,7 @@ void TrackerConstruction::makePIB(G4Material* elAl, G4Material* elSi, G4Material
 			    PIB_thick*um+44555*um,
 			    PIB_thick*um+44555*um+700*um,
 			    0.5*(285-177)*mm,
-			    90*deg,
+			    0*deg,
 			    trPhiAng*deg);
   PIBMat_Logical = new G4LogicalVolume(PIBMat_Solid,
 				       Cu,
@@ -194,7 +194,7 @@ void TrackerConstruction::makePIB(G4Material* elAl, G4Material* elSi, G4Material
 			    PIB_thick*um+73555*um,
 			    PIB_thick*um+73555*um+300*um,
 			    0.5*(285-110)*mm,
-			    90*deg,
+			    0*deg,
 			    trPhiAng*deg);
   PIBMat_Logical = new G4LogicalVolume(PIBMat_Solid,
 				       Cu,
@@ -222,7 +222,7 @@ void TrackerConstruction::makePIB(G4Material* elAl, G4Material* elSi, G4Material
 			    PIB_thick*um+102555*um,
 			    PIB_thick*um+102555*um+300*um,
 			    0.5*(285-153)*mm,
-			    90*deg,
+			    0*deg,
 			    trPhiAng*deg);
   PIBMat_Logical = new G4LogicalVolume(PIBMat_Solid,
 					     Cu,
@@ -250,7 +250,7 @@ void TrackerConstruction::makePIB(G4Material* elAl, G4Material* elSi, G4Material
 				  40*mm,
 				  180*mm,
 				  0.5*PIBSup_thick*mm,
-				  90*deg,
+				  0*deg,
 				  trPhiAng*deg);
   auto PIBSupp_Logical = new G4LogicalVolume(PIBSupp_Solid,
 					     elAl,
@@ -278,7 +278,7 @@ void TrackerConstruction::makePIB(G4Material* elAl, G4Material* elSi, G4Material
 				    40*mm,
 				    180*mm,
 				    0.5*PIBCables_thick*um,
-				    90*deg,
+				    0*deg,
 				    trPhiAng*deg);
   auto PIBCables_Logical = new G4LogicalVolume(PIBCables_Solid,
 					       Cu,
@@ -306,7 +306,7 @@ void TrackerConstruction::makePIB(G4Material* elAl, G4Material* elSi, G4Material
 				     180*mm,
 				     180*mm+1000*um,
 				     0.5*290*mm,
-				     90*deg,
+				     0*deg,
 				     trPhiAng*deg);
   auto PIBCables_Logical2 = new G4LogicalVolume(PIBCables_Solid2,
 						elAl,
@@ -345,7 +345,7 @@ void TrackerConstruction::makePID(G4Material* elAl, G4Material* elSi, G4Material
 				PID_r[0]*mm,
 				PID_r[1]*mm,
 				PID_halfz*um,
-				90*deg,
+				0*deg,
 				trPhiAng*deg);
     PID_Logical[i] = new G4LogicalVolume(PID_Solid,
 					 elSi,
@@ -365,7 +365,7 @@ void TrackerConstruction::makePID(G4Material* elAl, G4Material* elSi, G4Material
 				       PID_r[0]*mm,
 				       PID_r[1]*mm,
 				       0.5*PIDMat_thick[mat_ctr]*um,
-				       90*deg,
+				       0*deg,
 				       trPhiAng*deg);
       auto PixECMat_Logical = new G4LogicalVolume(PixECMat_Solid,
 						  pixECMat[mat_ctr],
@@ -389,7 +389,7 @@ void TrackerConstruction::makePID(G4Material* elAl, G4Material* elSi, G4Material
 				   150*mm,
 				   150*mm+PIDMat_thick[0]*um,
 				   0.5*25*mm,
-				   90*deg,
+				   0*deg,
 				   trPhiAng*deg);
     auto PIDMat_Logical = new G4LogicalVolume(PIDMat_Solid,
 					      elAl,
@@ -407,7 +407,7 @@ void TrackerConstruction::makePID(G4Material* elAl, G4Material* elSi, G4Material
 			      150*mm+PIDMat_thick[0]*um,
 			      150*mm+PIDMat_thick[0]*um+PIDMat_thick[1]*um,
 			      0.5*25*mm,
-			      90*deg,
+			      0*deg,
 			      trPhiAng*deg);
     PIDMat_Logical = new G4LogicalVolume(PIDMat_Solid,
 					 elAl,
@@ -427,7 +427,7 @@ void TrackerConstruction::makePID(G4Material* elAl, G4Material* elSi, G4Material
 				    150*mm+PIDMat_thick[0]*um+PIDMat_thick[1]*um,
 				    150*mm+PIDMat_thick[0]*um+PIDMat_thick[1]*um+750*um,
 				    0.5*2000*mm,
-				    90*deg,
+				    0*deg,
 				    trPhiAng*deg);
   auto PIDCables_Logical = new G4LogicalVolume(PIDCables_Solid,
 					       Cu,
@@ -468,7 +468,7 @@ void TrackerConstruction::makeTIB(G4Material* elSi, G4Material* Cu, std::vector<
 				TIB_rMin[i]*mm,
 				TIB_rMin[i]*mm+TIB_thick[i]*um,
 				TIB_halfz*mm,
-				90*deg,
+				0*deg,
 				trPhiAng*deg);
     TIB_Logical[i] = new G4LogicalVolume(TIB_Solid,
 					 elSi,
@@ -488,7 +488,7 @@ void TrackerConstruction::makeTIB(G4Material* elSi, G4Material* Cu, std::vector<
 				      TIBr,
 				      TIBr+((i==0||i==1)&&j==1?2*TIBSupp_thick[j]:TIBSupp_thick[j])*um,
 				      700*mm,
-				      90*deg,
+				      0*deg,
 				      trPhiAng*deg);
       TIBr += ((i==0||i==1)&&j==1?2*TIBSupp_thick[j]:TIBSupp_thick[j])*um;
       auto TIBSupp_Logical = new G4LogicalVolume(TIBSupp_Solid,
@@ -519,7 +519,7 @@ void TrackerConstruction::makeTIB(G4Material* elSi, G4Material* Cu, std::vector<
 				     TIBr,
 				     TIBr+TIBEle_thick*um,
 				     0.5*(700-TIBSupp_pos[j])*mm,
-				     90*deg,
+				     0*deg,
 				     trPhiAng*deg);
       TIBr += TIBEle_thick*um;
       auto TIBEle_Logical = new G4LogicalVolume(TIBEle_Solid,
@@ -550,7 +550,7 @@ void TrackerConstruction::makeTIB(G4Material* elSi, G4Material* Cu, std::vector<
 				TIB_rMin[0]*mm,
 				500*mm,
 				TIBSupp_thick[0]*um,
-				90*deg,
+				0*deg,
 				trPhiAng*deg);
   auto TIBEC_Logical = new G4LogicalVolume(TIBEC_Solid,
 					   Cu,
@@ -578,7 +578,7 @@ void TrackerConstruction::makeTIB(G4Material* elSi, G4Material* Cu, std::vector<
 			       TIBr,
 			       TIBr+2400*um,
 			       0.5*(TIDECSupp_pos-TIBSupp_pos[4])*mm,
-			       90*deg,
+			       0*deg,
 			       trPhiAng*deg);
   auto TIBD_Logical = new G4LogicalVolume(TIBD_Solid,
 					  Cu,
@@ -619,7 +619,7 @@ void TrackerConstruction::makeTID(G4Material* elAl, G4Material* elSi, G4Material
 				200*mm,
 				400*mm,
 				320*um*(4.0/3),
-				90*deg,
+				0*deg,
 				trPhiAng*deg);
     TID_Logical[i] = new G4LogicalVolume(TID_Solid,
 					 elSi,
@@ -636,7 +636,7 @@ void TrackerConstruction::makeTID(G4Material* elAl, G4Material* elSi, G4Material
 			   400*mm,
 			   500*mm,
 			   160*um*(4.0/3),
-			   90*deg,
+			   0*deg,
 			   trPhiAng*deg);
     TID_Logical[i+1] = new G4LogicalVolume(TID_Solid,
 					   elSi,
@@ -654,7 +654,7 @@ void TrackerConstruction::makeTID(G4Material* elAl, G4Material* elSi, G4Material
 				    200*mm,
 				    400*mm,
 				    0.5*TIDSupp_thick*um,
-				    90*deg,
+				    0*deg,
 				    trPhiAng*deg);
     auto TIDSupp_Logical = new G4LogicalVolume(TIDSupp_Solid,
 					       elAl,
@@ -672,7 +672,7 @@ void TrackerConstruction::makeTID(G4Material* elAl, G4Material* elSi, G4Material
 			       400*mm,
 			       500*mm,
 			       0.5*TIDSupp_thick*um,
-			       90*deg,
+			       0*deg,
 			       trPhiAng*deg);
     TIDSupp_Logical = new G4LogicalVolume(TIDSupp_Solid,
 					  elAl,
@@ -692,7 +692,7 @@ void TrackerConstruction::makeTID(G4Material* elAl, G4Material* elSi, G4Material
 				  220,
 				  500*mm+2400*um,
 				  0.5*TIDSupp_thick*um,
-				  90*deg,
+				  0*deg,
 				  trPhiAng*deg);
   auto TIDSupp_Logical = new G4LogicalVolume(TIDSupp_Solid,
 					     elAl,
@@ -720,7 +720,7 @@ void TrackerConstruction::makeTID(G4Material* elAl, G4Material* elSi, G4Material
 				 200*mm-TIDEle_thick*um,
 				 200*mm,
 				 0.5*(1050-564)*mm,
-				 90*deg,
+				 0*deg,
 				 trPhiAng*deg);
   auto TIDEle_Logical = new G4LogicalVolume(TIDEle_Solid,
 					    Cu,
@@ -760,7 +760,7 @@ void TrackerConstruction::makeTOB(G4Material* elSi, G4Material* elAl, G4Material
 				TOB_rMin[i]*mm,
 				TOB_rMin[i]*mm+TOB_thick[i]*um,
 				TOB_halfz*mm,
-				90*deg,
+				0*deg,
 				trPhiAng*deg);
     TOB_Logical[i] = new G4LogicalVolume(TOB_Solid,
 					 elSi,
@@ -780,7 +780,7 @@ void TrackerConstruction::makeTOB(G4Material* elSi, G4Material* elAl, G4Material
 					 rEleCool_min,
 					 rEleCool_min+TOBEleCool_dr[j]*um,
 					 1180*mm,
-					 90*deg,
+					 0*deg,
 					 trPhiAng*deg);
       rEleCool_min = rEleCool_min+TOBEleCool_dr[j]*um;
       auto TOBEleCool_Logical = new G4LogicalVolume(TOBEleCool_Solid,
@@ -801,7 +801,7 @@ void TrackerConstruction::makeTOB(G4Material* elSi, G4Material* elAl, G4Material
 				       rEleCool_min,
 				       rEleCool_min+rWiring1*um,
 				       0.5*(1180*mm-zWiring1*mm),
-				       90*deg,
+				       0*deg,
 				       trPhiAng*deg);
     rEleCool_min = rEleCool_min+rWiring1*um;
     auto TOBWiring1_Logical = new G4LogicalVolume(TOBWiring1_Solid,
@@ -830,7 +830,7 @@ void TrackerConstruction::makeTOB(G4Material* elSi, G4Material* elAl, G4Material
 				       rEleCool_min,
 				       rEleCool_min+rWiring2*um,
 				       0.5*(1180*mm-zWiring2*mm),
-				       90*deg,
+				       0*deg,
 				       trPhiAng*deg);
     rEleCool_min = rEleCool_min+rWiring2*um;
     auto TOBWiring2_Logical = new G4LogicalVolume(TOBWiring2_Solid,
@@ -859,7 +859,7 @@ void TrackerConstruction::makeTOB(G4Material* elSi, G4Material* elAl, G4Material
 				     rEleCool_min-0.5*rSupp*mm,
 				     rEleCool_min+0.5*rSupp*mm,
 				     0.5*zSupp1*mm,
-				     90*deg,
+				     0*deg,
 				     trPhiAng*deg);
     auto TOBSupp1_Logical = new G4LogicalVolume(TOBSupp1_Solid,
 						elAl,
@@ -891,7 +891,7 @@ void TrackerConstruction::makeTOB(G4Material* elSi, G4Material* elAl, G4Material
 				       rEleCool_min_hist+0.5*rSupp*mm,
 				       rEleCool_min-0.5*rSupp*mm,
 				       0.5*zSupp2*mm,
-				       90*deg,
+				       0*deg,
 				       trPhiAng*deg);
       auto TOBSupp2_Logical = new G4LogicalVolume(TOBSupp2_Solid,
 						  elAl,
@@ -919,7 +919,7 @@ void TrackerConstruction::makeTOB(G4Material* elSi, G4Material* elAl, G4Material
 				       rEleCool_min_hist,
 				       TOB_rMin[i]*mm,
 				       0.5*zSupp3*mm,
-				       90*deg,
+				       0*deg,
 				       trPhiAng*deg);
       auto TOBSupp3_Logical = new G4LogicalVolume(TOBSupp3_Solid,
 						  elAl,
@@ -967,7 +967,7 @@ void TrackerConstruction::makeTEC(G4Material* elSi, std::vector<G4Material*> TEC
 				  TEC_ring[ring-1][0]*mm,
 				  TEC_ring[ring-1][1]*mm,
 				  TEC_thick*um,
-				  90*deg,
+				  0*deg,
 				  trPhiAng*deg);
       TEC_Logical[tec_count] = new G4LogicalVolume(TEC_Solid,
 						   elSi,
@@ -993,7 +993,7 @@ void TrackerConstruction::makeTEC(G4Material* elSi, std::vector<G4Material*> TEC
 				     TEC_ring[ring-1][0]*mm,
 				     TEC_ring[ring-1][1]*mm,
 				     0.5*TECMat_thick*mm,
-				     90*deg,
+				     0*deg,
 				     trPhiAng*deg);
       auto TECMat_Logical = new G4LogicalVolume(TECMat_Solid,
 						TECMat[0],

@@ -44,7 +44,7 @@ void MagneticField::DefineCommands()
                                 &MagneticField::SetField, 
                                 "Set field strength.");
   valueCmd.SetParameterName("field", true);
-  valueCmd.SetDefaultValue("1.");
+  valueCmd.SetDefaultValue("4.");
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
