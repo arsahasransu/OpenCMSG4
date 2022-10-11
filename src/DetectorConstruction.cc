@@ -332,7 +332,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   
   // ECal Endcap Envelope
   G4double ecalECenv_z = 250.0;
-  G4double ecalECenv_r = 1711.0;
+  G4double ecalECenv_r = 1800.0;
   auto ecalECSolid = new G4Tubs("ECalECSolid", 0, ecalECenv_r*mm, 0.5*ecalECenv_z*mm, 0, 360.0*deg);
   ecalECLogical_r = new G4LogicalVolume(ecalECSolid, world_mat, "ECalECLogical");
   new G4PVPlacement(0, G4ThreeVector(0, 0, (3205+110)*mm), ecalECLogical_r, "ECalECEnvelopeRight", logicWorld, false, 0, true);
@@ -408,10 +408,11 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4double PShowPos = -PSECenv_dz;
   for(unsigned int cNo=0; cNo<PShowerMat.size(); cNo++) {
     PShowPos += 0.5*PShower_thick[cNo];
-    auto PSECSolid = new G4Tubs("PSECSolid", PSECenv_rMin, PSECenv_rMax, 0.5*PShower_thick[cNo], 0, 270.0*deg);
-    cellEcalPS_l.push_back(new G4LogicalVolume(PSECSolid, PShowerMat[cNo], "PSECLogical_l"));
+    auto PSECSolid_l = new G4Tubs("PSECSolid_l", PSECenv_rMin, PSECenv_rMax, 0.5*PShower_thick[cNo], 0, 360.0*deg);
+    cellEcalPS_l.push_back(new G4LogicalVolume(PSECSolid_l, PShowerMat[cNo], "PSECLogical_l"));
     new G4PVPlacement(0, G4ThreeVector(0, 0, PShowPos), cellEcalPS_l[cNo], "PSECLeftPhysical", ecalPSLogical_l, false, 0, true);
-    cellEcalPS_r.push_back(new G4LogicalVolume(PSECSolid, PShowerMat[cNo], "PSECLogical_r"));
+    auto PSECSolid_r = new G4Tubs("PSECSolid_r", PSECenv_rMin, PSECenv_rMax, 0.5*PShower_thick[cNo], 0, 360.0*deg);
+    cellEcalPS_r.push_back(new G4LogicalVolume(PSECSolid_r, PShowerMat[cNo], "PSECLogical_r"));
     new G4PVPlacement(0, G4ThreeVector(0, 0, PShowPos), cellEcalPS_r[cNo], "PSECRightPhysical", ecalPSLogical_r, false, 0, true);
     PShowPos += 0.5*PShower_thick[cNo];
   }
@@ -538,15 +539,20 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   fVisAttributes.push_back(visAttributes);
   
   for(unsigned int cNo=0; cNo<PShowerMat.size(); cNo++) {
-    visAttributes = new G4VisAttributes(G4Colour(1.0,0,0));
-    visAttributes->SetVisibility(false);
+    visAttributes = new G4VisAttributes(G4Colour(0.502,0.502,0.502));
+    //visAttributes->SetVisibility(false);
     //visAttributes->SetForceLineSegmentsPerCircle(10);
     cellEcalPS_r[cNo]->SetVisAttributes(visAttributes);
+    fVisAttributes.push_back(visAttributes);  
+
+    visAttributes = new G4VisAttributes(G4Colour(0.502,0.502,0.502));
+    //visAttributes->SetVisibility(false);
+    //visAttributes->SetForceLineSegmentsPerCircle(10);
     cellEcalPS_l[cNo]->SetVisAttributes(visAttributes);
     fVisAttributes.push_back(visAttributes);  
-  }
+}
   
-  visAttributes = new G4VisAttributes(G4Colour(1,0.5,0));
+  visAttributes = new G4VisAttributes(G4Colour(0,1,0));
   visAttributes->SetVisibility(false);
   //visAttributes->SetForceLineSegmentsPerCircle(10);
   solenoidLogical->SetVisAttributes(visAttributes);

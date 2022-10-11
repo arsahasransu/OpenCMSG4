@@ -11,12 +11,18 @@
 #/run/numberOfThreads 1
 #
 # Initialize kernel
+#/detector/trackerSensitiveMaterialOnly false
+#/detector/trackerMode 111111
+#/detector/ecalMode 111
+#/detector/hcalMode 1110
+#/detector/muChmMode 111
+#/detector/solenoidMaterial true
 /detector/trackerSensitiveMaterialOnly false
 /detector/trackerMode 111111
-/detector/ecalMode 111
-/detector/hcalMode 1110
-/detector/muChmMode 111
-/detector/solenoidMaterial true
+/detector/ecalMode 0
+/detector/hcalMode 0
+/detector/muChmMode 0
+/detector/solenoidMaterial false
 
 /run/initialize
 #
