@@ -29,11 +29,11 @@
 /vis/drawVolume
 #
 # Specify view angle:
-#/vis/viewer/set/viewpointThetaPhi 90. 0.
+/vis/viewer/set/viewpointThetaPhi 180. 90.
 #
 # Specify zoom value:
-/vis/viewer/zoom 2.2
-/vis/ogl/set/displayListLimit 1000000000
+/vis/viewer/zoom 1.5
+#/vis/ogl/set/displayListLimit 1000000000
 #
 # Specify style (surface or wireframe):
 #/vis/viewer/set/style wireframe
@@ -69,6 +69,8 @@
 #/vis/scene/endOfEventAction accumulate
 #
 # Re-establish auto refreshing and verbosity:
+#/vis/viewer/set/globalLineWidthScale 3000
+#/vis/geometry/set/lineWidth all 300
 /vis/viewer/set/defaultColour red
 /vis/viewer/set/background white
 #/vis/viewer/set/autoRefresh true
