@@ -1,12 +1,9 @@
-#/vis/ogl/set/displayListLimit 10000000000
-#/vis/viewer/set/viewpointThetaPhi 65 315 deg
+/vis/ogl/set/displayListLimit 10000000000
+/vis/viewer/set/viewpointThetaPhi 65 315 deg
 
 /detector/trackerSensitiveMaterialOnly false
 /detector/trackerMode 111111
 /detector/ecalMode 111
-#/detector/sensitiveMaterialOnly false
-#/detector/trackerMode 000
-#/detector/ecalMode 000
 /detector/hcalMode 111
 /detector/muChmMode 111
 /detector/solenoidMaterial true
@@ -14,10 +11,12 @@
 /run/initialize
 
 /generator particle
-/generator/particle/type e+
-/generator/particle/momentum 15 GeV
+/generator/particle/type mu+
+/generator/particle/momentum 20 GeV
 /generator/particle/eta 0
-/generator/particle/sigmaEta 0
+/generator/particle/sigmaEta 1
+/generator/particle/phi 0
+/generator/particle/sigmaPhi 3.1
 /root/setFileName OpenCMSG4_particle.root
 
-/run/beamOn 100
+/run/beamOn 10

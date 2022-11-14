@@ -33,7 +33,7 @@
 #
 # Specify zoom value:
 /vis/viewer/zoom 1.5
-#/vis/ogl/set/displayListLimit 1000000000
+/vis/ogl/set/displayListLimit 1000000000
 #
 # Specify style (surface or wireframe):
 #/vis/viewer/set/style wireframe

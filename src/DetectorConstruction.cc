@@ -91,7 +91,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4bool checkOverlaps = true;
 
   constexpr G4double world_sizeXY = 20*m;
-  constexpr G4double world_sizeZ  = 20*m;
+  constexpr G4double world_sizeZ  = 22*m;
 
 
   ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -369,7 +369,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   
   // HCal Envelope
   //auto hcalSolid = new G4Tubs("HCalSolid", 1800*mm, 3500*mm, 10000*mm, 0*deg, 360*deg);
-  auto hcalSolid = new G4Tubs("HCalSolid", 1770*mm, 3500*mm, 10000*mm, 0*deg, 360*deg);
+  auto hcalSolid = new G4Tubs("HCalSolid", 1770*mm, 3500*mm, muME11Zin, 0*deg, 360*deg);
   hcalLogical = new G4LogicalVolume(hcalSolid,world_mat,"HCalLogical");
   new G4PVPlacement(0, G4ThreeVector(), hcalLogical, "HCalEnvelope", logicWorld, false, 0);
   
@@ -448,17 +448,25 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     MuChmL = true;
   
   // Muon Chamber Logical
-  auto muBrChSolid = new G4Tubs("MuonBarrelChamberSolid", 4600*mm, 7000*mm, solenoidHalfZ, 0*deg, 360*deg);
+  auto muBrChSolid = new G4Tubs("MuonBarrelChamberSolid", muBarRin, muBarRout, muBarEnvelopZHalfLen, 0*deg, 360*deg);
   muBrChLogical = new G4LogicalVolume(muBrChSolid,world_mat,"Muon Barrel Chamber Logical");
-  new G4PVPlacement(0, G4ThreeVector(), muBrChLogical, "Muon Barrel", logicWorld, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(), muBrChLogical, "Muon Barrel", logicWorld, false, 0, true);
   
-  auto muECChSolid_r = new G4Tubs("MuonECChamberSolid_r", 0.9*muECRin[0], 0.5*world_sizeXY, 0.5*(0.5*world_sizeZ-solenoidHalfZ), 0*deg, 360*deg);
+  auto muECChSolid_r = new G4Tubs("MuonECChamberSolid_r", 0, muECRmax, 0.5*(muECZout-muECZin), 0*deg, 360*deg);
   muECChLogical_r = new G4LogicalVolume(muECChSolid_r,world_mat,"Muon Right EndCap Chamber Logical");
-  new G4PVPlacement(0, G4ThreeVector(0,0,0.5*(0.5*world_sizeZ+solenoidHalfZ)), muECChLogical_r, "Muon Right EndCap", logicWorld, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(0,0,0.5*(muECZout+muECZin)), muECChLogical_r, "Muon Right EndCap", logicWorld, false, 0, true);
   
-  auto muECChSolid_l = new G4Tubs("MuonECChamberSolid_l", 0.9*muECRin[0], 0.5*world_sizeXY, 0.5*(0.5*world_sizeZ-solenoidHalfZ), 0*deg, 360*deg);
+  auto muECChSolid_l = new G4Tubs("MuonECChamberSolid_l", 0, muECRmax, 0.5*(muECZout-muECZin), 0*deg, 360*deg);
   muECChLogical_l = new G4LogicalVolume(muECChSolid_l,world_mat,"Muon Left EndCap Chamber Logical");
-  new G4PVPlacement(0, G4ThreeVector(0,0,-0.5*(0.5*world_sizeZ+solenoidHalfZ)), muECChLogical_l, "Muon Left EndCap", logicWorld, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(0,0,-0.5*(muECZout+muECZin)), muECChLogical_l, "Muon Left EndCap", logicWorld, false, 0, true);
+  
+  auto muME11ChSolid_r = new G4Tubs("MuonME11ChamberSolid_r", 0, muME11Rmax, 0.5*(muECZin-muME11Zin), 0*deg, 360*deg);
+  muME11ChLogical_r = new G4LogicalVolume(muME11ChSolid_r,world_mat,"Muon Right EndCap Chamber Logical");
+  new G4PVPlacement(0, G4ThreeVector(0,0,0.5*(muECZin+muME11Zin)), muME11ChLogical_r, "Muon Right EndCap", logicWorld, false, 0, true);
+  
+  auto muME11ChSolid_l = new G4Tubs("MuonME11ChamberSolid_l", 0, muME11Rmax, 0.5*(muECZin-muME11Zin), 0*deg, 360*deg);
+  muME11ChLogical_l = new G4LogicalVolume(muME11ChSolid_l,world_mat,"Muon Left EndCap Chamber Logical");
+  new G4PVPlacement(0, G4ThreeVector(0,0,-0.5*(muECZin+muME11Zin)), muME11ChLogical_l, "Muon Left EndCap", logicWorld, false, 0, true);
   
   MuonConstruction* muon = new MuonConstruction();
   if(MuChmBar) {
@@ -466,9 +474,11 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   }
   if(MuChmR) {
     muon->makeEndCap_posz(CuNi, muECChLogical_r, false, fVisAttributes);
+    muon->makeME11_posz(CuNi, muME11ChLogical_r, false, fVisAttributes);
   }
   if(MuChmL) {
     muon->makeEndCap_negz(CuNi, muECChLogical_l, false, fVisAttributes);
+    muon->makeME11_negz(CuNi, muME11ChLogical_l, false, fVisAttributes);
   }
   
   ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -479,8 +489,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // Visualization Control
   //
   
-  auto visAttributes = new G4VisAttributes(G4Colour(1.0,1.0,1.0));
-  visAttributes->SetVisibility(false);
+  auto visAttributes = new G4VisAttributes(G4Colour(0,0,0));
+  //visAttributes->SetVisibility(false);
   logicWorld->SetVisAttributes(visAttributes);
   fVisAttributes.push_back(visAttributes);
 
@@ -509,7 +519,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   fVisAttributes.push_back(visAttributes);
   
   visAttributes = new G4VisAttributes(G4Colour(0.8888,0.8888,0));
-  visAttributes->SetVisibility(false);
+  //visAttributes->SetVisibility(false);
   //visAttributes->SetForceLineSegmentsPerCircle(10);
   hcalLogical->SetVisAttributes(visAttributes);
   fVisAttributes.push_back(visAttributes);
@@ -540,26 +550,26 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   
   for(unsigned int cNo=0; cNo<PShowerMat.size(); cNo++) {
     visAttributes = new G4VisAttributes(G4Colour(0.502,0.502,0.502));
-    //visAttributes->SetVisibility(false);
+    visAttributes->SetVisibility(false);
     //visAttributes->SetForceLineSegmentsPerCircle(10);
     cellEcalPS_r[cNo]->SetVisAttributes(visAttributes);
     fVisAttributes.push_back(visAttributes);  
 
     visAttributes = new G4VisAttributes(G4Colour(0.502,0.502,0.502));
-    //visAttributes->SetVisibility(false);
+    visAttributes->SetVisibility(false);
     //visAttributes->SetForceLineSegmentsPerCircle(10);
     cellEcalPS_l[cNo]->SetVisAttributes(visAttributes);
     fVisAttributes.push_back(visAttributes);  
 }
   
   visAttributes = new G4VisAttributes(G4Colour(0,1,0));
-  visAttributes->SetVisibility(false);
+  //visAttributes->SetVisibility(false);
   //visAttributes->SetForceLineSegmentsPerCircle(10);
   solenoidLogical->SetVisAttributes(visAttributes);
   fVisAttributes.push_back(visAttributes);
 
   visAttributes = new G4VisAttributes(G4Colour(0.56,0.3,1));
-  visAttributes->SetVisibility(false);
+  //visAttributes->SetVisibility(false);
   //visAttributes->SetForceLineSegmentsPerCircle(10);
   muBrChLogical->SetVisAttributes(visAttributes);
   fVisAttributes.push_back(visAttributes);
@@ -574,6 +584,18 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   visAttributes->SetVisibility(false);
   //visAttributes->SetForceLineSegmentsPerCircle(10);
   muECChLogical_l->SetVisAttributes(visAttributes);
+  fVisAttributes.push_back(visAttributes);
+
+  visAttributes = new G4VisAttributes(G4Colour(0.56,0.3,1));
+  visAttributes->SetVisibility(false);
+  //visAttributes->SetForceLineSegmentsPerCircle(10);
+  muME11ChLogical_r->SetVisAttributes(visAttributes);
+  fVisAttributes.push_back(visAttributes);
+
+  visAttributes = new G4VisAttributes(G4Colour(0.56,0.3,1));
+  visAttributes->SetVisibility(false);
+  //visAttributes->SetForceLineSegmentsPerCircle(10);
+  muME11ChLogical_l->SetVisAttributes(visAttributes);
   fVisAttributes.push_back(visAttributes);
 
   // return the world physical volume ----------------------------------------

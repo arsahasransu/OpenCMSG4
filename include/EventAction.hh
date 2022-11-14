@@ -48,7 +48,7 @@ public:
 
   void EventTree(TTree*);
   void fillTrackHit(long, long, long, long, double);
-  void fillMuonHit(G4String, G4ThreeVector, G4double);
+  void fillMuonHit(G4String, G4ThreeVector, long, G4double);
 
 private:
   G4int fEmCalBarrel;
@@ -142,7 +142,7 @@ private:
   std::vector<G4double> TrackPosZ;
 
   std::vector<long> trackerHits;
-  std::vector<long> trackerEdep;
+  std::vector<double> trackerEdep;
   std::vector<
     std::pair< long,std::vector<
 		      std::pair< long,std::vector<
@@ -151,11 +151,26 @@ private:
 		      > >
     > trackHitCollector;
 
-  std::vector<G4double> muonHitX;
-  std::vector<G4double> muonHitY;
-  std::vector<G4double> muonHitZ;
-  //std::vector<TVector3*> muonHits;
-  std::vector<G4double> muonEdep;
+  std::vector<G4double> mb1X;
+  std::vector<G4double> mb1Y;
+  std::vector<G4double> mb1Z;
+  std::vector<long> mb1Hits;
+  std::vector<G4double> mb1E;
+  std::vector<long> mb2Hits;
+  std::vector<G4double> mb2E;
+  std::vector<long> mb3Hits;
+  std::vector<G4double> mb3E;
+  std::vector<long> mb4Hits;
+  std::vector<G4double> mb4E;
+
+  std::vector<long> me1Hits;
+  std::vector<G4double> me1E;
+  std::vector<long> me2Hits;
+  std::vector<G4double> me2E;
+  std::vector<long> me3Hits;
+  std::vector<G4double> me3E;
+  std::vector<long> me4Hits;
+  std::vector<G4double> me4E;
 
   TTree* eventTree;
   void sortAndSaveTrackHit();

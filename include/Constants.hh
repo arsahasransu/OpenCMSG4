@@ -19,12 +19,21 @@ constexpr G4double HcalECEnvZmin = 3.88*m;
 constexpr G4double HcalECEnvDelZ = 2*m;
 
 // Variables for the solenoid cylinder
-constexpr G4double solenoidInnerR = 4000*mm;
-constexpr G4double solenoidOuterR = 4600*mm;
-constexpr G4double solenoidHalfZ = 625*cm;
+constexpr G4double solenoidInnerR = 3600*mm;
+constexpr G4double solenoidOuterR = 4020*mm; // TODO Fix the value
+constexpr G4double solenoidHalfZ = 650*cm;
 
 // Variables for muon chambers
-constexpr G4double muECRin[] = {100*cm, 100*cm, 100*cm, 100*cm, 100*cm}; // Dimension equal to NMuECZSeg
-constexpr G4double muECRout[] = {600*cm, 600*cm, 600*cm, 600*cm, 600*cm}; // Dimension equal to NMuECZSeg
+constexpr G4double muBarRin = 4025*mm;
+constexpr G4double muBarRout = 7800*mm;
+constexpr G4double muBarZHalfLen = 0.5*2536*mm;
+constexpr G4double gapMuBar[] = {120*mm, 150*mm, 150*mm, 120*mm}; // Should have size atleast NMuBarZSeg-1 in MuonConstruction.cc
+constexpr G4double muBarEnvelopZHalfLen = 5*muBarZHalfLen+gapMuBar[0]+gapMuBar[1];
+
+constexpr G4double muECZin = 6683*mm;
+constexpr G4double muECZout = 10730*mm;
+constexpr G4double muECRmax = 7955*mm;
+constexpr G4double muME11Zin = 5740*mm;
+constexpr G4double muME11Rmax = 2600*mm;
 
 #endif

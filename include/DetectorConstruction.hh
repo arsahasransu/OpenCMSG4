@@ -65,6 +65,8 @@ private:
   G4LogicalVolume* muBrChLogical;
   G4LogicalVolume* muECChLogical_r;
   G4LogicalVolume* muECChLogical_l;
+  G4LogicalVolume* muME11ChLogical_r;
+  G4LogicalVolume* muME11ChLogical_l;
   
   std::vector<G4VisAttributes*> fVisAttributes;
   

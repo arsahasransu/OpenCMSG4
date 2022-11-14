@@ -17,12 +17,12 @@
 #/detector/hcalMode 1110
 #/detector/muChmMode 111
 #/detector/solenoidMaterial true
-/detector/trackerSensitiveMaterialOnly false
-/detector/trackerMode 111111
+/detector/trackerSensitiveMaterialOnly true
+/detector/trackerMode 0
 /detector/ecalMode 0
 /detector/hcalMode 0
-/detector/muChmMode 0
-/detector/solenoidMaterial false
+/detector/muChmMode 111
+/detector/solenoidMaterial true
 
 /run/initialize
 #

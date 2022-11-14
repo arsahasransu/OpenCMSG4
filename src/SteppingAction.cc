@@ -220,17 +220,9 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep) {
     
   }
 
-  if( physical->GetName()=="muonBarrelChamber" && edep>0) {
-    //std::cout<<pos<<"\t"<<edep/GeV<<std::endl;
-    fEventAction->fillMuonHit("muonBarrelChamber", pos, edep);    
-  }
-  if( physical->GetName()=="muonECChamber_r" && edep>0) {
-    //std::cout<<pos<<"\t"<<edep/GeV<<std::endl;
-    fEventAction->fillMuonHit("muonECChamber_r", pos, edep);    
-  }
-  if( physical->GetName()=="muonECChamber_l" && edep>0) {
-    //std::cout<<pos<<"\t"<<edep/GeV<<std::endl;
-    fEventAction->fillMuonHit("muonECChamber_l", pos, edep);    
+  // Fill the energy deposit for the muon chamber
+  if( physical->GetName()=="MB1" && edep>0) {
+    fEventAction->fillMuonHit("MB1", pos, 100000, edep);    
   }
   
 }

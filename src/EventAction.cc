@@ -36,7 +36,8 @@ EventAction::EventAction():
   TrackPosX(), TrackPosY(), TrackPosZ(),
   trackerHits(), trackerEdep(),
   trackHitCollector(),
-  muonHitX(), muonHitY(), muonHitZ(), muonEdep(){
+  mb1X(), mb1Y(), mb1Z(), mb1Hits(), mb1E(), mb2Hits(), mb2E(), mb3Hits(), mb3E(), mb4Hits(), mb4E(),
+  me1Hits(), me1E(), me2Hits(), me2E(), me3Hits(), me3E(), me4Hits(), me4E(){
 
   pair_prod_flag = 0;
   
@@ -145,10 +146,26 @@ void EventAction::EndOfEventAction(const G4Event* event)
   trackerEdep.clear();
   trackHitCollector.clear();
 
-  muonHitX.clear();
-  muonHitY.clear();
-  muonHitZ.clear();
-  muonEdep.clear();
+  mb1X.clear();
+  mb1Y.clear();
+  mb1Z.clear();
+  mb1Hits.clear();
+  mb1E.clear();
+  mb2Hits.clear();
+  mb2E.clear();
+  mb3Hits.clear();
+  mb3E.clear();
+  mb4Hits.clear();
+  mb4E.clear();
+
+  me1Hits.clear();
+  me1E.clear();
+  me2Hits.clear();
+  me2E.clear();
+  me3Hits.clear();
+  me3E.clear();
+  me4Hits.clear();
+  me4E.clear();
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -636,15 +653,42 @@ void EventAction::sortAndSaveTrackHit() {
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void EventAction::fillMuonHit(G4String, G4ThreeVector pos, G4double edep) {
+void EventAction::fillMuonHit(G4String detStr, G4ThreeVector pos, long hit, G4double edep) {
 
-    muonHitX.push_back(pos.getX());
-    muonHitY.push_back(pos.getY());
-    muonHitZ.push_back(pos.getZ());
-    //TVector3* vec3 = new TVector3(pos.getX(), pos.getY(), pos.getZ());
-    //muonHits.push_back(vec3);
-    muonEdep.push_back(edep);
-    
+  if(strcmp(detStr,"MB1")==0) {
+    if(mb1Hits.size()>0) {
+      for(unsigned int ctr=0; ctr<mb1Hits.size(); ctr++) {
+	if(mb1Hits[ctr]==hit) {
+	  mb1E[ctr] += edep;
+	  break;
+	}
+	if(mb1Hits[ctr]>hit) {
+	  mb1Hits.insert(mb1Hits.begin()+ctr, hit);
+	  mb1E.insert(mb1E.begin()+ctr, edep);
+	  mb1X.insert(mb1X.begin()+ctr, pos.getX());
+	  mb1Y.insert(mb1Y.begin()+ctr, pos.getY());
+	  mb1Z.insert(mb1Z.begin()+ctr, pos.getZ());
+	  break;
+	}
+	if(ctr==mb1Hits.size()-1) {
+	  mb1Hits.push_back(hit);
+	  mb1E.push_back(edep);
+	  mb1X.push_back(pos.getX());
+	  mb1Y.push_back(pos.getY());
+	  mb1Z.push_back(pos.getZ());
+	  break;
+	}
+      }
+    }
+    else {
+      mb1Hits.push_back(hit);
+      mb1E.push_back(edep);
+      mb1X.push_back(pos.getX());
+      mb1Y.push_back(pos.getY());
+      mb1Z.push_back(pos.getZ());
+    }
+  }
+  
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -707,10 +751,25 @@ void EventAction::EventTree(TTree* tree){
   eventTree->Branch("EventHCalEdep", &totalHCalE);
   eventTree->Branch("HCalHitNum", &totalHCalHit);
 
-  eventTree->Branch("MuonHitX", &muonHitX);
-  eventTree->Branch("MuonHitY", &muonHitY);
-  eventTree->Branch("MuonHitZ", &muonHitZ);
-  eventTree->Branch("MuonEdep", &muonEdep);
+  eventTree->Branch("MB1X", &mb1X);
+  eventTree->Branch("MB1Y", &mb1Y);
+  eventTree->Branch("MB1Z", &mb1Z);
+  eventTree->Branch("MB1Hits", &mb1Hits);
+  eventTree->Branch("MB1E", &mb1E);
+  eventTree->Branch("MB2Hits", &mb2Hits);
+  eventTree->Branch("MB2E", &mb2E);
+  eventTree->Branch("MB3Hits", &mb3Hits);
+  eventTree->Branch("MB3E", &mb3E);
+  eventTree->Branch("MB4Hits", &mb4Hits);
+  eventTree->Branch("MB4E", &mb4E);
 
+  eventTree->Branch("ME1Hits", &me1Hits);
+  eventTree->Branch("ME1E", &me1E);
+  eventTree->Branch("ME2Hits", &me2Hits);
+  eventTree->Branch("ME2E", &me2E);
+  eventTree->Branch("ME3Hits", &me3Hits);
+  eventTree->Branch("ME3E", &me3E);
+  eventTree->Branch("ME4Hits", &me4Hits);
+  eventTree->Branch("ME4E", &me4E);
 }
 
