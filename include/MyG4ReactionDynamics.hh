@@ -37,7 +37,7 @@
 #include "G4DynamicParticle.hh"
 #include "G4ReactionProduct.hh"
 #include "G4Nucleus.hh"
-#include "G4FastVector.hh"
+// #include "G4FastVector.hh"
 #include "G4HadProjectile.hh"
 
 enum{ MYGHADLISTSIZE=256};
@@ -57,7 +57,7 @@ enum{ MYGHADLISTSIZE=256};
     { return 0.0; }
     
     G4bool GenerateXandPt(                   // derived from GENXPT
-     G4FastVector<G4ReactionProduct,MYGHADLISTSIZE> &vec,
+     std::vector<G4ReactionProduct*> &vec,
      G4int &vecLen,
      G4ReactionProduct &modifiedOriginal, // Fermi motion & evap. effect included
      const G4HadProjectile *originalIncident,
@@ -70,7 +70,7 @@ enum{ MYGHADLISTSIZE=256};
      G4ReactionProduct &leadingStrangeParticle );
     
     void SuppressChargedPions(
-     G4FastVector<G4ReactionProduct,MYGHADLISTSIZE> &vec,
+     std::vector<G4ReactionProduct*> &vec,
      G4int &vecLen,
      const G4ReactionProduct &modifiedOriginal,
      G4ReactionProduct &currentParticle,
@@ -80,7 +80,7 @@ enum{ MYGHADLISTSIZE=256};
      G4bool &targetHasChanged );
       
     G4bool TwoCluster(                       // derived from TWOCLU
-     G4FastVector<G4ReactionProduct,MYGHADLISTSIZE> &vec,
+     std::vector<G4ReactionProduct*> &vec,
      G4int &vecLen,
      G4ReactionProduct &modifiedOriginal, // Fermi motion & evap. effect included
      const G4HadProjectile *originalIncident,
@@ -93,7 +93,7 @@ enum{ MYGHADLISTSIZE=256};
      G4ReactionProduct &leadingStrangeParticle );
     
     void TwoBody(                         // derived from TWOB
-     G4FastVector<G4ReactionProduct,MYGHADLISTSIZE> &vec,
+     std::vector<G4ReactionProduct*> &vec,
      G4int &vecLen,
      G4ReactionProduct &modifiedOriginal,
      const G4DynamicParticle *originalTarget,
@@ -107,11 +107,11 @@ enum{ MYGHADLISTSIZE=256};
     G4double GenerateNBodyEvent(                // derived from PHASP
      const G4double totalEnergy,
      const G4bool constantCrossSection,
-     G4FastVector<G4ReactionProduct,MYGHADLISTSIZE> &vec,
+     std::vector<G4ReactionProduct*> &vec,
      G4int &vecLen );
     
     void ProduceStrangeParticlePairs(
-     G4FastVector<G4ReactionProduct,MYGHADLISTSIZE> &vec,
+     std::vector<G4ReactionProduct*> &vec,
      G4int &vecLen,
      const G4ReactionProduct &modifiedOriginal,
      const G4DynamicParticle *originalTarget, 
@@ -121,7 +121,7 @@ enum{ MYGHADLISTSIZE=256};
      G4bool &targetHasChanged );
     
     void NuclearReaction(                     // derived from NUCREC
-     G4FastVector<G4ReactionProduct,4> &vec,
+     std::vector<G4ReactionProduct*> &vec,
      G4int &vecLen,
      const G4HadProjectile *originalIncident,
      const G4Nucleus &aNucleus,
@@ -138,14 +138,14 @@ enum{ MYGHADLISTSIZE=256};
      const G4Nucleus &targetNucleus,
      G4ReactionProduct &currentParticle,
      G4ReactionProduct &targetParticle,
-     G4FastVector<G4ReactionProduct,MYGHADLISTSIZE> &vec,
+     std::vector<G4ReactionProduct*> &vec,
      G4int &vecLen );
     
     void Defs1(
      const G4ReactionProduct &modifiedOriginal,
      G4ReactionProduct &currentParticle,
      G4ReactionProduct &targetParticle,
-     G4FastVector<G4ReactionProduct,MYGHADLISTSIZE> &vec,
+     std::vector<G4ReactionProduct*> &vec,
      G4int &vecLen );
     
     void AddBlackTrackParticles(
@@ -159,14 +159,14 @@ enum{ MYGHADLISTSIZE=256};
      const G4ReactionProduct &modifiedOriginal,
      G4double spall,
      const G4Nucleus &aNucleus,
-     G4FastVector<G4ReactionProduct,MYGHADLISTSIZE> &vec,
+     std::vector<G4ReactionProduct*> &vec,
      G4int &vecLen );
     
     void MomentumCheck(
      const G4ReactionProduct &modifiedOriginal,
      G4ReactionProduct &currentParticle,
      G4ReactionProduct &targetParticle,
-     G4FastVector<G4ReactionProduct,MYGHADLISTSIZE> &vec,
+     std::vector<G4ReactionProduct*> &vec,
      G4int &vecLen );
     
     G4double normal();

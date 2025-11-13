@@ -41,7 +41,7 @@ private:
 
   G4double GetMeanFreePath(const G4Track& aTrack, G4double, G4ForceCondition*);
   
-  void CalculateMomenta( G4FastVector<G4ReactionProduct,256> &vec,
+  void CalculateMomenta( std::vector<G4ReactionProduct*> &vec,
 			 G4int &vecLen,
 			 const G4HadProjectile *originalIncident,
 			 const G4DynamicParticle *originalTarget,
@@ -58,7 +58,7 @@ private:
 				    const G4ReactionProduct &targetParticle,
 				    G4ReactionProduct &leadParticle );
     
-  void Rotate(G4FastVector<G4ReactionProduct,256> &vec, G4int &vecLen);
+  void Rotate(std::vector<G4ReactionProduct*> &vec, G4int &vecLen);
 
   const G4DynamicParticle* FindRhadron(G4ParticleChange*);
 

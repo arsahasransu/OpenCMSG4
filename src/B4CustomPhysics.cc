@@ -69,11 +69,12 @@ void B4CustomPhysics::ConstructExotics()
 #include "FullModelHadronicProcess.hh"
 //#include "ToyModelHadronicProcess.hh"
 
-#include "G4PionMinusInelasticProcess.hh"
+#include "G4HadronPhysicsFTFP_BERT.hh"
+// #include "G4PionMinusInelasticProcess.hh"
 //#include "G4LEPionMinusInelastic.hh"
 //#include "G4HEPionMinusInelastic.hh"
 
-#include "G4PionPlusInelasticProcess.hh"
+// #include "G4PionPlusInelasticProcess.hh"
 //#include "G4LEPionPlusInelastic.hh"
 //#include "G4HEPionPlusInelastic.hh"
 #include "G4DecayTable.hh"
