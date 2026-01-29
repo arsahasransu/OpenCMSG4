@@ -26,7 +26,7 @@ include(${Geant4_USE_FILE})
 #----------------------------------------------------------------------------
 # Find HepMC (required package)
 #
-find_package(HepMC REQUIRED)
+# find_package(HepMC REQUIRED)
 
 #----------------------------------------------------------------------------
 # Find ROOT (required package)

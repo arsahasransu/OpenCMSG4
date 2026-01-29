@@ -1,7 +1,7 @@
 #include "PrimaryGeneratorAction.hh"
 #include "PrimaryGeneratorMessenger.hh"
 #include "ParticleGun.hh"
-#include "HepMCAsciiReader.hh"
+// #include "HepMCAsciiReader.hh"
 
 #include "G4Event.hh"
 #include "G4ParticleGun.hh"
@@ -12,10 +12,10 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
   // default generator is particle gun.
   currentGenerator = particleGun= new ParticleGun();
   currentGeneratorName = "particleGun";
-  hepmcAscii = new HepMCAsciiReader();
+  // hepmcAscii = new HepMCAsciiReader();
 
   gentypeMap["particle"] = particleGun;
-  gentypeMap["hepmc"] = hepmcAscii;
+  // gentypeMap["hepmc"] = hepmcAscii;
 
   messenger= new PrimaryGeneratorMessenger(this);
 }
