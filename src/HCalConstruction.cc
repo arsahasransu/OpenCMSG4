@@ -5,8 +5,8 @@
 #include "G4PVPlacement.hh"
 
 // HCal Barrel Variables
-constexpr G4int nofHcalBarEta = 2*15;  // 2*17 - default value
-constexpr G4int nofHcalBarPhi = 54;    // 72 - default value
+constexpr G4int nofHcalBarEta = 2*17;  // 2*17 - default value
+constexpr G4int nofHcalBarPhi = 72;    // 72 - default value
 constexpr G4int nofHcalBarR = 18;       // 18 - default value
 constexpr G4int nofHcalBarCells = nofHcalBarEta*nofHcalBarPhi*nofHcalBarR;
 constexpr G4double diffRAbsBar = 55*mm;

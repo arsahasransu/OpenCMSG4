@@ -6,7 +6,7 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-constexpr G4double trPhiAng = 2;
+constexpr G4double trPhiAng = 360;
 constexpr G4int PIB_num = 3;
 constexpr G4double PIB_rMin[] = {44,73,102};
 constexpr G4double PIB_thick = 380;

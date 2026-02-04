@@ -24,7 +24,7 @@ public:
 
 private:
   G4VPrimaryGenerator* particleGun;
-  // G4VPrimaryGenerator* hepmcAscii;
+  G4VPrimaryGenerator* hepmcAscii;
 
   G4VPrimaryGenerator* currentGenerator;
   G4String currentGeneratorName;
