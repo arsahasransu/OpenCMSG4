@@ -53,7 +53,7 @@
 #include "G4AntiNeutron.hh"
 #include "Randomize.hh"
 #include <iostream>
-#include "G4HadReentrentException.hh"
+// #include "G4HadReentrentException.hh"
 #include <signal.h>
 #include "G4ParticleTable.hh"
 
@@ -102,7 +102,7 @@
 */
  
  G4bool MyG4ReactionDynamics::GenerateXandPt(
-   G4FastVector<G4ReactionProduct,MYGHADLISTSIZE> &vec,
+   std::vector<G4ReactionProduct*> &vec,
    G4int &vecLen,
    G4ReactionProduct &modifiedOriginal,   // Fermi motion & evap. effects included
    const G4HadProjectile *originalIncident,   // the original incident particle
@@ -314,7 +314,8 @@
           pVec->SetSide( -1 );                // backside particle, but not a nucleon
         }
         pVec->SetNewlyAdded( true );                // true is the same as IPA(i)<0
-        vec.SetElement( vecLen++, pVec );    
+        vec.push_back( pVec );    
+        vecLen++;
         // DEBUGGING --> DumpFrames::DumpFrame(vec, vecLen);
         backwardEnergy -= pVec->GetMass()/GeV;
         ++backwardCount;
@@ -467,7 +468,7 @@
             {
               for(G4int ctr=0; ctr<vecLen; ctr++) delete vec[ctr];
    	      vecLen = 0;
-              throw G4HadReentrentException(__FILE__, __LINE__,
+              G4Exception("MyG4ReactionDynamics", "Hadronic", FatalException,
 	      "MyG4ReactionDynamics::GenerateXandPt : a pion has been counted as a backward nucleon");
             }
             vec[i]->SetSide( -3 );
@@ -1013,13 +1014,18 @@
       else
         pseudoParticle[6].SetMomentum( pseudoParticle[6].GetMomentum() * (-pp/pp1) );
       
-      G4FastVector<G4ReactionProduct,MYGHADLISTSIZE> tempV;  // tempV contains the backward nucleons
-      tempV.Initialize( backwardNucleonCount );
+      std::vector<G4ReactionProduct*> tempV;  // tempV contains the backward nucleons
       G4int tempLen = 0;
-      if( targetParticle.GetSide() == -3 )tempV.SetElement( tempLen++, &targetParticle );
+      if( targetParticle.GetSide() == -3 ) {
+        tempV.push_back( &targetParticle );
+        tempLen++;
+      }
       for( i=0; i<vecLen; ++i )
       {
-        if( vec[i]->GetSide() == -3 )tempV.SetElement( tempLen++, vec[i] );
+        if( vec[i]->GetSide() == -3 ) {
+          tempV.push_back( vec[i] );
+          tempLen++;
+        }
       }
       if( tempLen != backwardNucleonCount )
       {
@@ -1233,10 +1239,12 @@
       tempR[0] = currentParticle;
       tempR[1] = targetParticle;
       for( i=0; i<vecLen; ++i )tempR[i+2] = *vec[i];
-      G4FastVector<G4ReactionProduct,MYGHADLISTSIZE> tempV;
-      tempV.Initialize( vecLen+2 );
+      std::vector<G4ReactionProduct*> tempV;
       G4int tempLen = 0;
-      for( i=0; i<vecLen+2; ++i )tempV.SetElement( tempLen++, &tempR[i] );
+      for( i=0; i<vecLen+2; ++i ) {
+        tempV.push_back( &tempR[i] );
+        tempLen++;
+      }
       constantCrossSection = true;
 
       wgt = GenerateNBodyEvent( pseudoParticle[3].GetTotalEnergy()/MeV+
@@ -1382,7 +1390,7 @@
   }
  
  void MyG4ReactionDynamics::SuppressChargedPions(
-   G4FastVector<G4ReactionProduct,MYGHADLISTSIZE> &vec,
+   std::vector<G4ReactionProduct*> &vec,
    G4int &vecLen,
    const G4ReactionProduct &modifiedOriginal,
    G4ReactionProduct &currentParticle,
@@ -1457,7 +1465,7 @@
   }
  
  G4bool MyG4ReactionDynamics::TwoCluster(
-   G4FastVector<G4ReactionProduct,MYGHADLISTSIZE> &vec,
+   std::vector<G4ReactionProduct*> &vec,
    G4int &vecLen,
    G4ReactionProduct &modifiedOriginal, // Fermi motion & evap. effects included
    const G4HadProjectile *originalIncident, // the original incident particle
@@ -1512,7 +1520,7 @@
       {
         for(G4int ctr=0; ctr<vecLen; ctr++) delete vec[ctr];
 	vecLen = 0;
-        throw G4HadReentrentException(__FILE__, __LINE__,
+        G4Exception("MyG4ReactionDynamics", "Hadronic", FatalException,
 	"MyG4ReactionDynamics::TwoCluster: Negative number of particles");
       }
       delete vec[vecLen-1];
@@ -1613,7 +1621,8 @@
         pVec->SetSide( -2 );    // backside particle
         extraMass += pVec->GetMass()/GeV;
         pVec->SetNewlyAdded( true );
-        vec.SetElement( vecLen++, pVec );
+        vec.push_back( pVec );
+        vecLen++;
         // DEBUGGING --> DumpFrames::DumpFrame(vec, vecLen);
       }
     }
@@ -1891,20 +1900,25 @@
       // DEBUGGING --> DumpFrames::DumpFrame(vec, vecLen);
     if( forwardCount > 1 )     // tempV will contain the forward particles
     {
-      G4FastVector<G4ReactionProduct,MYGHADLISTSIZE> tempV;
-      tempV.Initialize( forwardCount );
+      std::vector<G4ReactionProduct*> tempV;
       G4bool constantCrossSection = true;
       G4int tempLen = 0;
-      if( currentParticle.GetSide() == 1 )
-        tempV.SetElement( tempLen++, &currentParticle );
-      if( targetParticle.GetSide() == 1 )
-        tempV.SetElement( tempLen++, &targetParticle );
+      if( currentParticle.GetSide() == 1 ) {
+        tempV.push_back( &currentParticle );
+        tempLen++;
+      }
+      if( targetParticle.GetSide() == 1 ) {
+        tempV.push_back( &targetParticle );
+        tempLen++;
+      }
       for( i=0; i<vecLen; ++i )
       {
         if( vec[i]->GetSide() == 1 )
         {
-          if( tempLen < 18 )
-            tempV.SetElement( tempLen++, vec[i] );
+          if( tempLen < 18 ) {
+            tempV.push_back( vec[i] );
+            tempLen++;
+          }
           else
           {
             vec[i]->SetSide( -1 );
@@ -1929,20 +1943,25 @@
       // DEBUGGING --> DumpFrames::DumpFrame(vec, vecLen);
     if( backwardCount > 1 )   //  tempV will contain the backward particles,
     {                         //  but not those created from the intranuclear cascade
-      G4FastVector<G4ReactionProduct,MYGHADLISTSIZE> tempV;
-      tempV.Initialize( backwardCount );
+      std::vector<G4ReactionProduct*> tempV;
       G4bool constantCrossSection = true;
       G4int tempLen = 0;
-      if( currentParticle.GetSide() == -1 )
-        tempV.SetElement( tempLen++, &currentParticle );
-      if( targetParticle.GetSide() == -1 )
-        tempV.SetElement( tempLen++, &targetParticle );
+      if( currentParticle.GetSide() == -1 ) {
+        tempV.push_back( &currentParticle );
+        tempLen++;
+      }
+      if( targetParticle.GetSide() == -1 ) {
+        tempV.push_back( &targetParticle );
+        tempLen++;
+      }
       for( i=0; i<vecLen; ++i )
       {
         if( vec[i]->GetSide() == -1 )
         {
-          if( tempLen < 18 )
-            tempV.SetElement( tempLen++, vec[i] );
+          if( tempLen < 18 ) {
+            tempV.push_back( vec[i] );
+            tempLen++;
+          }
           else
           {
             vec[i]->SetSide( -2 );
@@ -2133,11 +2152,13 @@
       tempR[1] = targetParticle;
       for( i=0; i<vecLen; ++i )tempR[i+2] = *vec[i];
 
-      G4FastVector<G4ReactionProduct,MYGHADLISTSIZE> tempV;
-      tempV.Initialize( vecLen+2 );
+      std::vector<G4ReactionProduct*> tempV;
       G4bool constantCrossSection = true;
       G4int tempLen = 0;
-      for( i=0; i<vecLen+2; ++i )tempV.SetElement( tempLen++, &tempR[i] );
+      for( i=0; i<vecLen+2; ++i ){
+        tempV.push_back( &tempR[i] );
+        tempLen++;
+      }
 
       if( tempLen >= 2 )
       {
@@ -2287,7 +2308,7 @@
   }
  
  void MyG4ReactionDynamics::TwoBody(
-  G4FastVector<G4ReactionProduct,MYGHADLISTSIZE> &vec,
+  std::vector<G4ReactionProduct*> &vec,
   G4int &vecLen,
   G4ReactionProduct &modifiedOriginal,
   const G4DynamicParticle */*originalTarget*/,
@@ -2611,7 +2632,7 @@
  G4double MyG4ReactionDynamics::GenerateNBodyEvent(
   const G4double totalEnergy,                // MeV
   const G4bool constantCrossSection,
-  G4FastVector<G4ReactionProduct,MYGHADLISTSIZE> &vec,
+  std::vector<G4ReactionProduct*> &vec,
   G4int &vecLen )
   {
 //      // DEBUGGING --> DumpFrames::DumpFrame(vec, vecLen);
@@ -2890,7 +2911,7 @@
    const G4ReactionProduct &modifiedOriginal,
    G4ReactionProduct &currentParticle,
    G4ReactionProduct &targetParticle,
-   G4FastVector<G4ReactionProduct,MYGHADLISTSIZE> &vec,
+   std::vector<G4ReactionProduct*> &vec,
    G4int &vecLen )
   {
     const G4double pjx = modifiedOriginal.GetMomentum().x()/MeV;
@@ -2951,7 +2972,7 @@
   const G4Nucleus &targetNucleus,
   G4ReactionProduct &currentParticle,
   G4ReactionProduct &targetParticle,
-  G4FastVector<G4ReactionProduct,MYGHADLISTSIZE> &vec,
+  std::vector<G4ReactionProduct*> &vec,
   G4int &vecLen )
   {
     // derived from original FORTRAN code in GENXPT and TWOCLU by H. Fesefeldt
@@ -3223,7 +3244,7 @@
    const G4ReactionProduct &modifiedOriginal,
    G4double spall,
    const G4Nucleus &targetNucleus,
-   G4FastVector<G4ReactionProduct,MYGHADLISTSIZE> &vec,
+   std::vector<G4ReactionProduct*> &vec,
    G4int &vecLen )
   {
     // derived from original FORTRAN code in GENXPT and TWOCLU by H. Fesefeldt
@@ -3279,7 +3300,12 @@
           p1->SetDefinition( aProton );
         else
           p1->SetDefinition( aNeutron );
-        vec.SetElement( vecLen, p1 );
+        if(vecLen < vec.size()) {
+          vec[vecLen] = p1;          
+        }
+        else{
+          vec.push_back( p1 );
+        }
         ++spall;
         G4double cost = G4UniformRand() * 2.0 - 1.0;
         G4double sint = std::sqrt(std::fabs(1.0-cost*cost));
@@ -3351,7 +3377,12 @@
 	  delete p2;
 	  break;
 	}
-        vec.SetElement( vecLen, p2 );
+        if(vecLen < vec.size()) {
+          vec[vecLen] = p2;          
+        }
+        else{
+          vec.push_back( p2 );
+        }
         vec[vecLen]->SetNewlyAdded( true );
         vec[vecLen]->SetKineticEnergy( kinetic*GeV );
 	kinCreated+=kinetic;
@@ -3369,7 +3400,7 @@
    const G4ReactionProduct &modifiedOriginal,
    G4ReactionProduct &currentParticle,
    G4ReactionProduct &targetParticle,
-   G4FastVector<G4ReactionProduct,MYGHADLISTSIZE> &vec,
+   std::vector<G4ReactionProduct*> &vec,
    G4int &vecLen )
   {
     const G4double pOriginal = modifiedOriginal.GetTotalMomentum()/MeV;
@@ -3406,7 +3437,7 @@
   }
 
  void MyG4ReactionDynamics::ProduceStrangeParticlePairs(
-   G4FastVector<G4ReactionProduct,MYGHADLISTSIZE> &vec,
+   std::vector<G4ReactionProduct*> &vec,
    G4int &vecLen,
    const G4ReactionProduct &modifiedOriginal,
    const G4DynamicParticle *originalTarget, 
@@ -3544,7 +3575,8 @@
 	  vec[0]->SetMayBeKilled(false);
 	  p1->SetMayBeKilled(false);
         }
-        vec.SetElement( vecLen++, p1 );
+        vec.push_back( p1 );
+        vecLen++;
       // DEBUGGING --> DumpFrames::DumpFrame(vec, vecLen);
       }
       else
@@ -3615,7 +3647,8 @@
            break;
         }
         (G4UniformRand() < 0.5) ? p1->SetSide( -1 ) : p1->SetSide( 1 );
-        vec.SetElement( vecLen++, p1 );
+        vec.push_back( p1 );
+        vecLen++;
       // DEBUGGING --> DumpFrames::DumpFrame(vec, vecLen);
       }
       else                                        // replace
@@ -3797,7 +3830,7 @@
 
  void
   MyG4ReactionDynamics::NuclearReaction(
-   G4FastVector<G4ReactionProduct,4> &vec,
+   std::vector<G4ReactionProduct*> &vec,
    G4int &vecLen,
    const G4HadProjectile *originalIncident,
    const G4Nucleus &targetNucleus,
@@ -3953,12 +3986,15 @@
     //
     // use phase space routine in centre of mass system
     //
-    G4FastVector<G4ReactionProduct,MYGHADLISTSIZE> tempV;
-    tempV.Initialize( nt );
+    std::vector<G4ReactionProduct*> tempV;
     G4int tempLen = 0;
-    tempV.SetElement( tempLen++, v[0] );
-    tempV.SetElement( tempLen++, v[1] );
-    if( nt == 3 )tempV.SetElement( tempLen++, v[2] );
+    tempV.push_back( v[0] );
+    tempV.push_back( v[1] );
+    tempLen += 2;
+    if( nt == 3 ) {
+      tempV.push_back( v[2] );
+      tempLen++;
+    }
     G4bool constantCrossSection = true;
     GenerateNBodyEvent( pseudo2.GetMass()/MeV, constantCrossSection, tempV, tempLen );
     v[0]->Lorentz( *v[0], pseudo2 );
@@ -4072,16 +4108,19 @@
     vecLen = 0;
     if( particleIsDefined )
     {
-      vec.SetElement( vecLen++, v[0] );
+      vec.push_back( v[0] );
+      vecLen++;
     }
     else
     {
       delete v[0];
     }
-    vec.SetElement( vecLen++, v[1] );
+    vec.push_back( v[1] );
+    vecLen++;
     if( nt == 3 )
     {
-      vec.SetElement( vecLen++, v[2] );
+      vec.push_back( v[2] );
+      vecLen++;
     }
     else
     {

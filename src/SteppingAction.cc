@@ -24,8 +24,8 @@ constexpr long rhbit = 0b1000000000000000000;
 constexpr long phbit = 0b1000000000000000000000;
 constexpr long etbit = 0b10000000000000000000000;
 constexpr double rhbitres = 10*um;
-constexpr double phbitres = 4*pow(10,-6);
-constexpr double etbitres = 2*pow(10,-6);
+constexpr double phbitres = 4e-6;
+constexpr double etbitres = 2e-6;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 

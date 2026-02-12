@@ -1,6 +1,8 @@
 #/vis/ogl/set/displayListLimit 10000000000
 #/vis/viewer/set/viewpointThetaPhi 65 315 deg
 
+/run/numberOfThreads 1
+
 /detector/trackerSensitiveMaterialOnly false
 /detector/trackerMode 111111
 /detector/ecalMode 111
@@ -20,4 +22,4 @@
 /generator/particle/sigmaEta 0
 /root/setFileName OpenCMSG4_particle.root
 
-/run/beamOn 100
+/run/beamOn 10

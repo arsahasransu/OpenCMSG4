@@ -1,9 +1,8 @@
 #----------------------------------------------------------------------------
 # Setup the project
-cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
-project(OpenCMSG4ver1)
+cmake_minimum_required(VERSION 3.16...3.27)
+project(OpenCMSG4)
 
-list(APPEND CMAKE_PREFIX_PATH $ENV{ROOTSYS})
 
 #----------------------------------------------------------------------------
 # Find Geant4 package, activating all available UI and Vis drivers by default
@@ -38,30 +37,10 @@ endif()
 include(${ROOT_USE_FILE})
 
 #----------------------------------------------------------------------------
-# Find Pythia6 (optional package)
-#
-find_package(Pythia6 QUIET)
-if(PYTHIA6_FOUND)
-  message(STATUS "G4 Examples: Pythia6 found. --> HepMCEx01 example with Pythia6 enabled.") 
-  add_definitions(-DG4LIB_USE_PYTHIA) 
-else()
-  set(PYTHIA6_LIBRARIES "")  
-endif()
-
-#----------------------------------------------------------------------------
-# GCC COMPILER FLAGS
-#
-SET(CMAKE_CXX_STANDARD 14)
-SET(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-SET(GCC_COMPILE_FLAGS "-Wshadow")
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GCC_COMPILE_FLAGS}")
-
-#----------------------------------------------------------------------------
 # Locate sources and headers for this project
 # NB: headers are included so they will show up in IDEs
 #
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include 
+include_directories(${PROJECT_SOURCE_DIR}/include 
                     ${Geant4_INCLUDE_DIR}
 					${HEPMC_INCLUDE_DIR})
 file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc)
@@ -72,8 +51,9 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 #
 add_executable(OpenCMSG4 OpenCMSG4.cc ${sources} ${headers})
 target_link_libraries(OpenCMSG4 ${Geant4_LIBRARIES}
-						${HEPMC_LIBRARIES} ${HEPMC_FIO_LIBRARIES}
-						${PYTHIA6_LIBRARIES} ${ROOT_LIBRARIES} gfortran)	
+						${HEPMC_LIBRARIES} 
+						${ROOT_LIBRARIES})	
+
 
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we
@@ -110,7 +90,7 @@ endforeach()
 # Add program to the project targets
 # (this avoids the need of typing the program name after make)
 #
-add_custom_target(OpenCMSG4ver1 DEPENDS OpenCMSG4)
+# add_custom_target(OpenCMSG4ver1 DEPENDS OpenCMSG4)
 
 #----------------------------------------------------------------------------
 # Install the executable to 'bin' directory under CMAKE_INSTALL_PREFIX

@@ -4,7 +4,7 @@
 #include "G4ParticleTable.hh"
 #include "Decay3Body.hh"
 #include "MyG4ReactionDynamics.hh"
-#include "G4HadReentrentException.hh"
+// #include "G4HadReentrentException.hh"
 #include "CustomPDGParser.hh"
 #include "CustomParticle.hh"
 #include "G4GenericMessenger.hh"
@@ -260,9 +260,9 @@ G4VParticleChange* FullModelHadronicProcess::PostStepDoIt(const G4Track& aTrack,
   if (!TargetSurvives) targetHasChanged = true; //Ditto here
   G4bool quasiElastic = false;
   if (rp.size()==2) quasiElastic = true; //Oh well...
-  G4FastVector<G4ReactionProduct,256> vec;  // vec will contain the secondary particles
+  std::vector<G4ReactionProduct*> vec;  // vec will contain the secondary particles
   G4int vecLen = 0;
-  vec.Initialize( 0 );
+  vec.clear();
 
   
   
@@ -275,7 +275,8 @@ G4VParticleChange* FullModelHadronicProcess::PostStepDoIt(const G4Track& aTrack,
 	G4ReactionProduct* pa = new G4ReactionProduct;
 	pa->SetDefinition( theParticleDefinitions[i] );
 	(G4UniformRand() < 0.5) ? pa->SetSide( -1 ) : pa->SetSide( 1 );
-	vec.SetElement( vecLen++, pa );
+	vec.push_back( pa );
+  vecLen++;
       }
   }
 
@@ -460,7 +461,7 @@ G4VParticleChange* FullModelHadronicProcess::PostStepDoIt(const G4Track& aTrack,
 
 
 void FullModelHadronicProcess::CalculateMomenta(
-					       G4FastVector<G4ReactionProduct,256> &vec,
+					       std::vector<G4ReactionProduct*> &vec,
 					       G4int &vecLen,
 					       const G4HadProjectile *originalIncident,   // the original incident particle
 					       const G4DynamicParticle *originalTarget,
@@ -599,10 +600,10 @@ void FullModelHadronicProcess::CalculateMomenta(
 							   targetHasChanged, leadFlag,
 							   leadingStrangeParticle );
 	}
-      catch(G4HadReentrentException aC)
+      catch(...)
 	{
-	  aC.Report(G4cout);
-	  throw G4HadReentrentException(__FILE__, __LINE__, "Failing to calculate momenta");
+	  G4Exception("FullModelHadronicProcess", "Hadronic001", FatalException,
+      "Failing to calculate momenta");
 	}
     }
   if( finishedTwoClu )
@@ -666,7 +667,7 @@ G4bool FullModelHadronicProcess::MarkLeadingStrangeParticle(
   return lead;
 }
 
-void FullModelHadronicProcess::Rotate(G4FastVector<G4ReactionProduct,256> &vec, G4int &vecLen)
+void FullModelHadronicProcess::Rotate(std::vector<G4ReactionProduct*> &vec, G4int &vecLen)
 {
   G4double rotation = 2.*pi*G4UniformRand();
   cache = rotation;

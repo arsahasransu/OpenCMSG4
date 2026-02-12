@@ -7,7 +7,7 @@
 #include "G4ParticleGun.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-PrimaryGeneratorAction::PrimaryGeneratorAction()
+PrimaryGeneratorAction::PrimaryGeneratorAction() : G4VUserPrimaryGeneratorAction()
 {
   // default generator is particle gun.
   currentGenerator = particleGun= new ParticleGun();

@@ -85,7 +85,7 @@ B4PhysicsList::B4PhysicsList() : G4VModularPhysicsList() {
   RegisterPhysics( new G4NeutronTrackingCut());
   
   //Custom Physics
-  RegisterPhysics( new B4CustomPhysics());
+//   RegisterPhysics( new B4CustomPhysics());
 
 }
 

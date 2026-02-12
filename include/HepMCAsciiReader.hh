@@ -1,43 +1,36 @@
-#ifndef _HEPMC_ASCII_READER_H
-#define _HEPMC_ASCII_READER_H
+#ifndef HEPMC_ASCII_READER_H
+#define HEPMC_ASCII_READER_H
 
-#include "G4VPrimaryGenerator.hh"
 #include "HepMC/IO_GenEvent.h"
+#include "HepMCG4Interface.hh"
 
 class HepMCAsciiReaderMessenger;
 
-class HepMCAsciiReader : public G4VPrimaryGenerator
+class HepMCAsciiReader : public HepMCG4Interface
 {
-	public:
-		HepMCAsciiReader();
-		~HepMCAsciiReader();
+  protected:
+    G4String filename;
+    HepMC::IO_GenEvent* asciiInput;
 
-	protected:
-		G4String filename;
-		G4int verbose;
-		HepMCAsciiReaderMessenger* messenger;
+    G4int verbose;
+    HepMCAsciiReaderMessenger* messenger;
 
-		HepMC::IO_GenEvent* asciiInput;
-		HepMC::GenEvent* hepmcevt;
-		virtual G4bool CheckVertexInsideWorld(const G4ThreeVector& pos) const;
-		virtual HepMC::GenEvent* GenerateHepMCEvent();
-		void HepMC2G4(const HepMC::GenEvent* hepmcevt, G4Event* event);
+    virtual HepMC::GenEvent* GenerateHepMCEvent();
 
-	public:
-		virtual void GeneratePrimaryVertex(G4Event * event);
+  public:
+    HepMCAsciiReader();
+    ~HepMCAsciiReader();
 
-	// set/get methods
-		void SetFileName(G4String name);
-		G4String GetFileName() const;
+    // set/get methods
+    void SetFileName(G4String name);
+    G4String GetFileName() const;
 
-		void SetVerboseLevel(G4int i);
-		G4int GetVerboseLevel() const; 
+    void SetVerboseLevel(G4int i);
+    G4int GetVerboseLevel() const;
 
-		// methods...
-		void Initialize();
-
+    // methods...
+    void Initialize();
 };
-
 
 // ====================================================================
 // inline functions
@@ -45,7 +38,7 @@ class HepMCAsciiReader : public G4VPrimaryGenerator
 
 inline void HepMCAsciiReader::SetFileName(G4String name)
 {
-  filename= name;
+  filename = name;
 }
 
 inline G4String HepMCAsciiReader::GetFileName() const
@@ -55,7 +48,7 @@ inline G4String HepMCAsciiReader::GetFileName() const
 
 inline void HepMCAsciiReader::SetVerboseLevel(G4int i)
 {
-  verbose= i;
+  verbose = i;
 }
 
 inline G4int HepMCAsciiReader::GetVerboseLevel() const

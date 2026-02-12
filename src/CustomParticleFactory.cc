@@ -13,8 +13,8 @@
 #include "G4PhaseSpaceDecayChannel.hh"
 #include "G4SystemOfUnits.hh"
 
-bool CustomParticleFactory::loaded = false;
-std::set<G4ParticleDefinition *> CustomParticleFactory::m_particles;
+thread_local bool CustomParticleFactory::loaded = false;
+thread_local std::set<G4ParticleDefinition *> CustomParticleFactory::m_particles;
 
 bool CustomParticleFactory::isCustomParticle(G4ParticleDefinition *particle)
 {

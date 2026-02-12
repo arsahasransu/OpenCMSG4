@@ -12,8 +12,8 @@
 class CustomParticleFactory 
 {
  private:
-  static bool loaded;
-  static std::set<G4ParticleDefinition *> m_particles;
+  static thread_local bool loaded;
+  static thread_local std::set<G4ParticleDefinition *> m_particles;
 
  public:
   static void loadCustomParticles();
